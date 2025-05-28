@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mathporia</title>
+    <title>Mathporia | Learning Platform</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap"
         rel="stylesheet">
@@ -46,15 +46,21 @@
 
         /* Navbar Styles */
         .navbar {
-            background-color: rgba(255, 255, 255, 0.95);
-            position: fixed;
+             position: fixed;
             top: 0;
-            left: 0;
             width: 100%;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            padding: 0.75rem 2rem;
-            transition: all 0.3s ease;
+            z-index: 50;
+            padding: 1rem 2rem;
+
+            /* Glassmorphism effect */
+            background: rgba(255, 255, 255, 0.1); /* semi transparan */
+            backdrop-filter: blur(10px);          /* blur latar belakang */
+            -webkit-backdrop-filter: blur(10px);  /* Safari support */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .navbar.scrolled {
@@ -67,6 +73,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
         }
 
         .logo {
@@ -110,7 +117,7 @@
         }
 
         .nav-link:hover {
-            color: #4f46e5;
+            color: #a5b4fc; /* biru lembut saat hover */
         }
 
         .nav-link:hover::after {
@@ -938,7 +945,7 @@
     <nav class="navbar" id="navbar">
         <div class="container navbar-container">
             <div class="logo">
-                <img src="{{ asset('storage/images/LogoT.png') }}" alt="Logo Mathporia">
+                <img src="{{ asset('images/LogoT.png') }}" alt="Logo Mathporia">
             </div>
 
             <div class="nav-links">
@@ -948,7 +955,7 @@
                 <a href="#contact" class="nav-link">CONTACT</a>
             </div>
 
-
+            <!--- Dropdown Navbar --->
             <div class="dropdown">
                 <button id="loginButton" class="login-button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
@@ -1070,7 +1077,7 @@
                 </div>
 
                 <div class="about-image fade-in">
-                    <img src="{{ asset('storage/images/LogoT.png') }}" alt="Logo Mathporia">
+                    <img src="{{ asset('images/LogoT.png') }}" alt="Logo Mathporia">
                 </div>
             </div>
         </div>

@@ -6,12 +6,13 @@ use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\GuruDashboardController;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\ResetPasswordController;
 
 // Rute Halaman Utama
 Route::get('/', function () {
@@ -108,6 +109,21 @@ Route::get('/setting/information', [SettingController::class, 'information'])->n
 Route::get('/setting/home', [SettingController::class, 'home'])->name('home');
 Route::delete('/setting/delete/{id}', [SettingController::class, 'destroy'])->name('setting.destroy');  
 Route::get('setting/{id}/edit', [ForumController::class, 'edit'])->name('setting.edit');
+
+//Lupa Password
+// Routes untuk forgot password
+Route::post('/forgot-password/verify-email', [ResetPasswordController::class, 'verifyEmail'])->name('forgot-password.verify-email');
+Route::post('/forgot-password/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('forgot-password.reset-password');
+
+// Route untuk halaman forgot password (jika belum ada)
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->name('forgot-password');
+
+// Route untuk halaman login
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 
 // Rute Profile (Hanya Bisa Diakses oleh Pengguna yang Sudah Login)
 Route::middleware('auth')->group(function () {
