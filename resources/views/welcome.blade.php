@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mathporia | Learning Platform</title>
+    <title>Mathporia</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap"
         rel="stylesheet">
