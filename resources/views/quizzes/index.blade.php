@@ -18,6 +18,10 @@
             @foreach ($quizzes as $quiz)
                 <div class="p-4 bg-white rounded shadow">
                     <h2 class="text-lg font-semibold text-blue-700">{{ $quiz->title }}</h2>
+                    @if ($quiz->deadline)
+                        <p class="text-sm text-gray-500 mb-2">🕒 Deadline:
+                            {{ \Carbon\Carbon::parse($quiz->deadline)->translatedFormat('l, d F Y H:i') }}</p>
+                    @endif
                     <p class="text-sm text-gray-600">Passing Score: {{ $quiz->passing_score }}</p>
                     @if ($results->has($quiz->id))
                         <p class="text-sm">Skor: {{ $results[$quiz->id]->score }} -

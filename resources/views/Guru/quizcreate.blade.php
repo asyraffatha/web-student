@@ -247,7 +247,7 @@
                     {{-- deadline --}}
                     <div>
                         <label for="deadline">Deadline</label>
-                        <input type="datetime-local" name="deadline" id="deadline"
+                        <input type="datetime-local" name="deadline" id="deadline" required
                             class="form-input rounded-lg border border-gray-300 px-3 py-2 w-full">
                     </div>
 

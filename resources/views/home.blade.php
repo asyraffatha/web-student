@@ -450,35 +450,71 @@
                         </div>
                     </div>
 
-                    <div
-                        class="card-hover bg-white bg-opacity-90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white border-opacity-20">
-                        <div class="flex items-start space-x-4">
-                            <div class="bg-gradient-to-r from-red-400 to-red-600 p-3 rounded-xl flex-shrink-0">
-                                <i class="fas fa-exclamation text-white"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex items-center justify-between mb-2">
-                                    <h3 class="font-semibold text-gray-900 text-lg">Quiz 1 - Operasi Bilangan</h3>
-                                    <span
-                                        class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium pulse-animation">
-                                        Deadline!
-                                    </span>
+                    {{-- Loop Materi --}}
+                    @foreach ($materis as $materi)
+                        <div
+                            class="card-hover bg-white bg-opacity-90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white border-opacity-20 mb-4">
+                            <div class="flex items-start space-x-4">
+                                <div
+                                    class="bg-gradient-to-r from-yellow-400 to-yellow-600 p-3 rounded-xl flex-shrink-0">
+                                    <i class="fas fa-book text-white"></i>
                                 </div>
-                                <p class="text-gray-700 text-sm mb-3">Latihan Minggu 1: Operasi hitung bilangan bulat
-                                    dan pecahan.</p>
-                                <div class="flex items-center justify-between">
-                                    <div class="text-sm text-gray-500">
-                                        <i class="fas fa-clock mr-1"></i>
-                                        10 January, 23:59 PM
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h3 class="font-semibold text-gray-900 text-lg">Materi: {{ $materi->judul }}
+                                        </h3>
+                                        <span
+                                            class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium pulse-animation">
+                                            Deadline!
+                                        </span>
                                     </div>
-                                    <button
-                                        class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
-                                        <i class="fas fa-play mr-1"></i> Mulai Quiz
-                                    </button>
+                                    <p class="text-gray-700 text-sm mb-3">{{ $materi->deskripsi }}</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-sm text-gray-500">
+                                            <i class="fas fa-clock mr-1"></i>
+                                            {{ \Carbon\Carbon::parse($materi->deadline)->translatedFormat('d F Y, H:i') }}
+                                        </div>
+                                        <a href="{{ asset('storage/' . $materi->file_path) }}" target="_blank"
+                                            class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
+                                            <i class="fas fa-eye mr-1"></i> Lihat Materi
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
+
+                    {{-- Loop Quiz --}}
+                    @foreach ($quizzes as $quiz)
+                        <div
+                            class="card-hover bg-white bg-opacity-90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white border-opacity-20 mb-4">
+                            <div class="flex items-start space-x-4">
+                                <div class="bg-gradient-to-r from-red-400 to-red-600 p-3 rounded-xl flex-shrink-0">
+                                    <i class="fas fa-exclamation text-white"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h3 class="font-semibold text-gray-900 text-lg">Quiz: {{ $quiz->title }}</h3>
+                                        <span
+                                            class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium pulse-animation">
+                                            Deadline!
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-700 text-sm mb-3">Kuis untuk kelas {{ $quiz->kelas }}</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-sm text-gray-500">
+                                            <i class="fas fa-clock mr-1"></i>
+                                            {{ \Carbon\Carbon::parse($quiz->deadline)->translatedFormat('d F Y, H:i') }}
+                                        </div>
+                                        <a href="{{ route('quizzes.show', $quiz->id) }}"
+                                            class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
+                                            <i class="fas fa-play mr-1"></i> Mulai Quiz
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </section>
 
                 <!-- Recent Activity dengan empty state yang menarik -->

@@ -86,6 +86,7 @@ QuizResult::updateOrCreate(
     'questions.*.question' => 'required|string',
     'questions.*.options' => 'required|array|size:4',
     'questions.*.answer' => 'required|string|in:A,B,C,D',
+    'deadline' => 'nullable|date',
 ]);
 
     $quiz = Quiz::create([

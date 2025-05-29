@@ -25,12 +25,10 @@ Route::get('/', function () {
 // })->name('dashboard');
 
 
-
-// // Rute Home (Tambahkan Nama Rute)
-// Route::get('/home', function () {
-//     return view('home');
-// })->middleware(['auth'])->name('home'); 
-Route::get('/home', [HomeController::class, 'index'])->middleware(['auth'])->name('home');
+// Rute Home (Tambahkan Nama Rute)
+Route::get('/home', [HomeController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('home');
 
 // Rute Halaman Lainnya
 Route::get('/material', [MateriController::class, 'listSiswa'])
@@ -42,9 +40,9 @@ Route::get('/scientific-calculator', function () {
     return redirect('https://www.desmos.com/scientific');
 });
 
-Route::get('/siswa/dashboard', function () {
-    return view('home'); // sesuai nama file yang sekarang
-})->middleware(['auth'])->name('siswa.dashboard');
+Route::get('/siswa/dashboard', [HomeController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('siswa.dashboard');
 
 // Route::get('/guru/dashboard', function () {
 //     return view('guru.dashboardguru'); // view khusus guru
@@ -106,7 +104,7 @@ Route::delete('/events/{id}', [EventController::class, 'destroy']);
 Route::get('/setting', [SettingController::class, 'form'])->name('setting.form');
 Route::post('/setting/store', [SettingController::class, 'store'])->name('setting.store');
 Route::get('/setting/information', [SettingController::class, 'information'])->name('setting.information');
-Route::get('/setting/home', [SettingController::class, 'home'])->name('home');
+Route::get('/setting/home', [SettingController::class, 'home'])->name('setting.home');
 Route::delete('/setting/delete/{id}', [SettingController::class, 'destroy'])->name('setting.destroy');  
 Route::get('setting/{id}/edit', [ForumController::class, 'edit'])->name('setting.edit');
 

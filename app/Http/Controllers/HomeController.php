@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Materi;
 use App\Models\Quiz;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-   public function index()
+  public function index()
 {
-    $user = Auth::user();
+    $kelas = Auth::user()->kelas;
 
-    $materis = Materi::where('kelas', $user->kelas)
-                     ->orderBy('created_at', 'desc')
-                     ->take(5)
-                     ->get();
+    $materis = Materi::where('kelas', $kelas)
+        ->whereNotNull('deadline')
+        ->orderBy('deadline')
+        ->get();
+        
 
-    $quizzes = Quiz::where('kelas', $user->kelas)
-                   ->orderBy('created_at', 'desc')
-                   ->take(5)
-                   ->get();
+    $quizzes = Quiz::where('kelas', $kelas)
+        ->whereNotNull('deadline')
+        ->orderBy('deadline')
+        ->get();
 
-    return view('home', compact('materis', 'quizzes'));
+    return view('home', compact('materis', 'quizzes')); // ini penting!
 }
 }
