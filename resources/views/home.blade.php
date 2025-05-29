@@ -174,7 +174,7 @@
                         <i class="fas fa-calculator text-white text-2xl"></i>
                     </div>
                     <div class="flex items-center justify-between">
-                        <img src="{{ asset('images/LogoTA.png') }}" alt="Logo Mathporia"
+                        <img src="{{ asset('images/LogoT.png') }}" alt="Logo Mathporia"
                             class="max-h-24 w-auto flex-shrink-0">
                     </div>
                 </div>
