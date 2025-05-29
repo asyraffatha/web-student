@@ -9,7 +9,7 @@ class Quiz extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'passing_score','kelas'];
+    protected $fillable = ['title', 'passing_score','kelas','deadline'];
 
     public function questions()
     {
