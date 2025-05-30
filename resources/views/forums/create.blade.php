@@ -35,27 +35,27 @@
         <form action="{{ route('forums.store') }}" method="POST" class="space-y-6">
             @csrf
 
+            <input type="hidden" name="kelas" value="{{ Auth::user()->kelas }}">
+
+            <!-- Title -->
             <div>
-                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">📌 Forum Tittle</label>
-                <input type="text" id="title" name="title"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Masukkan judul forum..." required>
+                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">📌 Forum Title</label>
+                <input type="text" id="title" name="title" class="w-full ..." required>
             </div>
 
+            <!-- Description -->
             <div>
                 <label for="description" class="block text-sm font-medium text-gray-700 mb-1">📝 Description</label>
-                <textarea id="description" name="description" rows="3"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Deskripsikan forum kamu..." required>{{ old('description') }}</textarea>
+                <textarea id="description" name="description" rows="3" class="w-full ..." required>{{ old('description') }}</textarea>
             </div>
 
+            <!-- Content -->
             <div>
                 <label for="content" class="block text-sm font-medium text-gray-700 mb-1">💬 Content</label>
-                <textarea id="content" name="content" rows="6"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Tulis isi diskusi yang ingin kamu buat..." required></textarea>
+                <textarea id="content" name="content" rows="6" class="w-full ..." required></textarea>
             </div>
 
+            <!-- Buttons -->
             <div class="flex items-center justify-between mt-6">
                 <a href="{{ route('forums.index') }}"
                     class="text-gray-600 hover:text-blue-600 text-sm underline transition">

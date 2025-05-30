@@ -12,8 +12,14 @@ class ForumController extends Controller
     // Menampilkan daftar forum
     public function index()
     {
-        $forums = Forum::with('user')->get();
-        return view('forums.forum', compact('forums'));
+        $kelas = Auth::user()->kelas;
+
+        $forums = Forum::with('user')
+        ->where('kelas', $kelas)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return view('forums.forum', compact('forums'));
     }
 
     // Menampilkan form untuk membuat forum baru
@@ -36,6 +42,7 @@ class ForumController extends Controller
         'description' => $request->description, // <-- ini penting!
         'content' => $request->content,
         'user_id' => Auth::id(),
+        'kelas' => Auth::user()->kelas, 
     ]);
 
     return redirect()->route('forums.index')->with('success', 'Forum berhasil dibuat.');

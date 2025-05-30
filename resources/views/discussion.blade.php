@@ -78,7 +78,7 @@
                                 {{ Request::is('material') ? 'bg-gray-300 text-indigo-800' : 'text-indigo-800 hover:bg-gray-300 hover:text-indigo-800' }}">
                                 List of Materials
                             </a>
-                            <a href="{{ route('discussion') }}"
+                            <a href="{{ route('discussion.show', Auth::user()->id) }}"
                                 class="group flex items-center px-4 py-2 text-sm rounded-md transition-all duration-200
                                 {{ Request::is('discussion') ? 'bg-gray-300 text-indigo-800' : 'text-indigo-800 hover:bg-gray-300 hover:text-indigo-800' }}">
                                 Discussion with Teacher
@@ -230,95 +230,91 @@
             </form>
         </aside>
 
-        <!-- Main Content -->
-        <main class="flex-1 p-8 bg-center bg-no-repeat min-h-screen relative"
-            style="background-color: #254aa7; /* tailwind blue-800 */ background-image: url('storage/images/LogoTA.png'); background-size: 400px; background-position: center; background-repeat: no-repeat;">
-            <!-- Overlay -->
-            <div class="absolute inset-0 bg-black bg-opacity-20 rounded-lg"></div>
+        {{-- <!-- Main Content -->
+        <main class="p-6 min-h-screen bg-gray-100">
+            <h1 class="text-xl font-bold mb-4">Chat dengan {{ $receiver->name }}</h1>
 
-            <!-- Chat Container -->
-            <div class="relative z-10">
-                <!-- Header -->
-                <div class="bg-blue-600 text-white p-4 rounded-t-lg font-bold text-lg">
-                    Discussion With the Teacher
-                </div>
-
-                <!-- Chat Content -->
-                <div id="chatBox"
-                    class="flex-1 overflow-y-auto p-4 bg-white border border-gray-300 rounded-lg space-y-2 h-[500px]">
-                    <!-- Chat messages will be added dynamically -->
-                </div>
-
-                <!-- Input Chat -->
-                <div class="flex mt-2">
-                    <input id="chatInput" type="text"
-                        class="flex-1 p-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        placeholder="Ketik pesan..." onkeypress="handleKeyPress(event)">
-                    <button onclick="sendMessage()"
-                        class="bg-blue-600 text-white px-5 py-3 rounded-r-lg hover:bg-blue-700 transition">Send</button>
-                </div>
+            <div class="bg-white p-4 rounded shadow h-[500px] overflow-y-auto mb-4">
+                @foreach ($messages as $msg)
+                    <div class="mb-2 flex {{ $msg->sender_id === auth()->id() ? 'justify-end' : 'justify-start' }}">
+                        <div
+                            class="px-4 py-2 rounded-lg {{ $msg->sender_id === auth()->id() ? 'bg-blue-500 text-white' : 'bg-gray-200' }}">
+                            {{ $msg->content }}
+                            <div class="text-xs text-right text-gray-600">{{ $msg->created_at->format('H:i') }}</div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-    </div>
 
-    <script>
-        function sendMessage() {
-            let chatInput = document.getElementById("chatInput");
-            let chatBox = document.getElementById("chatBox");
-            let message = chatInput.value.trim();
+            <form action="{{ route('discussion.send') }}" method="POST" class="flex space-x-2">
+                @csrf
+                <input type="hidden" name="receiver_id" value="{{ $receiver->id }}">
+                <input type="text" name="content" class="flex-1 p-2 border rounded" placeholder="Ketik pesan..."
+                    required>
+                <button class="bg-blue-600 text-white px-4 rounded">Kirim</button>
+            </form>
+        </main>
+    </div> --}}
 
-            if (message !== "") {
-                // User message
-                let userMsg = document.createElement("div");
-                userMsg.className = "bg-blue-500 text-white p-3 rounded-lg self-end max-w-xs w-auto ml-auto";
-                userMsg.textContent = "Anda: " + message;
-                chatBox.appendChild(userMsg);
+        <script>
+            function sendMessage() {
+                let chatInput = document.getElementById("chatInput");
+                let chatBox = document.getElementById("chatBox");
+                let message = chatInput.value.trim();
 
-                chatInput.value = "";
-                chatBox.scrollTop = chatBox.scrollHeight;
+                if (message !== "") {
+                    // User message
+                    let userMsg = document.createElement("div");
+                    userMsg.className = "bg-blue-500 text-white p-3 rounded-lg self-end max-w-xs w-auto ml-auto";
+                    userMsg.textContent = "Anda: " + message;
+                    chatBox.appendChild(userMsg);
 
-                // Simulated Guru reply
-                setTimeout(() => {
-                    let guruMsg = document.createElement("div");
-                    guruMsg.className = "bg-gray-200 text-black p-3 rounded-lg self-start max-w-xs w-auto";
-                    guruMsg.textContent = "Guru: Saya akan membantu menjawab pertanyaan Anda!";
-                    chatBox.appendChild(guruMsg);
+                    chatInput.value = "";
                     chatBox.scrollTop = chatBox.scrollHeight;
-                }, 1000);
-            }
-        }
 
-        function handleKeyPress(event) {
-            if (event.key === "Enter") {
-                sendMessage();
+                    // Simulated Guru reply
+                    setTimeout(() => {
+                        let guruMsg = document.createElement("div");
+                        guruMsg.className = "bg-gray-200 text-black p-3 rounded-lg self-start max-w-xs w-auto";
+                        guruMsg.textContent = "Guru: Saya akan membantu menjawab pertanyaan Anda!";
+                        chatBox.appendChild(guruMsg);
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }, 1000);
+                }
             }
-        }
-    </script>
 
-    <script>
-        function confirmLogout() {
-            if (confirm("Apakah Anda yakin ingin logout?")) {
-                document.getElementById('logout-form').submit();
+            function handleKeyPress(event) {
+                if (event.key === "Enter") {
+                    sendMessage();
+                }
             }
-        }
-    </script>
-    <script>
-        function toggleDropdown() {
-            document.getElementById("dropdown").classList.toggle("hidden");
-        }
-    </script>
-    <script>
-        // Dropdown functionality
-        document.querySelectorAll('button[aria-controls]').forEach(button => {
-            button.addEventListener('click', () => {
-                const isExpanded = button.getAttribute('aria-expanded') === 'true';
-                const dropdownContent = document.getElementById(button.getAttribute('aria-controls'));
+        </script>
 
-                button.setAttribute('aria-expanded', !isExpanded);
-                dropdownContent.classList.toggle('hidden');
-                button.querySelector('svg:last-child').classList.toggle('rotate-180');
+        <script>
+            function confirmLogout() {
+                if (confirm("Apakah Anda yakin ingin logout?")) {
+                    document.getElementById('logout-form').submit();
+                }
+            }
+        </script>
+        <script>
+            function toggleDropdown() {
+                document.getElementById("dropdown").classList.toggle("hidden");
+            }
+        </script>
+        <script>
+            // Dropdown functionality
+            document.querySelectorAll('button[aria-controls]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                    const dropdownContent = document.getElementById(button.getAttribute('aria-controls'));
+
+                    button.setAttribute('aria-expanded', !isExpanded);
+                    dropdownContent.classList.toggle('hidden');
+                    button.querySelector('svg:last-child').classList.toggle('rotate-180');
+                });
             });
-        });
-    </script>
+        </script>
 </body>
 
 </html>

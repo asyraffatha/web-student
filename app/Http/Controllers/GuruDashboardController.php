@@ -19,7 +19,14 @@ class GuruDashboardController extends Controller
     $totalQuizzes = Quiz::count();
 
     // Kirim semua variabel ke view
-    return view('guru.dashboardguru', compact('guru', 'kelasDiampu', 'totalMaterials','totalQuizzes'));
+    return view('Guru.dashboardguru', compact('guru', 'kelasDiampu', 'totalMaterials','totalQuizzes'));
 }
 
+public function siswaDiampu()
+{
+    $guru = Auth::user();
+    $kelasDiampu = $guru->kelasDiampu;
+
+    return view('Guru.siswa-diampu', compact('kelasDiampu'));
+}
 }

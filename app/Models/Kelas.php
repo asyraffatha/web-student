@@ -15,5 +15,9 @@ class Kelas extends Model
 {
     return $this->belongsToMany(\App\Models\User::class, 'guru_kelas', 'kelas_id', 'user_id');
 }
-
+public function siswa()
+{
+    return $this->hasMany(\App\Models\User::class, 'kelas', 'nama'); 
+    // diasumsikan kolom `kelas` di siswa berisi string seperti '8.1'
+}
 }

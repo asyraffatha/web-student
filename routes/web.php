@@ -13,6 +13,7 @@ use App\Http\Controllers\MateriController;
 use App\Http\Controllers\GuruDashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\DiscussionController;
 
 // Rute Halaman Utama
 Route::get('/', function () {
@@ -65,10 +66,13 @@ Route::put('/materi/{id}', [MateriController::class, 'update'])->name('materi.up
 // SISWA ROUTE
 Route::get('/materi/siswa', [MateriController::class, 'listSiswa'])->name('materi.siswa');
 
-
-Route::get('/discussion', function () {
-    return view('discussion');
-})->middleware(['auth'])->name('discussion');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/discussion', [DiscussionController::class, 'index'])->name('discussion.index'); // pilih siswa
+    Route::get('/discussion/{receiver_id}', [DiscussionController::class, 'show'])->name('discussion.show'); // chat
+    Route::post('/discussion/send', [DiscussionController::class, 'store'])->name('discussion.send'); // kirim
+    Route::get('/guru/siswa', [GuruDashboardController::class, 'siswaDiampu'])->name('guru.siswa')->middleware('auth');
+});
+    
 
 // Route::get('/information', function () {
 //     return view('information');

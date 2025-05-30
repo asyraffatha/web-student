@@ -220,7 +220,7 @@
                                 <i class="fas fa-list-ul mr-2 text-xs"></i>
                                 Daftar Materi
                             </a>
-                            <a href="{{ route('discussion') }}"
+                            <a href="{{ route('discussion.show', $guru->id) }}"
                                 class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-green-100 hover:text-green-700 transition-all duration-200">
                                 <i class="fas fa-comments mr-2 text-xs"></i>
                                 Diskusi dengan Guru
