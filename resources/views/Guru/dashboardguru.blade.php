@@ -81,7 +81,7 @@
         <div>
             <!-- Logo Section -->
             <div class="px-6 py-6 border-b border-gray-100/50 bg-white flex justify-center">
-                <img src="{{ asset('images/LogoTA.png') }}" alt="Logo" class="h-16 w-auto object-contain">
+                <img src="{{ asset('images/LogoT.png') }}" alt="Logo" class="h-16 w-auto object-contain">
             </div>
 
             <!-- Welcome Section -->

@@ -201,7 +201,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('quiz.store') }}" method="POST" class="space-y-8">
+                <form action="{{ route('quiz.store') }}" method="POST" class="space-y-8" enctype="multipart/form-data">
                     @csrf
 
                     <!-- Quiz Information -->
@@ -225,11 +225,32 @@
                             <select name="kelas" required
                                 class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:outline-none bg-white/80 shadow-sm">
                                 <option value="">Pilih Kelas</option>
-                                @for ($tingkat = 7; $tingkat <= 9; $tingkat++)
-                                    @for ($sub = 1; $sub <= 9; $sub++)
-                                        <option value="{{ $tingkat . '.' . $sub }}">{{ $tingkat . '.' . $sub }}</option>
+                                @if(isset($kelasDiampu))
+                                    @foreach($kelasDiampu as $kelas)
+                                        <option value="{{ $kelas->nama }}">{{ $kelas->nama }}</option>
+                                    @endforeach
+                                @else
+                                    @for ($tingkat = 7; $tingkat <= 9; $tingkat++)
+                                        @for ($sub = 1; $sub <= 9; $sub++)
+                                            <option value="{{ $tingkat . '.' . $sub }}">{{ $tingkat . '.' . $sub }}</option>
+                                        @endfor
                                     @endfor
-                                @endfor
+                                @endif
+                            </select>
+                        </div>
+
+                        <!-- Tipe Quiz -->
+                        <div class="space-y-2">
+                            <label class="flex items-center text-sm font-semibold text-gray-700">
+                                <i class="fas fa-layer-group mr-2 text-pink-600"></i>
+                                Tipe Quiz
+                            </label>
+                            <select name="type" required
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:outline-none bg-white/80 shadow-sm">
+                                <option value="">Pilih Tipe</option>
+                                <option value="daily">Misi Harian</option>
+                                <option value="teka-teki">Teka-Teki Harian</option>
+                                <option value="boss">Boss Quiz Mingguan</option>
                             </select>
                         </div>
 
@@ -250,7 +271,6 @@
                         <input type="datetime-local" name="deadline" id="deadline" required
                             class="form-input rounded-lg border border-gray-300 px-3 py-2 w-full">
                     </div>
-
                     <!-- Questions Section -->
                     <div class="space-y-6">
                         <div class="flex items-center justify-between">
@@ -267,91 +287,38 @@
 
                         <div id="questions-wrapper" class="space-y-6">
                             <!-- Initial Question -->
-                            <div class="question-card border-2 border-gray-200 p-6 rounded-2xl relative">
-                                <div class="absolute top-4 right-4 delete-btn">
-                                    <button type="button"
-                                        class="text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-50 transition duration-300"
-                                        onclick="removeQuestion(this)">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </div>
-
-                                <div class="flex items-center mb-6">
-                                    <div
-                                        class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg">
-                                        1
-                                    </div>
-                                    <h4 class="text-xl font-bold text-gray-800">Pertanyaan 1</h4>
-                                </div>
-
-                                <div class="mb-6">
-                                    <input type="text" name="questions[0][question]"
-                                        placeholder="Tulis pertanyaan..."
-                                        class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:outline-none transition duration-300 bg-white/80 shadow-sm text-gray-700"
-                                        required>
-                                </div>
-
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                    <div class="space-y-2">
-                                        <label class="flex items-center text-sm font-medium text-gray-600">
-                                            <div
-                                                class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">
-                                                A</div>
-                                            Opsi A
-                                        </label>
-                                        <input type="text" name="questions[0][options][]"
-                                            placeholder="Masukkan opsi A"
-                                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition duration-300 bg-white/80 shadow-sm"
-                                            required>
-                                    </div>
-                                    <div class="space-y-2">
-                                        <label class="flex items-center text-sm font-medium text-gray-600">
-                                            <div
-                                                class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">
-                                                B</div>
-                                            Opsi B
-                                        </label>
-                                        <input type="text" name="questions[0][options][]"
-                                            placeholder="Masukkan opsi B"
-                                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:outline-none transition duration-300 bg-white/80 shadow-sm"
-                                            required>
-                                    </div>
-                                    <div class="space-y-2">
-                                        <label class="flex items-center text-sm font-medium text-gray-600">
-                                            <div
-                                                class="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">
-                                                C</div>
-                                            Opsi C
-                                        </label>
-                                        <input type="text" name="questions[0][options][]"
-                                            placeholder="Masukkan opsi C"
-                                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition duration-300 bg-white/80 shadow-sm"
-                                            required>
-                                    </div>
-                                    <div class="space-y-2">
-                                        <label class="flex items-center text-sm font-medium text-gray-600">
-                                            <div
-                                                class="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">
-                                                D</div>
-                                            Opsi D
-                                        </label>
-                                        <input type="text" name="questions[0][options][]"
-                                            placeholder="Masukkan opsi D"
-                                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:outline-none transition duration-300 bg-white/80 shadow-sm"
-                                            required>
+                            <div class="question-container mb-6 p-4 border rounded-lg bg-white">
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700">Pertanyaan 1</label>
+                                    <textarea name="questions[0][question]" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required></textarea>
+                                    
+                                    <!-- Media untuk pertanyaan -->
+                                    <div class="mt-2 space-y-2">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700">Gambar Pertanyaan (max 2MB)</label>
+                                            <input type="file" name="questions[0][image]" accept="image/jpeg,image/png,image/webp" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700">Video Pertanyaan (max 10MB)</label>
+                                            <input type="file" name="questions[0][video]" accept="video/mp4,video/webm,video/ogg" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div
-                                    class="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-4">
-                                    <label class="flex items-center text-sm font-semibold text-green-800 mb-3">
-                                        <i class="fas fa-check-circle mr-2 text-green-600"></i>
-                                        Jawaban Benar (A/B/C/D)
-                                    </label>
-                                    <input type="text" name="questions[0][answer]" maxlength="1"
-                                        placeholder="Contoh: A"
-                                        class="input-focus w-full px-4 py-3 border-2 border-green-300 rounded-xl focus:border-green-500 focus:outline-none transition duration-300 bg-white shadow-sm uppercase"
-                                        required>
+                                <!-- Opsi jawaban -->
+                                <div class="space-y-2">
+                                    @foreach(['A', 'B', 'C', 'D'] as $optionIndex => $option)
+                                        <div class="flex items-center space-x-2">
+                                            <input type="radio" name="questions[0][answer]" value="{{ $option }}" class="text-blue-600" required>
+                                            <input type="text" name="questions[0][options][]" class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Opsi {{ $option }}" required>
+                                            
+                                            <!-- Gambar untuk opsi -->
+                                            <div class="w-32">
+                                                <label class="block text-sm font-medium text-gray-700">Gambar (max 2MB)</label>
+                                                <input type="file" name="questions[0][options_images][]" accept="image/jpeg,image/png,image/webp" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -386,67 +353,58 @@
             questionCount++;
 
             const html = `
-                <div class="question-card border-2 border-gray-200 p-6 rounded-2xl relative fade-in">
-                    <div class="absolute top-4 right-4 delete-btn">
-                        <button type="button" class="text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-50 transition duration-300" onclick="removeQuestion(this)">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </div>
-
-                    <div class="flex items-center mb-6">
-                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg">
-                            ${questionCount}
-                        </div>
-                        <h4 class="text-xl font-bold text-gray-800">Pertanyaan ${questionCount}</h4>
-                    </div>
-
-                    <div class="mb-6">
-                        <input type="text" name="questions[${questionCount - 1}][question]" placeholder="Tulis pertanyaan..."
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:outline-none transition duration-300 bg-white/80 shadow-sm text-gray-700" required>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        <div class="space-y-2">
-                            <label class="flex items-center text-sm font-medium text-gray-600">
-                                <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">A</div>
-                                Opsi A
-                            </label>
-                            <input type="text" name="questions[${questionCount - 1}][options][]" placeholder="Masukkan opsi A"
-                                class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition duration-300 bg-white/80 shadow-sm" required>
-                        </div>
-                        <div class="space-y-2">
-                            <label class="flex items-center text-sm font-medium text-gray-600">
-                                <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">B</div>
-                                Opsi B
-                            </label>
-                            <input type="text" name="questions[${questionCount - 1}][options][]" placeholder="Masukkan opsi B"
-                                class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:outline-none transition duration-300 bg-white/80 shadow-sm" required>
-                        </div>
-                        <div class="space-y-2">
-                            <label class="flex items-center text-sm font-medium text-gray-600">
-                                <div class="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">C</div>
-                                Opsi C
-                            </label>
-                            <input type="text" name="questions[${questionCount - 1}][options][]" placeholder="Masukkan opsi C"
-                                class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition duration-300 bg-white/80 shadow-sm" required>
-                        </div>
-                        <div class="space-y-2">
-                            <label class="flex items-center text-sm font-medium text-gray-600">
-                                <div class="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">D</div>
-                                Opsi D
-                            </label>
-                            <input type="text" name="questions[${questionCount - 1}][options][]" placeholder="Masukkan opsi D"
-                                class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:outline-none transition duration-300 bg-white/80 shadow-sm" required>
+                <div class="question-container mb-6 p-4 border rounded-lg bg-white">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Pertanyaan ${questionCount}</label>
+                        <textarea name="questions[${questionCount - 1}][question]" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required></textarea>
+                        
+                        <!-- Media untuk pertanyaan -->
+                        <div class="mt-2 space-y-2">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Gambar Pertanyaan (max 2MB)</label>
+                                <input type="file" name="questions[${questionCount - 1}][image]" accept="image/jpeg,image/png,image/webp" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Video Pertanyaan (max 10MB)</label>
+                                <input type="file" name="questions[${questionCount - 1}][video]" accept="video/mp4,video/webm,video/ogg" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-4">
-                        <label class="flex items-center text-sm font-semibold text-green-800 mb-3">
-                            <i class="fas fa-check-circle mr-2 text-green-600"></i>
-                            Jawaban Benar (A/B/C/D)
-                        </label>
-                        <input type="text" name="questions[${questionCount - 1}][answer]" maxlength="1" placeholder="Contoh: A"
-                            class="input-focus w-full px-4 py-3 border-2 border-green-300 rounded-xl focus:border-green-500 focus:outline-none transition duration-300 bg-white shadow-sm uppercase" required>
+                    <!-- Opsi jawaban -->
+                    <div class="space-y-2">
+                        <div class="flex items-center space-x-2">
+                            <input type="radio" name="questions[${questionCount - 1}][answer]" value="A" class="text-blue-600" required>
+                            <input type="text" name="questions[${questionCount - 1}][options][]" class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Opsi A" required>
+                            <div class="w-32">
+                                <label class="block text-sm font-medium text-gray-700">Gambar (max 2MB)</label>
+                                <input type="file" name="questions[${questionCount - 1}][options_images][]" accept="image/jpeg,image/png,image/webp" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <input type="radio" name="questions[${questionCount - 1}][answer]" value="B" class="text-blue-600" required>
+                            <input type="text" name="questions[${questionCount - 1}][options][]" class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Opsi B" required>
+                            <div class="w-32">
+                                <label class="block text-sm font-medium text-gray-700">Gambar (max 2MB)</label>
+                                <input type="file" name="questions[${questionCount - 1}][options_images][]" accept="image/jpeg,image/png,image/webp" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <input type="radio" name="questions[${questionCount - 1}][answer]" value="C" class="text-blue-600" required>
+                            <input type="text" name="questions[${questionCount - 1}][options][]" class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Opsi C" required>
+                            <div class="w-32">
+                                <label class="block text-sm font-medium text-gray-700">Gambar (max 2MB)</label>
+                                <input type="file" name="questions[${questionCount - 1}][options_images][]" accept="image/jpeg,image/png,image/webp" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <input type="radio" name="questions[${questionCount - 1}][answer]" value="D" class="text-blue-600" required>
+                            <input type="text" name="questions[${questionCount - 1}][options][]" class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Opsi D" required>
+                            <div class="w-32">
+                                <label class="block text-sm font-medium text-gray-700">Gambar (max 2MB)</label>
+                                <input type="file" name="questions[${questionCount - 1}][options_images][]" accept="image/jpeg,image/png,image/webp" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
@@ -512,6 +470,40 @@
             }
         `;
         document.head.appendChild(style);
+
+        // Tampilkan input video hanya untuk teka-teki/boss, gambar selalu ada
+        const typeSelect = document.querySelector('select[name="type"]');
+        const videoWrapper = document.getElementById('video-upload-wrapper');
+        const labelImage = document.getElementById('label-image');
+        const descImage = document.getElementById('desc-image');
+        function updateMediaInputs() {
+            if (typeSelect.value === 'teka-teki' || typeSelect.value === 'boss') {
+                videoWrapper.classList.remove('hidden');
+                labelImage.textContent = 'Gambar (jpg, png, webp, max 2MB)';
+                descImage.textContent = 'Teka-Teki/Boss: gambar & video. Gambar wajib, video opsional.';
+            } else {
+                videoWrapper.classList.add('hidden');
+                labelImage.textContent = 'Gambar (jpg, png, webp, max 2MB)';
+                descImage.textContent = 'Misi Harian: hanya gambar.';
+            }
+        }
+        typeSelect.addEventListener('change', updateMediaInputs);
+        window.addEventListener('DOMContentLoaded', updateMediaInputs);
+
+        // Validasi ukuran file gambar/video (gambar max 2MB, video max 10MB)
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'file') {
+                const maxSizeMB = e.target.getAttribute('data-max-size');
+                if (e.target.files.length > 0 && maxSizeMB) {
+                    const file = e.target.files[0];
+                    const maxBytes = parseInt(maxSizeMB) * 1024;
+                    if (file.size > maxBytes) {
+                        alert('Ukuran file terlalu besar! Maksimal ' + (maxSizeMB/1024) + ' MB.');
+                        e.target.value = '';
+                    }
+                }
+            }
+        });
     </script>
 
 </body>

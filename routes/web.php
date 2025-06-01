@@ -14,6 +14,9 @@ use App\Http\Controllers\GuruDashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\DiscussionController;
+use App\Http\Controllers\TekaTekiController;
+use App\Http\Controllers\BossQuizController;
+use App\Http\Controllers\FiturquizController;
 
 // Rute Halaman Utama
 Route::get('/', function () {
@@ -44,6 +47,7 @@ Route::get('/scientific-calculator', function () {
 Route::get('/siswa/dashboard', [HomeController::class, 'index'])
     ->middleware(['auth'])
     ->name('siswa.dashboard');
+    
 
 // Route::get('/guru/dashboard', function () {
 //     return view('guru.dashboardguru'); // view khusus guru
@@ -138,4 +142,12 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 require __DIR__.'/api.php';
+
+// Group Fitur Quiz
+Route::middleware(['auth'])->group(function () {
+    Route::get('/siswa/Fiturquiz', [FiturquizController::class, 'show'])->name('siswa.fiturquiz');
+    Route::get('/quizzes', [QuizController::class, 'index'])->name('quizzes.index');
+    Route::get('/teka-teki', [TekaTekiController::class, 'index'])->name('teka-teki.index');
+    Route::get('/boss-quiz', [BossQuizController::class, 'index'])->name('boss-quiz.index');
+});
 

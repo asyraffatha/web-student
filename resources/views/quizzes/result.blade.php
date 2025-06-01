@@ -90,7 +90,7 @@
             <p class="retry-message">Maaf, Anda Belum Lulus. Coba Lagi! 😢</p>
         @endif
 
-        <a href="{{ url('/quiz') }}" class="back-btn">
+        <a href="{{ route('quizzes.index') }}" class="back-btn">
             Kembali ke Daftar Quiz
         </a>
     </div>
