@@ -241,7 +241,7 @@
                             <i id="quiz-arrow" class="fas fa-chevron-down transition-transform duration-300"></i>
                         </button>
                         <div class="hidden space-y-1 pl-8" id="quiz-dropdown">
-                            <a href="{{ route('quizzes.index') }}"
+                            <a href="{{ route('siswa.fiturquiz') }}"
                                 class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200">
                                 <i class="fas fa-play mr-2 text-xs"></i>
                                 Mulai Kuis

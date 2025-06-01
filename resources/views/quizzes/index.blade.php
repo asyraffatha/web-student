@@ -9,6 +9,15 @@
 
 <body class="bg-gray-100 p-6">
 
+    <div class="mb-6">
+    <a href="{{ route('siswa.fiturquiz') }}" class="inline-flex items-center px-6 py-3 bg-orange-400 text-gray-900 text-lg font-bold rounded-lg border-2 border-orange-500 shadow-lg hover:bg-orange-500 hover:text-blue-600 transition duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+        Kembali ke Fiturquiz
+    </a>
+    </div>
+
     <h1 class="text-2xl font-bold mb-6">Daftar Kuis</h1>
 
     @if ($quizzes->isEmpty())

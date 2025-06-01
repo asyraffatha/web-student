@@ -20,30 +20,13 @@ class QuizController extends Controller
     }
 
     public function show($id)
-{
-    $quiz = Quiz::with('questions')->findOrFail($id);
+    {
+        $quiz = Quiz::with(['questions' => function($query) {
+            $query->orderBy('id', 'asc');
+        }])->findOrFail($id);
 
-    // Cek apakah ada quiz sebelumnya di kelas yang sama
-    $previousQuiz = Quiz::where('id', '<', $quiz->id)
-        ->where('kelas', $quiz->kelas)
-        ->orderBy('id', 'desc')
-        ->first();
-
-    // Jika ada quiz sebelumnya, cek apakah user sudah lulus
-    if ($previousQuiz) {
-        $previousResult = QuizResult::where('user_id', Auth::id())
-            ->where('quiz_id', $previousQuiz->id)
-            ->where('passed', true)
-            ->first();
-
-        if (!$previousResult) {
-            return redirect()->route('quizzes.index')->with('error', 'Selesaikan dan lulus kuis sebelumnya ('. $previousQuiz->title .') terlebih dahulu!');
-        }
+        return view('quizzes.show', compact('quiz'));
     }
-
-    return view('quizzes.show', compact('quiz'));
-}
-
 
     public function submit(Request $request, $id)
     {
@@ -73,7 +56,11 @@ QuizResult::updateOrCreate(
 
     public function create()
     {
-    return view('guru.quizcreate');
+        $kelasDiampu = null;
+        if (Auth::user()->isGuru()) {
+            $kelasDiampu = Auth::user()->kelasDiampu;
+        }
+        return view('guru.quizcreate', compact('kelasDiampu'));
     }
 
     public function store(Request $request)
@@ -81,27 +68,58 @@ QuizResult::updateOrCreate(
     $request->validate([
     'title' => 'required|string|max:255',
     'kelas' => 'required|string',
+    'type' => 'required|string|in:daily,teka-teki,boss',
     'passing_score' => 'required|numeric|min:0|max:100',
     'questions' => 'required|array|min:1',
     'questions.*.question' => 'required|string',
     'questions.*.options' => 'required|array|size:4',
     'questions.*.answer' => 'required|string|in:A,B,C,D',
+    'questions.*.image' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
+    'questions.*.video' => 'nullable|file|mimes:mp4,webm,ogg|max:10240',
+    'questions.*.options_images.*' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
     'deadline' => 'nullable|date',
 ]);
 
     $quiz = Quiz::create([
         'title' => $request->title,
         'kelas' => $request->kelas,
+        'type' => $request->type,
         'passing_score' => $request->passing_score,
         'deadline' => $request->deadline,
     ]);
 
     foreach ($request->questions as $q) {
+        $imagePath = null;
+        $videoPath = null;
+        $optionsImages = [];
+
+        // Handle question image
+        if (isset($q['image']) && $q['image']->isValid()) {
+            $imagePath = $q['image']->store('question_images', 'public');
+        }
+
+        // Handle question video
+        if (isset($q['video']) && $q['video']->isValid()) {
+            $videoPath = $q['video']->store('question_videos', 'public');
+        }
+
+        // Handle options images
+        if (isset($q['options_images'])) {
+            foreach ($q['options_images'] as $index => $image) {
+                if ($image && $image->isValid()) {
+                    $optionsImages[$index] = $image->store('option_images', 'public');
+                }
+            }
+        }
+
         Question::create([
             'quiz_id' => $quiz->id,
             'question' => $q['question'],
             'options' => $q['options'],
             'answer' => strtoupper($q['answer']),
+            'image' => $imagePath,
+            'video' => $videoPath,
+            'options_images' => $optionsImages,
         ]);
     }
 
