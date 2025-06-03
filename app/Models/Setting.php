@@ -8,7 +8,12 @@ class Setting extends Model
 {
     protected $table = 'settings';
     protected $fillable = [
-        'nama', 'nisn', 'kelas', 'tgl_lahir', 'alamat', 'jenis_kelamin','foto',
+        'user_id','nama', 'nisn', 'kelas', 'tgl_lahir', 'alamat', 'jenis_kelamin','foto',
     ];
     
+    public function user()
+{
+    return $this->belongsTo(\App\Models\User::class);
+}
+
 }

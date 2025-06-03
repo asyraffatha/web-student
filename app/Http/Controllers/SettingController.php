@@ -15,8 +15,8 @@ class SettingController extends Controller
         return view('information.setting');
     }
 
-    public function store(Request $request)
-{
+   public function store(Request $request)
+{   
     $request->validate([
         'nama' => 'required',
         'nisn' => 'required|unique:settings',
@@ -24,37 +24,38 @@ class SettingController extends Controller
         'tgl_lahir' => 'required|date',
         'alamat' => 'required',
         'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-        'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
     ]);
 
     $path = null;
 
     if ($request->hasFile('foto')) {
-    $file = $request->file('foto');
-    $filename = time() . '_' . $file->getClientOriginalName();
-    $file->storeAs('public/foto-profile', $filename);
-    $path = 'foto-profile/' . $filename;
+        $file = $request->file('foto');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('public/foto-profile', $filename);
+        $path = 'foto-profile/' . $filename;
 
-    $user = User::find(Auth::id());
-    if ($user) {
-        $user->foto = $path;
-        $user->save();
+        $user = User::find(Auth::id());
+        if ($user) {
+            $user->foto = $path;
+            $user->save();
+        }
     }
-}
 
-    // ✅ Simpan juga ke tabel settings
     Setting::create([
+        'user_id' => Auth::id(), // ⬅️ WAJIB
         'nama' => $request->nama,
         'nisn' => $request->nisn,
         'kelas' => $request->kelas,
         'tgl_lahir' => $request->tgl_lahir,
         'alamat' => $request->alamat,
         'jenis_kelamin' => $request->jenis_kelamin,
-        'foto' => $path, // Boleh null kalau tidak upload
+        'foto' => $path,
     ]);
 
     return redirect('/setting/information')->with('success', 'Data berhasil disimpan.');
 }
+
 
 
     public function destroy($id)
@@ -73,7 +74,9 @@ class SettingController extends Controller
 
     public function information()
     {
-        $setting = Setting::latest()->first();
+          /** @var \App\Models\User $user */
+    $user = Auth::user();
+    $setting = $user->setting;
         return view('information.information', compact('setting'));
     }
 

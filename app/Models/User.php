@@ -17,6 +17,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'name',
         'email',
         'password',
@@ -79,6 +80,11 @@ public function sentMessages()
 public function receivedMessages()
 {
     return $this->hasMany(Message::class, 'receiver_id');
+}
+
+public function setting()
+{
+    return $this->hasOne(\App\Models\Setting::class);
 }
 
 }
