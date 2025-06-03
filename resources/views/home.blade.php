@@ -220,6 +220,7 @@
                                 <i class="fas fa-list-ul mr-2 text-xs"></i>
                                 Daftar Materi
                             </a>
+                            @if($guru)
                             <a href="{{ route('discussion.show', $guru->id) }}"
                                 class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-green-100 hover:text-green-700 transition-all duration-200">
                                 <i class="fas fa-comments mr-2 text-xs"></i>
@@ -227,6 +228,7 @@
                                 <span
                                     class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full notification-dot">2</span>
                             </a>
+                            @endif
                         </div>
                     </div>
 
