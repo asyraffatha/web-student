@@ -225,8 +225,6 @@
                                 class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-green-100 hover:text-green-700 transition-all duration-200">
                                 <i class="fas fa-comments mr-2 text-xs"></i>
                                 Diskusi dengan Guru
-                                <span
-                                    class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full notification-dot">2</span>
                             </a>
                             @endif
                         </div>
@@ -278,7 +276,6 @@
                                 class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-orange-100 hover:text-orange-700 transition-all duration-200">
                                 <i class="fas fa-comment-dots mr-2 text-xs"></i>
                                 Forum Diskusi
-                                <span class="ml-auto bg-green-500 text-white text-xs px-2 py-1 rounded-full">5</span>
                             </a>
                             <a href="#"
                                 class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-orange-100 hover:text-orange-700 transition-all duration-200">

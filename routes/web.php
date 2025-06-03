@@ -109,12 +109,14 @@ Route::get('/events', [EventController::class, 'index']);
 Route::post('/events', [EventController::class, 'store']);
 Route::delete('/events/{id}', [EventController::class, 'destroy']);
 
-Route::get('/setting', [SettingController::class, 'form'])->name('setting.form');
-Route::post('/setting/store', [SettingController::class, 'store'])->name('setting.store');
-Route::get('/setting/information', [SettingController::class, 'information'])->name('setting.information');
-Route::get('/setting/home', [SettingController::class, 'home'])->name('setting.home');
-Route::delete('/setting/delete/{id}', [SettingController::class, 'destroy'])->name('setting.destroy');  
-Route::get('setting/{id}/edit', [ForumController::class, 'edit'])->name('setting.edit');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/setting', [SettingController::class, 'form'])->name('setting.form');
+    Route::post('/setting/store', [SettingController::class, 'store'])->name('setting.store');
+    Route::get('/setting/information', [SettingController::class, 'information'])->name('setting.information');
+    Route::get('/setting/home', [SettingController::class, 'home'])->name('setting.home');
+    Route::delete('/setting/{id}', [SettingController::class, 'destroy'])->name('setting.destroy');
+    Route::get('/setting/{id}/edit', [SettingController::class, 'edit'])->name('setting.edit');
+}); 
 
 //Lupa Password
 // Routes untuk forgot password
