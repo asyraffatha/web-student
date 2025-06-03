@@ -165,7 +165,7 @@
                     </div>
                 </div>
 
-                <a href="#"
+                <a href="{{ route('goals') }}"
                     class="flex items-center px-4 py-3 rounded-xl text-amber-600 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 transition">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M12 8v4l3 3m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
@@ -247,8 +247,10 @@
                             your progress and manage your educational content with ease.</p>
                     </div>
                     <div class="floating-animation">
-                        <button
-                            class="bg-white/20 hover:bg-white/30 backdrop-blur-lg text-white font-semibold px-6 py-3 rounded-2xl transition-all duration-300 border border-white/30 shadow-lg hover:shadow-xl">
+                        <a
+                            href="{{ route('goals') }}"
+                            class="bg-white/20 hover:bg-white/30 backdrop-blur-lg text-white font-semibold px-6 py-3 rounded-2xl transition-all duration-300 border border-white/30 shadow-lg hover:shadow-xl flex items-center justify-center"
+                        >
                             <span class="flex items-center">
                                 View Progress
                                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -256,7 +258,7 @@
                                         d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                 </svg>
                             </span>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -476,6 +478,7 @@
                 classesText: 'Teaching 5 classes',
                 showMaterialModal: false,
                 showQuizModal: false,
+                showProgress: false,
                 stats: {
                     materials: 24,
                     quizzes: 18,
