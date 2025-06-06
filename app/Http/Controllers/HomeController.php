@@ -6,6 +6,7 @@ use App\Models\Materi;
 use App\Models\Quiz;
 use App\Models\TekaTekiResult;
 use Illuminate\Support\Facades\Auth;
+use App\Models\QuizResult;
 
 class HomeController extends Controller
 {
@@ -43,7 +44,27 @@ class HomeController extends Controller
         $canAccessBossQuiz = ($totalTekaTeki > 0) && ($tekaTekiPassed == $totalTekaTeki);
     }
 
-    return view('home', compact('materis', 'quizzes', 'guru', 'tekaTekiPassed', 'totalTekaTeki', 'canAccessBossQuiz'));
+     // ✅ Tambahkan perhitungan kuis selesai
+    $totalKuisSelesai = QuizResult::where('user_id', $user->id)
+                            ->whereNotNull('score') // asumsi score = kuis selesai
+                            ->count();
+
+    $kuisSebelumnya = QuizResult::where('user_id', $user->id)
+                            ->whereNotNull('score')
+                            ->whereBetween('completed_at', [now()->subWeeks(2), now()->subWeek()])
+                            ->count();
+
+    // ✅ Tambahkan rata-rata nilai kuis
+    $rataRataNilai = QuizResult::where('user_id', $user->id)
+                    ->whereNotNull('score')
+                    ->avg('score') ?? 0;
+
+    $nilaiSebelumnya = QuizResult::where('user_id', $user->id)
+                    ->whereNotNull('score')
+                    ->whereBetween('completed_at', [now()->subWeeks(2), now()->subWeek()])
+                    ->avg('score') ?? 0;
+
+    return view('home', compact('materis', 'quizzes', 'guru', 'tekaTekiPassed', 'totalTekaTeki', 'canAccessBossQuiz', 'totalKuisSelesai',  'kuisSebelumnya', 'rataRataNilai',  'nilaiSebelumnya'));
 }
 
 }

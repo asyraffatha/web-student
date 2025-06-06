@@ -220,12 +220,12 @@
                                 <i class="fas fa-list-ul mr-2 text-xs"></i>
                                 Daftar Materi
                             </a>
-                            @if($guru)
-                            <a href="{{ route('discussion.show', $guru->id) }}"
-                                class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-green-100 hover:text-green-700 transition-all duration-200">
-                                <i class="fas fa-comments mr-2 text-xs"></i>
-                                Diskusi dengan Guru
-                            </a>
+                            @if ($guru)
+                                <a href="{{ route('discussion.show', $guru->id) }}"
+                                    class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-green-100 hover:text-green-700 transition-all duration-200">
+                                    <i class="fas fa-comments mr-2 text-xs"></i>
+                                    Diskusi dengan Guru
+                                </a>
                             @endif
                         </div>
                     </div>
@@ -253,7 +253,7 @@
                                 <i class="fas fa-calculator mr-2 text-xs"></i>
                                 Kalkulator Ilmiah
                             </a>
-                            <a href="#"
+                            <a href="{{ route('quiz.results') }}"
                                 class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200">
                                 <i class="fas fa-history mr-2 text-xs"></i>
                                 Riwayat Nilai
@@ -395,13 +395,26 @@
                                 <i class="fas fa-check-circle text-white text-xl"></i>
                             </div>
                             <div class="ml-4">
-                                <p class="text-gray-600 text-sm">Kuis Selesai</p>
-                                <p class="text-2xl font-bold text-gray-800">12</p>
+                                <p class="text-gray-600 text-sm">Total Kuis Diselesaikan</p>
+                                <p class="text-2xl font-bold text-gray-800">{{ $totalKuisSelesai }} Kuis</p>
                             </div>
                         </div>
-                        <div class="mt-4 text-green-600 text-sm font-medium">
-                            <i class="fas fa-arrow-up mr-1"></i> +2 dari minggu lalu
-                        </div>
+
+                        @if ($totalKuisSelesai > $kuisSebelumnya)
+                            <div class="mt-4 text-green-600 text-sm font-medium">
+                                <i class="fas fa-arrow-up mr-1"></i> +{{ $totalKuisSelesai - $kuisSebelumnya }} dari
+                                minggu lalu
+                            </div>
+                        @elseif($totalKuisSelesai < $kuisSebelumnya)
+                            <div class="mt-4 text-red-600 text-sm font-medium">
+                                <i class="fas fa-arrow-down mr-1"></i> -{{ $kuisSebelumnya - $totalKuisSelesai }} dari
+                                minggu lalu
+                            </div>
+                        @else
+                            <div class="mt-4 text-gray-600 text-sm font-medium">
+                                <i class="fas fa-minus mr-1"></i> Tidak ada perubahan dari minggu lalu
+                            </div>
+                        @endif
                     </div>
 
                     <div
@@ -412,12 +425,25 @@
                             </div>
                             <div class="ml-4">
                                 <p class="text-gray-600 text-sm">Rata-rata Nilai</p>
-                                <p class="text-2xl font-bold text-gray-800">85</p>
+                                <p class="text-2xl font-bold text-gray-800">{{ round($rataRataNilai, 1) }}</p>
                             </div>
                         </div>
-                        <div class="mt-4 text-blue-600 text-sm font-medium">
-                            <i class="fas fa-trophy mr-1"></i> Target tercapai!
-                        </div>
+
+                        @if ($rataRataNilai > $nilaiSebelumnya)
+                            <div class="mt-4 text-green-600 text-sm font-medium">
+                                <i class="fas fa-arrow-up mr-1"></i>
+                                +{{ round($rataRataNilai - $nilaiSebelumnya, 1) }} dari minggu lalu
+                            </div>
+                        @elseif($rataRataNilai < $nilaiSebelumnya)
+                            <div class="mt-4 text-red-600 text-sm font-medium">
+                                <i class="fas fa-arrow-down mr-1"></i>
+                                -{{ round($nilaiSebelumnya - $rataRataNilai, 1) }} dari minggu lalu
+                            </div>
+                        @else
+                            <div class="mt-4 text-gray-600 text-sm font-medium">
+                                <i class="fas fa-minus mr-1"></i> Tidak ada perubahan dari minggu lalu
+                            </div>
+                        @endif
                     </div>
 
                     <div
@@ -485,6 +511,10 @@
 
                     {{-- Loop Quiz --}}
                     @foreach ($quizzes as $quiz)
+                        @if ($quiz->is_completed)
+                            @continue {{-- Lewati kuis yang sudah dikerjakan --}}
+                        @endif
+
                         <div
                             class="card-hover bg-white bg-opacity-90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white border-opacity-20 mb-4">
                             <div class="flex items-start space-x-4">
@@ -494,12 +524,10 @@
                                 <div class="flex-1">
                                     <div class="flex items-center justify-between mb-2">
                                         <h3 class="font-semibold text-gray-900 text-lg">Quiz: {{ $quiz->title }}</h3>
-                                        <span
-                                            class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium pulse-animation">
-                                            Deadline!
-                                        </span>
                                     </div>
+
                                     <p class="text-gray-700 text-sm mb-3">Kuis untuk kelas {{ $quiz->kelas }}</p>
+
                                     <div class="flex items-center justify-between">
                                         <div class="text-sm text-gray-500">
                                             <i class="fas fa-clock mr-1"></i>
@@ -536,11 +564,11 @@
                         <h3 class="text-xl font-semibold text-gray-700 mb-2">Siap Memulai Petualangan?</h3>
                         <p class="text-gray-500 mb-6">Belum ada aktivitas hari ini. Yuk mulai belajar dan kerjakan quiz
                             pertamamu!</p>
-                        <button
-                            class="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-xl font-medium hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <a href="{{ route('siswa.fiturquiz') }}"
+                            class="inline-block bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-xl font-medium hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
                             <i class="fas fa-play mr-2"></i>
                             Mulai Belajar Sekarang
-                        </button>
+                        </a>
                     </div>
                 </section>
 

@@ -6,6 +6,7 @@
     <title>Chat dengan {{ $receiver->name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .chat-bubble {
             animation: fadeIn 0.3s ease-in-out;
@@ -128,6 +129,22 @@
                 behavior: 'smooth'
             });
         }
+    </script>
+
+    <script>
+        $('form').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function() {
+                    // Ambil ulang chat dan tampilkan
+                    $('#chat-box').load(window.location.href + " #chat-box > *");
+                    $('input[name="content"]').val('');
+                }
+            });
+        });
     </script>
 
 </body>

@@ -283,7 +283,7 @@
                                 <i class="fas fa-calculator mr-2 text-xs"></i>
                                 Kalkulator Ilmiah
                             </a>
-                            <a href="#"
+                            <a href="{{ route('quiz.results') }}"
                                 class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200">
                                 <i class="fas fa-history mr-2 text-xs"></i>
                                 Riwayat Nilai
@@ -306,7 +306,6 @@
                                 class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-orange-100 hover:text-orange-700 transition-all duration-200">
                                 <i class="fas fa-comment-dots mr-2 text-xs"></i>
                                 Forum Diskusi
-                                <span class="ml-auto bg-green-500 text-white text-xs px-2 py-1 rounded-full">5</span>
                             </a>
                             <a href="#"
                                 class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-orange-100 hover:text-orange-700 transition-all duration-200">

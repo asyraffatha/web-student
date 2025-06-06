@@ -72,6 +72,7 @@ Route::get('/materi/siswa', [MateriController::class, 'listSiswa'])->name('mater
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/discussion', [DiscussionController::class, 'index'])->name('discussion.index'); // pilih siswa
+    Route::get('/discussion/{id}', [DiscussionController::class, 'show'])->name('discussion.show');
     Route::get('/discussion/{receiver_id}', [DiscussionController::class, 'show'])->name('discussion.show'); // chat
     Route::post('/discussion/send', [DiscussionController::class, 'store'])->name('discussion.send'); // kirim
     Route::get('/guru/siswa', [GuruDashboardController::class, 'siswaDiampu'])->name('guru.siswa')->middleware('auth');
@@ -81,6 +82,10 @@ Route::middleware(['auth'])->group(function () {
 // Route::get('/information', function () {
 //     return view('information');
 // })->middleware(['auth'])->name('information');
+
+Route::get('/riwayat-kuis', [App\Http\Controllers\QuizResultController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('quiz.results');
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('forums', ForumController::class);
