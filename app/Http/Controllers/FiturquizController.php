@@ -14,8 +14,10 @@ class FiturquizController extends Controller
         $quizzes = \App\Models\Quiz::where('kelas', $kelas)->where('type', 'daily')->get();
         $tekaTekis = \App\Models\Quiz::where('kelas', $kelas)->where('type', 'teka-teki')->get();
 
-        // Ambil hasil teka-teki user
-        $tekaTekiResults = \App\Models\TekaTekiResult::where('user_id', $user->id)->get()->keyBy('quiz_id');
+        // Ambil hasil teka-teki user dari QuizResult (bukan TekaTekiResult)
+        $tekaTekiResults = \App\Models\QuizResult::where('user_id', $user->id)
+            ->whereIn('quiz_id', $tekaTekis->pluck('id'))
+            ->get()->keyBy('quiz_id');
 
         // Cek semua teka-teki sudah dikerjakan dan nilai >= 60
         $allTekaTekiDone = true;
@@ -41,6 +43,12 @@ class FiturquizController extends Controller
         $canAccessBossQuiz = ($jumlahTekaTeki > 0) && $allTekaTekiDone && $allTekaTekiPassed;
 
         $results = \App\Models\QuizResult::where('user_id', $user->id)->get()->keyBy('quiz_id');
-        return view('Fiturquiz', compact('jumlahQuizHarian', 'jumlahTekaTeki', 'quizzes', 'tekaTekis', 'tekaTekiResults', 'canAccessBossQuiz', 'results'));
+
+        // Ambil Boss Quiz Mingguan
+        $bossQuizzes = \App\Models\Quiz::where('kelas', $kelas)->where('type', 'boss')->get();
+        $bossQuizResults = $results->only($bossQuizzes->pluck('id')->all());
+        $jumlahBossQuiz = $bossQuizzes->count();
+
+        return view('Fiturquiz', compact('jumlahQuizHarian', 'jumlahTekaTeki', 'quizzes', 'tekaTekis', 'tekaTekiResults', 'canAccessBossQuiz', 'results', 'bossQuizzes', 'bossQuizResults', 'jumlahBossQuiz'));
     }
 }

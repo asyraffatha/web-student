@@ -24,33 +24,40 @@ class QuizController extends Controller
         $quiz = Quiz::with(['questions' => function($query) {
             $query->orderBy('id', 'asc');
         }])->findOrFail($id);
-
+        $user = Auth::user();
+        $result = QuizResult::where('user_id', $user->id)->where('quiz_id', $quiz->id)->first();
+        // Batasi 1x untuk teka-teki dan boss
+        if (($quiz->type === 'teka-teki' || $quiz->type === 'boss') && $result) {
+            return redirect()->route('quizzes.index')->with('error', 'Quiz ini hanya bisa dikerjakan 1 kali.');
+        }
         return view('quizzes.show', compact('quiz'));
     }
 
     public function submit(Request $request, $id)
     {
     $quiz = Quiz::with('questions')->findOrFail($id);
+        $user = Auth::user();
+        $result = QuizResult::where('user_id', $user->id)->where('quiz_id', $quiz->id)->first();
+        // Batasi 1x untuk teka-teki dan boss
+        if (($quiz->type === 'teka-teki' || $quiz->type === 'boss') && $result) {
+            return redirect()->route('quizzes.index')->with('error', 'Quiz ini hanya bisa dikerjakan 1 kali.');
+        }
     $score = 0;
     $pointPerQuestion = 100 / $quiz->questions->count();
-
     foreach ($quiz->questions as $question) {
         if ($request->input('answers.' . $question->id) == $question->answer) {
             $score += $pointPerQuestion;
         }
     }
-
     $passed = $score >= $quiz->passing_score;
-
 QuizResult::updateOrCreate(
-    ['user_id' => Auth::id(), 'quiz_id' => $quiz->id],
+            ['user_id' => $user->id, 'quiz_id' => $quiz->id],
     [
         'score' => $score,
         'passed' => $passed,
         'completed_at' => now()
     ]
 );
-
     return view('quizzes.result', compact('score', 'quiz'));
     }
 
