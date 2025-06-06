@@ -394,13 +394,23 @@
                         <div style="font-weight:900;font-size:1.25rem;color:#7c3aed;margin-bottom:0.7rem;">Teka-Teki Harian</div>
                         <div style="background:#a78bfa;color:#fff;font-weight:700;padding:0.5rem 1.2rem;border-radius:1rem;margin-bottom:1.1rem;font-size:1rem;">Total: {{ $tekaTekis->count() }} Teka-Teki</div>
                         @foreach($tekaTekis as $tekaTeki)
-                            @if(!isset($tekaTekiResults[$tekaTeki->id]))
+                            @php
+                                $remedialCount = $tekaTekiRemedialCount[$tekaTeki->id] ?? 0;
+                                $result = $tekaTekiResults->get($tekaTeki->id);
+                            @endphp
+                            @if(!isset($tekaTekiResults[$tekaTeki->id]) || ($result && $result->score < 60 && $remedialCount < 2))
                             <div style="background:rgba(255,255,255,0.97);border-radius:1rem;padding:1rem;margin-bottom:0.7rem;box-shadow:0 2px 8px rgba(168,85,247,0.08);width:100%;font-size:0.98rem;">
                                 <div style="font-weight:700;color:#7c3aed;font-size:1.05rem;display:flex;align-items:center;gap:0.5rem;"><span role="img" aria-label="teka-teki">🧩</span> {{ $tekaTeki->title }}</div>
                                 <div style="font-size:0.93rem;color:#ef4444;margin-top:0.2rem;">🎯 Target Skor: <b>{{ $tekaTeki->passing_score ?? '-' }}</b></div>
                                 <div style="margin-top:0.4rem;">
-                                    <div style="background:#f1f5f9;color:#64748b;font-weight:700;padding:0.3rem 0.8rem;border-radius:0.8rem;display:inline-block;margin-bottom:0.2rem;">🚀 Siap untuk tantangan?</div>
-                                    <a href="{{ route('quizzes.show', $tekaTeki->id) }}" style="display:inline-block;margin-top:0.3rem;background:#a78bfa;color:#fff;font-weight:700;padding:0.4rem 1rem;border-radius:0.8rem;text-decoration:none;font-size:0.98rem;"><i class="fa-solid fa-rotate-right"></i> KERJAKAN</a>
+                                    <div style="background:#f1f5f9;color:#64748b;font-weight:700;padding:0.3rem 0.8rem;border-radius:0.8rem;display:inline-block;margin-bottom:0.2rem;">
+                                        @if($result && $result->score < 60) 💪 Coba lagi! @else 🚀 Siap untuk tantangan? @endif
+                                    </div>
+                                    @if(!isset($tekaTekiResults[$tekaTeki->id]))
+                                        <a href="{{ route('quizzes.show', $tekaTeki->id) }}" style="display:inline-block;margin-top:0.3rem;background:#a78bfa;color:#fff;font-weight:700;padding:0.4rem 1rem;border-radius:0.8rem;text-decoration:none;font-size:0.98rem;"><i class="fa-solid fa-rotate-right"></i> KERJAKAN</a>
+                                    @elseif($result && $result->score < 60 && $remedialCount < 2)
+                                        <a href="{{ route('quizzes.show', $tekaTeki->id) }}" style="display:inline-block;margin-top:0.3rem;background:#a78bfa;color:#fff;font-weight:700;padding:0.4rem 1rem;border-radius:0.8rem;text-decoration:none;font-size:0.98rem;"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</a>
+                                    @endif
                                 </div>
                             </div>
                             @endif

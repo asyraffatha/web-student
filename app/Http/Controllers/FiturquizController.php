@@ -19,7 +19,7 @@ class FiturquizController extends Controller
             ->whereIn('quiz_id', $tekaTekis->pluck('id'))
             ->get()->keyBy('quiz_id');
 
-        // Cek semua teka-teki sudah dikerjakan dan nilai >= 60
+        // Syarat: semua teka-teki harus sudah dikerjakan dan semua nilai >= 60
         $allTekaTekiDone = true;
         $allTekaTekiPassed = true;
         foreach ($tekaTekis as $tekaTeki) {
@@ -33,14 +33,13 @@ class FiturquizController extends Controller
                 $allTekaTekiPassed = false;
             }
         }
+        $canAccessBossQuiz = ($tekaTekis->count() > 0) && $allTekaTekiDone && $allTekaTekiPassed;
 
-        // Cek semua quiz harian sudah dikerjakan (opsional: bisa tambahkan pengecekan hasil quiz harian jika ada modelnya)
-        // Untuk sekarang, asumsikan quiz harian hanya perlu tampil jumlahnya
-        $jumlahQuizHarian = $quizzes->count();
-        $jumlahTekaTeki = $tekaTekis->count();
-
-        // Aturan Boss Quiz: semua teka-teki sudah dikerjakan dan nilai >= 60
-        $canAccessBossQuiz = ($jumlahTekaTeki > 0) && $allTekaTekiDone && $allTekaTekiPassed;
+        // Untuk Blade: passing info remedial teka-teki (max 2 attempt)
+        $tekaTekiRemedialCount = [];
+        foreach ($tekaTekis as $tekaTeki) {
+            $tekaTekiRemedialCount[$tekaTeki->id] = \App\Models\QuizResult::where('user_id', $user->id)->where('quiz_id', $tekaTeki->id)->count();
+        }
 
         $results = \App\Models\QuizResult::where('user_id', $user->id)->get()->keyBy('quiz_id');
 
@@ -49,6 +48,21 @@ class FiturquizController extends Controller
         $bossQuizResults = $results->only($bossQuizzes->pluck('id')->all());
         $jumlahBossQuiz = $bossQuizzes->count();
 
-        return view('Fiturquiz', compact('jumlahQuizHarian', 'jumlahTekaTeki', 'quizzes', 'tekaTekis', 'tekaTekiResults', 'canAccessBossQuiz', 'results', 'bossQuizzes', 'bossQuizResults', 'jumlahBossQuiz'));
+        $jumlahQuizHarian = $quizzes->count();
+        $jumlahTekaTeki = $tekaTekis->count();
+
+        return view('Fiturquiz', compact(
+            'jumlahQuizHarian',
+            'jumlahTekaTeki',
+            'quizzes',
+            'tekaTekis',
+            'tekaTekiResults',
+            'canAccessBossQuiz',
+            'results',
+            'bossQuizzes',
+            'bossQuizResults',
+            'jumlahBossQuiz',
+            'tekaTekiRemedialCount'
+        ));
     }
 }
