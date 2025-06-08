@@ -589,6 +589,10 @@
                                     <a href="{{ route('quizzes.show', $quiz->id) }}" class="action-btn btn-retry">
                                         🔄 Coba Lagi
                                     </a>
+                                @elseif ($type === 'teka-teki' && !$isPassed && !($results[$quiz->id]->retry_attempted ?? false) && $results[$quiz->id]->score < $quiz->passing_score)
+                                    <a href="{{ route('quizzes.show', $quiz->id) }}" class="action-btn btn-teka-teki">
+                                        🔄 Kesempatan Terakhir
+                                    </a>
                                 @elseif ($isTekaTekiOrBoss)
                                     <button class="action-btn btn-disabled" disabled>
                                         ✅ Sudah Selesai

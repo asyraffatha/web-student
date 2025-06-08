@@ -26,39 +26,122 @@ class QuizController extends Controller
         }])->findOrFail($id);
         $user = Auth::user();
         $result = QuizResult::where('user_id', $user->id)->where('quiz_id', $quiz->id)->first();
-        // Batasi 1x untuk teka-teki dan boss
-        if (($quiz->type === 'teka-teki' || $quiz->type === 'boss') && $result) {
+
+        // Handle Teka-teki quiz retry logic
+        if ($quiz->type === 'teka-teki') {
+            if ($result) {
+                // If user has failed and hasn't used retry
+                if ($result->score < 60 && !$result->retry_attempted) {
+                    return view('quizzes.show', compact('quiz', 'result'));
+                }
+                // If user has already used retry or passed
+                if ($result->retry_attempted || $result->score >= 60) {
+                    return redirect()->route('quizzes.index')->with('error', 'Quiz ini hanya bisa dikerjakan 1 kali.');
+                }
+            }
+        }
+        // Handle Boss quiz access
+        else if ($quiz->type === 'boss') {
+            // Check if user has passed all Teka-teki quizzes
+            $tekaTekis = Quiz::where('type', 'teka-teki')->where('kelas', $user->kelas)->get();
+            $allTekaTekiPassed = true;
+            foreach ($tekaTekis as $tekaTeki) {
+                $tekaTekiResult = QuizResult::where('user_id', $user->id)
+                    ->where('quiz_id', $tekaTeki->id)
+                    ->first();
+                if (!$tekaTekiResult || $tekaTekiResult->score < 60) {
+                    $allTekaTekiPassed = false;
+                    break;
+                }
+            }
+            if (!$allTekaTekiPassed) {
+                return redirect()->route('quizzes.index')->with('error', 'Selesaikan semua Teka-teki terlebih dahulu untuk mengakses Boss Quiz!');
+            }
+            // If user has already attempted boss quiz
+            if ($result) {
+                return redirect()->route('quizzes.index')->with('error', 'Boss Quiz hanya bisa dikerjakan 1 kali.');
+            }
+        }
+        // Handle Daily quiz
+        else if ($quiz->type === 'daily' && $result) {
             return redirect()->route('quizzes.index')->with('error', 'Quiz ini hanya bisa dikerjakan 1 kali.');
         }
+
         return view('quizzes.show', compact('quiz'));
     }
 
     public function submit(Request $request, $id)
     {
-    $quiz = Quiz::with('questions')->findOrFail($id);
+        $quiz = Quiz::with('questions')->findOrFail($id);
         $user = Auth::user();
         $result = QuizResult::where('user_id', $user->id)->where('quiz_id', $quiz->id)->first();
-        // Batasi 1x untuk teka-teki dan boss
-        if (($quiz->type === 'teka-teki' || $quiz->type === 'boss') && $result) {
+
+        // Handle Teka-teki quiz retry logic
+        if ($quiz->type === 'teka-teki') {
+            if ($result) {
+                // If user has already used retry or passed
+                if ($result->retry_attempted || $result->score >= 60) {
+                    return redirect()->route('quizzes.index')->with('error', 'Quiz ini hanya bisa dikerjakan 1 kali.');
+                }
+            }
+        }
+        // Handle Boss quiz access
+        else if ($quiz->type === 'boss') {
+            // Check if user has passed all Teka-teki quizzes
+            $tekaTekis = Quiz::where('type', 'teka-teki')->where('kelas', $user->kelas)->get();
+            $allTekaTekiPassed = true;
+            foreach ($tekaTekis as $tekaTeki) {
+                $tekaTekiResult = QuizResult::where('user_id', $user->id)
+                    ->where('quiz_id', $tekaTeki->id)
+                    ->first();
+                if (!$tekaTekiResult || $tekaTekiResult->score < 60) {
+                    $allTekaTekiPassed = false;
+                    break;
+                }
+            }
+            if (!$allTekaTekiPassed) {
+                return redirect()->route('quizzes.index')->with('error', 'Selesaikan semua Teka-teki terlebih dahulu untuk mengakses Boss Quiz!');
+            }
+            // If user has already attempted boss quiz
+            if ($result) {
+                return redirect()->route('quizzes.index')->with('error', 'Boss Quiz hanya bisa dikerjakan 1 kali.');
+            }
+        }
+        // Handle Daily quiz
+        else if ($quiz->type === 'daily' && $result) {
             return redirect()->route('quizzes.index')->with('error', 'Quiz ini hanya bisa dikerjakan 1 kali.');
         }
-    $score = 0;
-    $pointPerQuestion = 100 / $quiz->questions->count();
-    foreach ($quiz->questions as $question) {
-        if ($request->input('answers.' . $question->id) == $question->answer) {
-            $score += $pointPerQuestion;
+
+        $score = 0;
+        $pointPerQuestion = 100 / $quiz->questions->count();
+        foreach ($quiz->questions as $question) {
+            if ($request->input('answers.' . $question->id) == $question->answer) {
+                $score += $pointPerQuestion;
+            }
         }
-    }
-    $passed = $score >= $quiz->passing_score;
-QuizResult::updateOrCreate(
-            ['user_id' => $user->id, 'quiz_id' => $quiz->id],
-    [
-        'score' => $score,
-        'passed' => $passed,
-        'completed_at' => now()
-    ]
-);
-    return view('quizzes.result', compact('score', 'quiz'));
+        $passed = $score >= $quiz->passing_score;
+
+        // Handle retry attempt for Teka-teki
+        if ($quiz->type === 'teka-teki' && $result && $request->has('is_retry')) {
+            $result->update([
+                'score' => $score,
+                'passed' => $passed,
+                'retry_attempted' => true,
+                'completed_at' => now()
+            ]);
+        } else {
+            QuizResult::updateOrCreate(
+                ['user_id' => $user->id, 'quiz_id' => $quiz->id],
+                [
+                    'score' => $score,
+                    'passed' => $passed,
+                    'retry_attempted' => false,
+                    'completed_at' => now()
+                ]
+            );
+        }
+
+        return view('quizzes.result', compact('score', 'quiz'));
     }
 
     public function create()
