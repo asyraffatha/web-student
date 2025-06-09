@@ -53,8 +53,11 @@ class GuruDanKelasSeeder extends Seeder
 
             $kelasIds = Kelas::whereIn('nama', $data['kelas'])->pluck('id')->toArray();
             $guru->kelasDiampu()->sync($kelasIds);
+
+            // Tambahkan debug untuk cek kelas yang diajar
+            foreach ($guru->kelasDiampu as $kelas) {
+                echo "{$guru->name} mengajar kelas {$kelas->nama}\n";
+            }
         }
     }
 }
-
-

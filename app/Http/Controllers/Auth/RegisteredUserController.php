@@ -48,6 +48,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect('http://web-student.test/login')->with('success', 'Registrasi berhasil! Silakan masuk.');
+        return redirect('/login')->with('success', 'Registrasi berhasil! Silakan masuk.');
     }
 }

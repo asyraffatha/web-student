@@ -87,4 +87,14 @@ public function setting()
     return $this->hasOne(\App\Models\Setting::class);
 }
 
+public function gurus()
+{
+    return $this->kelas?->guru ?? collect();
+}
+
+public function kelas()
+{
+    return $this->belongsTo(\App\Models\Kelas::class, 'kelas_id');
+}
+
 }

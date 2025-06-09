@@ -63,11 +63,18 @@ class QuizController extends Controller
             }
         }
         // Handle Daily quiz
-        else if ($quiz->type === 'daily' && $result) {
-            return redirect()->route('quizzes.index')->with('error', 'Quiz ini hanya bisa dikerjakan 1 kali.');
+        else if ($quiz->type === 'daily') {
+            if ($result) {
+                if ($result->attempts >= 3) {
+                    return redirect()->route('quizzes.index')->with('error', 'Anda telah mencapai batas maksimal percobaan (3x).');
+                }
+                if ($result->passed) {
+                    return redirect()->route('quizzes.index')->with('error', 'Anda sudah lulus quiz ini.');
+                }
+            }
         }
 
-        return view('quizzes.show', compact('quiz'));
+        return view('quizzes.show', compact('quiz', 'result'));
     }
 
     public function submit(Request $request, $id)
@@ -109,7 +116,9 @@ class QuizController extends Controller
         }
         // Handle Daily quiz
         else if ($quiz->type === 'daily' && $result) {
-            return redirect()->route('quizzes.index')->with('error', 'Quiz ini hanya bisa dikerjakan 1 kali.');
+            if ($result->attempts >= 3) {
+                return redirect()->route('quizzes.index')->with('error', 'Anda telah mencapai batas maksimal percobaan (3x).');
+            }
         }
 
         $score = 0;
@@ -129,6 +138,14 @@ class QuizController extends Controller
                 'retry_attempted' => true,
                 'completed_at' => now()
             ]);
+        } else if ($quiz->type === 'daily' && $result) {
+            // Update daily quiz result with incremented attempts
+            $result->update([
+                'score' => $score,
+                'passed' => $passed,
+                'attempts' => $result->attempts + 1,
+                'completed_at' => now()
+            ]);
         } else {
             QuizResult::updateOrCreate(
                 ['user_id' => $user->id, 'quiz_id' => $quiz->id],
@@ -136,12 +153,13 @@ class QuizController extends Controller
                     'score' => $score,
                     'passed' => $passed,
                     'retry_attempted' => false,
+                    'attempts' => 1,
                     'completed_at' => now()
                 ]
             );
         }
 
-        return view('quizzes.result', compact('score', 'quiz'));
+        return view('quizzes.result', compact('score', 'quiz', 'result'));
     }
 
     public function create()

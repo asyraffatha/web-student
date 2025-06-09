@@ -18,10 +18,14 @@
             --hover-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             --text-primary: #1f2937;
             --text-secondary: #4b5563;
-            --accent-1: #f472b6; /* Pink */
-            --accent-2: #34d399; /* Green */
-            --accent-3: #fbbf24; /* Yellow */
-            --accent-4: #60a5fa; /* Blue */
+            --accent-1: #f472b6;
+            /* Pink */
+            --accent-2: #34d399;
+            /* Green */
+            --accent-3: #fbbf24;
+            /* Yellow */
+            --accent-4: #60a5fa;
+            /* Blue */
             --math-symbols: "∫", "∑", "π", "∞", "√", "±", "×", "÷", "=", "≠", "≈", "≤", "≥";
         }
 
@@ -126,6 +130,7 @@
             .navbar {
                 padding: 0 1.25rem;
             }
+
             .navbar.scrolled {
                 padding: 0 1.25rem;
             }
@@ -137,14 +142,17 @@
                 height: 3.5rem;
                 min-height: 56px;
             }
+
             .navbar.scrolled {
                 padding: 0 1rem;
                 height: 3.25rem;
                 min-height: 52px;
             }
+
             .nav-links {
                 gap: 1.25rem;
             }
+
             .logo-box {
                 width: 2.1rem;
                 height: 2.1rem;
@@ -367,7 +375,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
+            background:
                 radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.2) 0%, transparent 50%),
                 radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.2) 0%, transparent 50%),
                 radial-gradient(circle at 50% 50%, rgba(244, 114, 182, 0.15) 0%, transparent 50%);
@@ -396,9 +404,11 @@
             0% {
                 background-position: 0% 0%;
             }
+
             50% {
                 background-position: 100% 100%;
             }
+
             100% {
                 background-position: 0% 0%;
             }
@@ -409,12 +419,15 @@
                 transform: translateY(100vh) rotate(0deg);
                 opacity: 0;
             }
+
             10% {
                 opacity: 0.5;
             }
+
             90% {
                 opacity: 0.5;
             }
+
             100% {
                 transform: translateY(-100px) rotate(360deg);
                 opacity: 0;
@@ -493,6 +506,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -503,9 +517,11 @@
             0% {
                 background-position: 0% 50%;
             }
+
             50% {
                 background-position: 100% 50%;
             }
+
             100% {
                 background-position: 0% 50%;
             }
@@ -535,6 +551,7 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -604,9 +621,12 @@
         }
 
         @keyframes float3D {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0) rotateX(0) rotateY(0);
             }
+
             50% {
                 transform: translateY(-20px) rotateX(5deg) rotateY(5deg);
             }
@@ -642,12 +662,10 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(99, 102, 241, 0.5),
-                transparent
-            );
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(99, 102, 241, 0.5),
+                    transparent);
         }
 
         .section-title {
@@ -978,7 +996,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
+            background:
                 radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
             animation: gradientShift 15s ease infinite;
@@ -1124,7 +1142,7 @@
             .hero-content {
                 transform: none !important;
             }
-            
+
             .service-card:hover {
                 transform: translateY(-10px) !important;
             }
@@ -1184,7 +1202,7 @@
 
                 <div id="dropdownMenu" class="dropdown-menu">
                     <div class="dropdown-menu::before"></div>
-                    <a href="http://web-student.test/login" class="dropdown-item">
+                    <a href="{{ url('/login') }}" class="dropdown-item">
                         <div class="dropdown-item-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -1200,7 +1218,7 @@
 
                     <div class="dropdown-divider"></div>
 
-                    <a href="http://web-student.test/register" class="dropdown-item">
+                    <a href="{{ url('/register') }}" class="dropdown-item">
                         <div class="dropdown-item-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -1231,12 +1249,15 @@
         <div class="hero-content">
             <h1 class="hero-title">Selamat Datang di Mathporia</h1>
             <p class="hero-subtitle">Belajar Matematika dengan Cara Menyenangkan!</p>
-            <a href="http://web-student.test/login" class="hero-button">
+            <a href="{{ url('/login') }}" class="hero-button">
                 Mulai Belajar →
             </a>
         </div>
         <div class="three-instruction">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 15l4-4 4 4m0 0V3m0 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 15l4-4 4 4m0 0V3m0 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
             Klik dan drag untuk memutar • Scroll untuk zoom
         </div>
     </section>
@@ -1746,21 +1767,24 @@
             const container = document.getElementById('hero3d');
             let width = container.offsetWidth;
             let height = container.offsetHeight;
-            
+
             // Scene
             const scene = new THREE.Scene();
             scene.background = new THREE.Color(0x1e1b4b);
-            
+
             // Camera
             const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 100);
             camera.position.set(0, 0, 8);
-            
+
             // Renderer
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            const renderer = new THREE.WebGLRenderer({
+                alpha: true,
+                antialias: true
+            });
             renderer.setSize(width, height);
             renderer.setClearColor(0x1e1b4b, 1);
             container.appendChild(renderer.domElement);
-            
+
             // Controls
             const controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
@@ -1768,42 +1792,62 @@
             controls.enablePan = false;
             controls.minDistance = 6;
             controls.maxDistance = 16;
-            
+
             // Lights
             const ambient = new THREE.AmbientLight(0xffffff, 0.7);
             scene.add(ambient);
-            
+
             const dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
             dirLight.position.set(5, 10, 7);
             scene.add(dirLight);
-            
+
             // Add point lights for more dynamic lighting
             const pointLight1 = new THREE.PointLight(0xf472b6, 1, 20);
             pointLight1.position.set(-5, 5, 5);
             scene.add(pointLight1);
-            
+
             const pointLight2 = new THREE.PointLight(0x34d399, 1, 20);
             pointLight2.position.set(5, -5, 5);
             scene.add(pointLight2);
-            
+
             // Materials with more vibrant colors
             const materials = [
-                new THREE.MeshPhongMaterial({ color: 0xf472b6, shininess: 100, flatShading: true }), // Pink
-                new THREE.MeshPhongMaterial({ color: 0x34d399, shininess: 100, flatShading: true }), // Green
-                new THREE.MeshPhongMaterial({ color: 0xfbbf24, shininess: 100, flatShading: true }), // Yellow
-                new THREE.MeshPhongMaterial({ color: 0x60a5fa, shininess: 100, flatShading: true }), // Blue
-                new THREE.MeshPhongMaterial({ color: 0x8b5cf6, shininess: 100, flatShading: true }), // Purple
-                new THREE.MeshPhongMaterial({ 
-                    color: 0xffffff, 
-                    shininess: 100, 
-                    flatShading: false, 
-                    transparent: true, 
-                    opacity: 0.7 
+                new THREE.MeshPhongMaterial({
+                    color: 0xf472b6,
+                    shininess: 100,
+                    flatShading: true
+                }), // Pink
+                new THREE.MeshPhongMaterial({
+                    color: 0x34d399,
+                    shininess: 100,
+                    flatShading: true
+                }), // Green
+                new THREE.MeshPhongMaterial({
+                    color: 0xfbbf24,
+                    shininess: 100,
+                    flatShading: true
+                }), // Yellow
+                new THREE.MeshPhongMaterial({
+                    color: 0x60a5fa,
+                    shininess: 100,
+                    flatShading: true
+                }), // Blue
+                new THREE.MeshPhongMaterial({
+                    color: 0x8b5cf6,
+                    shininess: 100,
+                    flatShading: true
+                }), // Purple
+                new THREE.MeshPhongMaterial({
+                    color: 0xffffff,
+                    shininess: 100,
+                    flatShading: false,
+                    transparent: true,
+                    opacity: 0.7
                 })
             ];
-            
+
             const objects = [];
-            
+
             // Cube with more complex geometry
             const cube = new THREE.Mesh(
                 new THREE.BoxGeometry(1.2, 1.2, 1.2, 2, 2, 2),
@@ -1812,7 +1856,7 @@
             cube.position.set(-2.2, 1.2, 0);
             scene.add(cube);
             objects.push(cube);
-            
+
             // Sphere with more segments
             const sphere = new THREE.Mesh(
                 new THREE.SphereGeometry(0.9, 32, 32),
@@ -1821,7 +1865,7 @@
             sphere.position.set(1.7, 1.1, 0.5);
             scene.add(sphere);
             objects.push(sphere);
-            
+
             // Torus with more complex geometry
             const torus = new THREE.Mesh(
                 new THREE.TorusGeometry(1, 0.28, 16, 100),
@@ -1830,7 +1874,7 @@
             torus.position.set(-1.2, -1.2, 0);
             scene.add(torus);
             objects.push(torus);
-            
+
             // Octahedron with more complex geometry
             const oct = new THREE.Mesh(
                 new THREE.OctahedronGeometry(1, 2),
@@ -1839,7 +1883,7 @@
             oct.position.set(2.2, -0.7, 0);
             scene.add(oct);
             objects.push(oct);
-            
+
             // Add a dodecahedron
             const dodecahedron = new THREE.Mesh(
                 new THREE.DodecahedronGeometry(0.8),
@@ -1848,7 +1892,7 @@
             dodecahedron.position.set(0.5, -2.1, 0);
             scene.add(dodecahedron);
             objects.push(dodecahedron);
-            
+
             // Add a torus knot
             const torusKnot = new THREE.Mesh(
                 new THREE.TorusKnotGeometry(0.6, 0.2, 100, 16),
@@ -1857,32 +1901,32 @@
             torusKnot.position.set(-1.5, -1.5, 0);
             scene.add(torusKnot);
             objects.push(torusKnot);
-            
+
             // Animate
             function animate() {
                 requestAnimationFrame(animate);
-                
+
                 objects.forEach((obj, i) => {
                     obj.rotation.x += 0.008 + i * 0.001;
                     obj.rotation.y += 0.012 + i * 0.001;
-                    
+
                     // Add some floating motion
                     obj.position.y += Math.sin(Date.now() * 0.001 + i) * 0.001;
                 });
-                
+
                 // Animate point lights
                 pointLight1.position.x = Math.sin(Date.now() * 0.001) * 5;
                 pointLight1.position.z = Math.cos(Date.now() * 0.001) * 5;
-                
+
                 pointLight2.position.x = Math.cos(Date.now() * 0.001) * 5;
                 pointLight2.position.z = Math.sin(Date.now() * 0.001) * 5;
-                
+
                 controls.update();
                 renderer.render(scene, camera);
             }
-            
+
             animate();
-            
+
             // Responsive
             window.addEventListener('resize', () => {
                 width = container.offsetWidth;

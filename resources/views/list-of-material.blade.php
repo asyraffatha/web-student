@@ -210,25 +210,60 @@
                 </div>
             </div>
 
-            <!-- Search Bar dengan efek focus -->
             <div class="p-4 relative z-10">
-                <div class="relative group">
-                    <input type="text"
-                        class="w-full bg-gray-100 text-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-300 shadow-inner"
-                        placeholder="Cari materi...">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i
-                            class="fas fa-search text-gray-400 group-focus-within:text-blue-500 transition-colors duration-300"></i>
+                <div class="relative w-40 h-40 mx-auto">
+                    <!-- Central hub -->
+                    <div
+                        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white border-2 border-gray-200 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:shadow-xl transition-shadow duration-300">
+                        <span class="text-2xl">🏠</span>
+                    </div>
+
+                    <!-- Orbiting elements -->
+                    <div class="absolute inset-0 animate-spin-slow">
+                        <div
+                            class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
+                            <span class="text-white text-lg">📚</span>
+                        </div>
+                    </div>
+
+                    <div class="absolute inset-0 animate-spin-slow" style="animation-delay: -2s;">
+                        <div
+                            class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-green-400 to-green-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
+                            <span class="text-white text-lg">🎯</span>
+                        </div>
+                    </div>
+
+                    <div class="absolute inset-0 animate-spin-slow" style="animation-delay: -4s;">
+                        <div
+                            class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
+                            <span class="text-white text-lg">⭐</span>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <style>
+                @keyframes spin-slow {
+                    from {
+                        transform: rotate(0deg);
+                    }
+
+                    to {
+                        transform: rotate(360deg);
+                    }
+                }
+
+                .animate-spin-slow {
+                    animation: spin-slow 12s linear infinite;
+                }
+            </style>
 
             <nav class="mt-2 px-4 relative z-10">
                 <!-- Navigation dengan hover effects -->
                 <div class="space-y-2">
                     <!-- Dashboard -->
                     <a href="{{ route('home') }}"
-                        class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-600 hover:text-white transition-all duration-300">
+                        class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-600 hover:text-white transition-all duration-300">
                         <i class="fas fa-home mr-3 text-lg"></i>
                         <span>Dashboard</span>
                         <div class="ml-auto w-2 h-2 bg-white rounded-full pulse-animation"></div>
@@ -250,13 +285,18 @@
                                 <i class="fas fa-list-ul mr-2 text-xs"></i>
                                 Daftar Materi
                             </a>
-                            <a href="{{ route('discussion.show', Auth::user()->id) }}"
-                                class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-green-100 hover:text-green-700 transition-all duration-200">
-                                <i class="fas fa-comments mr-2 text-xs"></i>
-                                Diskusi dengan Guru
-                                <span
-                                    class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full notification-dot">2</span>
-                            </a>
+                            @php
+                                $gurus = Auth::user()->gurus();
+                            @endphp
+
+                            @foreach ($gurus as $guru)
+                                <a href="{{ route('discussion.show', $guru->id) }}"
+                                    class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-green-100 hover:text-green-700 transition-all duration-200">
+                                    <i class="fas fa-comments mr-2 text-xs"></i>
+                                    Diskusi dengan {{ $guru->name }}
+                                </a>
+                            @endforeach
+
                         </div>
                     </div>
 
@@ -271,7 +311,7 @@
                             <i id="quiz-arrow" class="fas fa-chevron-down transition-transform duration-300"></i>
                         </button>
                         <div class="hidden space-y-1 pl-8" id="quiz-dropdown">
-                            <a href="{{ route('quizzes.index') }}"
+                            <a href="{{ route('siswa.fiturquiz') }}"
                                 class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200">
                                 <i class="fas fa-play mr-2 text-xs"></i>
                                 Mulai Kuis
@@ -453,11 +493,16 @@
                                 @endif
 
                                 @if (!empty($materi->file_path))
-                                    <a href="{{ asset('storage/' . $materi->file_path) }}" target="_blank"
-                                        class="inline-flex items-center text-sm text-blue-600 font-medium hover:underline transition">
-                                        <i class="fas fa-file-download mr-1"></i>
-                                        Lihat Materi
-                                    </a>
+                                    @if (\Carbon\Carbon::parse($materi->deadline)->isFuture())
+                                        <a href="{{ asset('storage/' . $materi->file_path) }}" target="_blank"
+                                            class="inline-flex items-center text-sm text-blue-600 font-medium hover:underline transition">
+                                            <i class="fas fa-file-download mr-1"></i>
+                                            Lihat Materi
+                                        </a>
+                                    @else
+                                        <p class="text-sm text-gray-400 italic"><i class="fas fa-lock mr-1"></i>
+                                            Materi tidak dapat diakses (lewat deadline)</p>
+                                    @endif
                                 @else
                                     <p class="text-sm text-red-500"><i class="fas fa-times-circle mr-1"></i> File
                                         tidak tersedia</p>

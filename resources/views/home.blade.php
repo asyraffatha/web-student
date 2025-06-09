@@ -180,18 +180,53 @@
                 </div>
             </div>
 
-            <!-- Search Bar dengan efek focus -->
             <div class="p-4 relative z-10">
-                <div class="relative group">
-                    <input type="text"
-                        class="w-full bg-gray-100 text-gray-800 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-300 shadow-inner"
-                        placeholder="Cari materi...">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i
-                            class="fas fa-search text-gray-400 group-focus-within:text-blue-500 transition-colors duration-300"></i>
+                <div class="relative w-40 h-40 mx-auto">
+                    <!-- Central hub -->
+                    <div
+                        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white border-2 border-gray-200 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:shadow-xl transition-shadow duration-300">
+                        <span class="text-2xl">🏠</span>
+                    </div>
+
+                    <!-- Orbiting elements -->
+                    <div class="absolute inset-0 animate-spin-slow">
+                        <div
+                            class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
+                            <span class="text-white text-lg">📚</span>
+                        </div>
+                    </div>
+
+                    <div class="absolute inset-0 animate-spin-slow" style="animation-delay: -2s;">
+                        <div
+                            class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-green-400 to-green-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
+                            <span class="text-white text-lg">🎯</span>
+                        </div>
+                    </div>
+
+                    <div class="absolute inset-0 animate-spin-slow" style="animation-delay: -4s;">
+                        <div
+                            class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
+                            <span class="text-white text-lg">⭐</span>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <style>
+                @keyframes spin-slow {
+                    from {
+                        transform: rotate(0deg);
+                    }
+
+                    to {
+                        transform: rotate(360deg);
+                    }
+                }
+
+                .animate-spin-slow {
+                    animation: spin-slow 12s linear infinite;
+                }
+            </style>
 
             <nav class="mt-2 px-4 relative z-10">
                 <!-- Navigation dengan hover effects -->
@@ -628,18 +663,17 @@
                     <div
                         class="card-hover bg-white bg-opacity-90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white border-opacity-20">
                         <div class="flex items-start space-x-4">
-                            <div class="bg-gradient-to-r from-indigo-400 to-indigo-600 p-3 rounded-xl flex-shrink-0">
-                                <i class="fas fa-brain text-white"></i>
+                            <div class="bg-gradient-to-r {{ $todayTip['warna'] }} p-3 rounded-xl flex-shrink-0">
+                                <i class="{{ $todayTip['icon'] }} text-white"></i>
                             </div>
                             <div>
-                                <h3 class="font-semibold text-gray-900 mb-2">Teknik Pomodoro untuk Matematika</h3>
-                                <p class="text-gray-700 text-sm">Belajar selama 25 menit, istirahat 5 menit. Ulangi 4
-                                    kali untuk hasil optimal!</p>
+                                <h3 class="font-semibold text-gray-900 mb-2">{{ $todayTip['judul'] }}</h3>
+                                <p class="text-gray-700 text-sm">{{ $todayTip['deskripsi'] }}</p>
                                 <div class="mt-3 flex space-x-2">
-                                    <span
-                                        class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-xs">#FokusBelajar</span>
-                                    <span
-                                        class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">#TipsEfektif</span>
+                                    @foreach ($todayTip['tags'] as $tag)
+                                        <span
+                                            class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-xs">{{ $tag }}</span>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>

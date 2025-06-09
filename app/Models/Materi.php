@@ -10,5 +10,10 @@ class Materi extends Model
     use HasFactory;
 
     protected $fillable = ['judul', 'kelas', 'deskripsi', 'file_path','deadline'];
+
+    protected $casts = [
+    'deadline' => 'datetime',
+    ];
+
 }
 

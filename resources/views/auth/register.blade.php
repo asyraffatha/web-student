@@ -448,8 +448,7 @@
         <!-- Link ke Login -->
         <p class="text-center text-gray-600">
             Sudah punya akun?
-            <a href="http://web-student.test/login"
-                class="text-indigo-600 hover:text-indigo-800 font-semibold transition">
+            <a href="{{ url('/login') }}" class="text-indigo-600 hover:text-indigo-800 font-semibold transition">
                 Masuk di sini
             </a>
         </p>

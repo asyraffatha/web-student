@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Hasil Quiz</title>
     @vite('resources/css/app.css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -30,8 +30,15 @@
         }
 
         @keyframes popIn {
-            0% { transform: scale(0.9); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+            0% {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .result-container h1 {
@@ -117,27 +124,83 @@
             animation: float 6s ease-in-out infinite;
         }
 
-        .emoji-1 { top: 10%; left: 5%; animation-delay: 0s; }
-        .emoji-2 { top: 20%; right: 10%; animation-delay: 1s; }
-        .emoji-3 { bottom: 15%; left: 15%; animation-delay: 2s; }
-        .emoji-4 { bottom: 25%; right: 5%; animation-delay: 3s; }
+        .emoji-1 {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .emoji-2 {
+            top: 20%;
+            right: 10%;
+            animation-delay: 1s;
+        }
+
+        .emoji-3 {
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 2s;
+        }
+
+        .emoji-4 {
+            bottom: 25%;
+            right: 5%;
+            animation-delay: 3s;
+        }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(10deg); }
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
         }
 
         @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); opacity: 1; }
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            70% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-5px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(5px);
+            }
         }
     </style>
 </head>
@@ -153,7 +216,7 @@
 
     <div class="result-container animate__animated animate__fadeIn">
         <h1 class="animate__animated animate__bounceIn">
-            @if($quiz->type === 'teka-teki')
+            @if ($quiz->type === 'teka-teki')
                 🧩 Hasil Teka-Teki
             @elseif($quiz->type === 'boss')
                 👑 Hasil Boss Quiz
@@ -172,7 +235,7 @@
             <div class="message success-message animate__animated animate__bounceIn">
                 <span class="text-4xl">🎉</span>
                 <p class="mt-2">Selamat! Kamu Berhasil! 🎊</p>
-                @if($quiz->type === 'teka-teki')
+                @if ($quiz->type === 'teka-teki')
                     <p class="text-lg mt-2">Sekarang kamu bisa mengakses Boss Quiz! 🎮</p>
                 @endif
             </div>
@@ -180,14 +243,18 @@
             <div class="message retry-message animate__animated animate__shakeX">
                 <span class="text-4xl">😢</span>
                 <p class="mt-2">Belum Berhasil</p>
-                @if($quiz->type === 'teka-teki' && !$result->retry_attempted)
+                @if ($quiz->type === 'teka-teki' && ($result && !$result->retry_attempted))
                     <p class="text-lg mt-2">Jangan sedih! Kamu masih punya kesempatan terakhir! 💪</p>
+                @elseif($quiz->type === 'daily' && ($result && $result->attempts < 3))
+                    <p class="text-lg mt-2">Jangan sedih! Kamu masih punya {{ 3 - $result->attempts }} kesempatan lagi!
+                        💪</p>
                 @endif
             </div>
         @endif
 
         <div class="text-center">
-            <a href="{{ route('quizzes.index') }}" class="back-btn animate__animated animate__fadeInUp animate__delay-1s">
+            <a href="{{ route('quizzes.index') }}"
+                class="back-btn animate__animated animate__fadeInUp animate__delay-1s">
                 Kembali ke Daftar Quiz
             </a>
         </div>

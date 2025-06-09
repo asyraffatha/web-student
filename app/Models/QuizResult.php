@@ -11,6 +11,8 @@ class QuizResult extends Model
 
     protected $fillable = ['user_id', 'quiz_id', 'score', 'passed', 'retry_attempted', 'completed_at'];
 
+    protected $table = 'quiz_results';
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -247,10 +247,8 @@
                             your progress and manage your educational content with ease.</p>
                     </div>
                     <div class="floating-animation">
-                        <a
-                            href="{{ route('goals') }}"
-                            class="bg-white/20 hover:bg-white/30 backdrop-blur-lg text-white font-semibold px-6 py-3 rounded-2xl transition-all duration-300 border border-white/30 shadow-lg hover:shadow-xl flex items-center justify-center"
-                        >
+                        <a href="{{ route('goals') }}"
+                            class="bg-white/20 hover:bg-white/30 backdrop-blur-lg text-white font-semibold px-6 py-3 rounded-2xl transition-all duration-300 border border-white/30 shadow-lg hover:shadow-xl flex items-center justify-center">
                             <span class="flex items-center">
                                 View Progress
                                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -272,6 +270,15 @@
             <!-- Statistics Cards -->
             <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Total Materials -->
+                @php
+                    // Misalnya target maksimal materi adalah 50
+                    $targetMaterials = 50;
+
+                    // Hitung progress dan batasi maksimum 100%
+                    $progress =
+                        $targetMaterials > 0 ? min(100, round(($totalMaterials / $targetMaterials) * 100, 2)) : 0;
+                @endphp
+
                 <div
                     class="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-6 border-l-4 border-blue-500 card-hover relative overflow-hidden">
                     <div
@@ -282,7 +289,6 @@
                             <div>
                                 <p class="text-sm text-gray-500 font-medium mb-2">Total Materials</p>
                                 <h3 class="text-3xl font-bold text-gray-800">{{ $totalMaterials }}</h3>
-                                <p class="text-xs text-green-600 font-medium mt-1">+12% this month</p>
                             </div>
                             <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-2xl shadow-lg">
                                 <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -293,10 +299,18 @@
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-2">
                             <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full progress-bar"
-                                style="width: {{ ($totalMaterials / 50) * 100 }}%"></div>
+                                style="width: {{ $progress }}%"></div>
                         </div>
                     </div>
                 </div>
+
+                @php
+                    // Target maksimum kuis
+                    $targetQuizzes = 30;
+
+                    // Hitung progress dan batasi maksimal 100%
+                    $quizProgress = $targetQuizzes > 0 ? min(100, round(($totalQuizzes / $targetQuizzes) * 100, 2)) : 0;
+                @endphp
 
                 <!-- Total Quizzes -->
                 <div
@@ -309,7 +323,6 @@
                             <div>
                                 <p class="text-sm text-gray-500 font-medium mb-2">Total Quizzes</p>
                                 <h3 class="text-3xl font-bold text-gray-800">{{ $totalQuizzes }}</h3>
-                                <p class="text-xs text-green-600 font-medium mt-1">+8% this month</p>
                             </div>
                             <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-3 rounded-2xl shadow-lg">
                                 <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -318,9 +331,13 @@
                                 </svg>
                             </div>
                         </div>
-                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full progress-bar"
-                            style="width: {{ ($totalQuizzes / 30) * 100 }}%">
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full progress-bar"
+                                style="width: {{ $quizProgress }}%">
+                            </div>
                         </div>
+                        <!-- Jika ingin tampil persentase -->
+                        {{-- <p class="text-sm text-purple-700 mt-1">{{ $quizProgress }}%</p> --}}
                     </div>
                 </div>
 
@@ -334,8 +351,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <div>
                                 <p class="text-sm text-gray-500 font-medium mb-2">Students</p>
-                                <h3 class="text-3xl font-bold text-gray-800" x-text="stats.students"></h3>
-                                <p class="text-xs text-green-600 font-medium mt-1">+15% this month</p>
+                                <h3 class="text-3xl font-bold text-gray-800">{{ $totalSiswa }}</h3>
                             </div>
                             <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 p-3 rounded-2xl shadow-lg">
                                 <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -344,25 +360,28 @@
                                 </svg>
                             </div>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 h-2 rounded-full progress-bar"
-                                :style="`width: ${(stats.students / 100) * 100}%`"></div>
+                        <div x-data="{ stats: { students: {{ $totalSiswa }} } }">
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 h-2 rounded-full progress-bar"
+                                    :style="`width: ${(stats.students / 150) * 100}%`"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Completion Rate -->
-                <div
+                <div x-data="{ stats: { completionRate: {{ $rataRataNilai }} } }"
                     class="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-6 border-l-4 border-amber-500 card-hover relative overflow-hidden">
+
                     <div
                         class="absolute top-0 right-0 w-20 h-20 bg-amber-50 rounded-full -translate-y-10 translate-x-10">
                     </div>
+
                     <div class="relative z-10">
                         <div class="flex justify-between items-start mb-4">
                             <div>
                                 <p class="text-sm text-gray-500 font-medium mb-2">Completion Rate</p>
                                 <h3 class="text-3xl font-bold text-gray-800" x-text="stats.completionRate + '%'"></h3>
-                                <p class="text-xs text-green-600 font-medium mt-1">+5% this month</p>
                             </div>
                             <div class="bg-gradient-to-r from-amber-500 to-amber-600 p-3 rounded-2xl shadow-lg">
                                 <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -371,6 +390,8 @@
                                 </svg>
                             </div>
                         </div>
+
+                        <!-- Progress Bar -->
                         <div class="w-full bg-gray-200 rounded-full h-2">
                             <div class="bg-gradient-to-r from-amber-500 to-amber-600 h-2 rounded-full progress-bar"
                                 :style="`width: ${stats.completionRate}%`"></div>
@@ -461,10 +482,10 @@
                         </svg>
                     </div>
                     <p class="text-emerald-100 mb-6">Analyze student performance and progress</p>
-                    <button
-                        class="bg-white/20 hover:bg-white/30 text-white font-semibold px-4 py-2 rounded-xl transition-all duration-300 border border-white/30">
+                    <a href="{{ route('goals') }}"
+                        class="bg-white/20 hover:bg-white/30 text-white font-semibold px-4 py-2 rounded-xl transition-all duration-300 border border-white/30 inline-block text-center">
                         View Analytics
-                    </button>
+                    </a>
                 </div>
             </section>
         </div>

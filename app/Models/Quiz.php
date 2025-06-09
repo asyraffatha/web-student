@@ -12,6 +12,10 @@ class Quiz extends Model
 
     protected $fillable = ['title', 'passing_score', 'kelas', 'deadline', 'type', 'image_path', 'video_path'];
 
+    protected $casts = [
+    'deadline' => 'datetime',
+    ];
+
     // Relasi ke soal
     public function questions()
     {
