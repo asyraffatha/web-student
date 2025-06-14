@@ -378,6 +378,7 @@
                     class="block w-full px-4 py-3 rounded-lg focus:outline-none">
                     <option value="siswa">Siswa</option>
                     <option value="guru">Guru</option>
+                    <option value="admin">Admin</option>
                 </select>
             </div>
 

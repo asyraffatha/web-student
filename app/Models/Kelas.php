@@ -11,13 +11,14 @@ class Kelas extends Model
 
     protected $fillable = ['nama'];
 
-    public function guru()
+public function guru()
 {
-    return $this->belongsToMany(\App\Models\User::class, 'guru_kelas', 'kelas_id', 'user_id');
+    return $this->belongsToMany(User::class, 'guru_kelas', 'kelas_id', 'user_id')->where('role', 'guru');
 }
+
 public function siswa()
 {
-    return $this->hasMany(\App\Models\User::class, 'kelas', 'nama'); 
-    // diasumsikan kolom `kelas` di siswa berisi string seperti '8.1'
+    return $this->hasMany(User::class, 'kelas', 'nama');
 }
+
 }

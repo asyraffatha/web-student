@@ -153,240 +153,585 @@
                 opacity: 0;
             }
         }
+
+        @media (max-width: 768px) {
+            .sidebar-mobile .p-6 {
+                padding: 1rem !important;
+            }
+
+            .sidebar-mobile .p-4 {
+                padding: 0.75rem !important;
+            }
+
+            .sidebar-mobile .w-40,
+            .sidebar-mobile .h-40 {
+                width: 5rem !important;
+                height: 5rem !important;
+            }
+
+            .sidebar-mobile .max-h-24 {
+                max-height: 2.5rem !important;
+            }
+
+            .sidebar-mobile .text-2xl {
+                font-size: 1rem !important;
+            }
+
+            .sidebar-mobile .rounded-2xl {
+                border-radius: 0.75rem !important;
+            }
+
+            .sidebar-mobile .mt-8 {
+                margin-top: 1rem !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-mobile {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+                overflow-y: auto !important;
+                width: 65vw !important;
+                max-width: 240px;
+                left: 0;
+                top: 0;
+                height: 100vh;
+                z-index: 50;
+                position: fixed;
+                background: #fff;
+                box-shadow: 2px 0 16px rgba(0, 0, 0, 0.08);
+            }
+
+            .sidebar-mobile.active {
+                transform: translateX(0);
+            }
+
+            .sidebar-backdrop {
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.3);
+                z-index: 40;
+            }
+
+            .desktop-sidebar {
+                display: none !important;
+            }
+
+            .mobile-header {
+                display: flex !important;
+            }
+
+            main {
+                margin-left: 0 !important;
+                padding: 1rem !important;
+            }
+
+            .grid-cols-1,
+            .md\:grid-cols-3 {
+                grid-template-columns: 1fr !important;
+            }
+
+            .p-8 {
+                padding: 1.25rem !important;
+            }
+
+            .pb-16 {
+                padding-bottom: 2.5rem !important;
+            }
+
+            .text-4xl {
+                font-size: 1.5rem !important;
+            }
+
+            .text-2xl {
+                font-size: 1.125rem !important;
+            }
+
+            .rounded-2xl {
+                border-radius: 1rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .w-40,
+            .h-40 {
+                width: 7rem !important;
+                height: 7rem !important;
+            }
+
+            .max-h-24 {
+                max-height: 3.5rem !important;
+            }
+        }
     </style>
 </head>
 
 <body class="bg-gray-50">
-    <div class="flex min-h-screen">
-        <!-- Sidebar dengan animasi -->
-        <aside class="w-64 bg-white shadow-2xl relative overflow-y-auto flex-shrink-0">
-            <!-- Background pattern -->
-            <div class="absolute inset-0 opacity-5">
-                <div class="absolute inset-0"
-                    style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,.1) 10px, rgba(0,0,0,.1) 20px);">
+    <!-- Mobile Header -->
+    <div class="mobile-header fixed top-0 left-0 w-full flex items-center justify-between bg-white shadow z-40 px-4 py-3"
+        style="display:none;">
+        <button id="openSidebar" class="text-2xl text-blue-600 focus:outline-none">
+            <i class="fas fa-bars"></i>
+        </button>
+        <span class="font-bold text-blue-700 text-lg">Mathporia</span>
+        <img src="{{ asset('images/LogoT.png') }}" alt="Logo" class="h-8 w-auto">
+    </div>
+    <!-- Sidebar dengan animasi -->
+    <div id="sidebarBackdrop" class="sidebar-backdrop hidden" onclick="closeSidebar()"></div>
+    <aside id="sidebar"
+        class="w-64 bg-white shadow-2xl fixed top-0 left-0 h-screen overflow-y-auto flex-shrink-0 z-30 desktop-sidebar">
+        <!-- Background pattern -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute inset-0"
+                style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,.1) 10px, rgba(0,0,0,.1) 20px);">
+            </div>
+        </div>
+
+        <!-- Logo dengan animasi float -->
+        <div class="p-6 border-b border-gray-200 relative z-10">
+            <div class="flex items-center justify-center">
+                <div class="float-animation bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-xl shadow-lg">
+                    <i class="fas fa-calculator text-white text-2xl"></i>
+                </div>
+                <div class="flex items-center justify-between">
+                    <img src="{{ asset('images/LogoT.png') }}" alt="Logo Mathporia"
+                        class="max-h-24 w-auto flex-shrink-0">
                 </div>
             </div>
+        </div>
 
-            <!-- Logo dengan animasi float -->
-            <div class="p-6 border-b border-gray-200 relative z-10">
-                <div class="flex items-center justify-center">
-                    <div class="float-animation bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-xl shadow-lg">
-                        <i class="fas fa-calculator text-white text-2xl"></i>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <img src="{{ asset('images/LogoT.png') }}" alt="Logo Mathporia"
-                            class="max-h-24 w-auto flex-shrink-0">
-                    </div>
+        <div class="p-4 relative z-10">
+            <div class="relative w-40 h-40 mx-auto">
+                <!-- Central hub -->
+                <div
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white border-2 border-gray-200 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:shadow-xl transition-shadow duration-300">
+                    <span class="text-2xl">🏠</span>
                 </div>
-            </div>
 
-            <div class="p-4 relative z-10">
-                <div class="relative w-40 h-40 mx-auto">
-                    <!-- Central hub -->
+                <!-- Orbiting elements -->
+                <div class="absolute inset-0 animate-spin-slow">
                     <div
-                        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white border-2 border-gray-200 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:shadow-xl transition-shadow duration-300">
-                        <span class="text-2xl">🏠</span>
+                        class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
+                        <span class="text-white text-lg">📚</span>
                     </div>
+                </div>
 
-                    <!-- Orbiting elements -->
-                    <div class="absolute inset-0 animate-spin-slow">
-                        <div
-                            class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
-                            <span class="text-white text-lg">📚</span>
-                        </div>
+                <div class="absolute inset-0 animate-spin-slow" style="animation-delay: -2s;">
+                    <div
+                        class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-green-400 to-green-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
+                        <span class="text-white text-lg">🎯</span>
                     </div>
+                </div>
 
-                    <div class="absolute inset-0 animate-spin-slow" style="animation-delay: -2s;">
-                        <div
-                            class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-green-400 to-green-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
-                            <span class="text-white text-lg">🎯</span>
-                        </div>
-                    </div>
-
-                    <div class="absolute inset-0 animate-spin-slow" style="animation-delay: -4s;">
-                        <div
-                            class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
-                            <span class="text-white text-lg">⭐</span>
-                        </div>
+                <div class="absolute inset-0 animate-spin-slow" style="animation-delay: -4s;">
+                    <div
+                        class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
+                        <span class="text-white text-lg">⭐</span>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <style>
-                @keyframes spin-slow {
-                    from {
-                        transform: rotate(0deg);
-                    }
-
-                    to {
-                        transform: rotate(360deg);
-                    }
+        <style>
+            @keyframes spin-slow {
+                from {
+                    transform: rotate(0deg);
                 }
 
-                .animate-spin-slow {
-                    animation: spin-slow 12s linear infinite;
+                to {
+                    transform: rotate(360deg);
                 }
-            </style>
+            }
 
-            <nav class="mt-2 px-4 relative z-10">
-                <!-- Navigation dengan hover effects -->
-                <div class="space-y-2">
-                    <!-- Dashboard -->
-                    <a href="{{ route('home') }}"
-                        class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300 bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md">
-                        <i class="fas fa-home mr-3 text-lg"></i>
-                        <span>Dashboard</span>
-                        <div class="ml-auto w-2 h-2 bg-white rounded-full pulse-animation"></div>
-                    </a>
+            .animate-spin-slow {
+                animation: spin-slow 12s linear infinite;
+            }
+        </style>
 
-                    <!-- Take Material Dropdown -->
-                    <div class="space-y-1">
-                        <button onclick="toggleDropdown('material')"
-                            class="sidebar-item w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-600 hover:text-white focus:outline-none transition-all duration-300">
-                            <div class="flex items-center">
-                                <i class="fas fa-book-open mr-3 text-lg"></i>
-                                <span>Materi Belajar</span>
-                            </div>
-                            <i id="material-arrow" class="fas fa-chevron-down transition-transform duration-300"></i>
-                        </button>
-                        <div class="hidden space-y-1 pl-8 material-dropdown" id="material-dropdown">
-                            <a href="{{ route('material') }}"
-                                class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-green-100 hover:text-green-700 transition-all duration-200">
-                                <i class="fas fa-list-ul mr-2 text-xs"></i>
-                                Daftar Materi
-                            </a>
-                            @if ($guru)
-                                <a href="{{ route('discussion.show', $guru->id) }}"
-                                    class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-green-100 hover:text-green-700 transition-all duration-200">
-                                    <i class="fas fa-comments mr-2 text-xs"></i>
-                                    Diskusi dengan Guru
-                                </a>
-                            @endif
+        <nav class="mt-2 px-4 relative z-10">
+            <!-- Navigation dengan hover effects -->
+            <div class="space-y-2">
+                <!-- Dashboard -->
+                <a href="{{ route('home') }}"
+                    class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300 bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md">
+                    <i class="fas fa-home mr-3 text-lg"></i>
+                    <span>Dashboard</span>
+                    <div class="ml-auto w-2 h-2 bg-white rounded-full pulse-animation"></div>
+                </a>
+
+                <!-- Take Material Dropdown -->
+                <div class="space-y-1">
+                    <button onclick="toggleDropdown('material')"
+                        class="sidebar-item w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-600 hover:text-white focus:outline-none transition-all duration-300">
+                        <div class="flex items-center">
+                            <i class="fas fa-book-open mr-3 text-lg"></i>
+                            <span>Materi Belajar</span>
                         </div>
-                    </div>
-
-                    <!-- Quiz Dropdown -->
-                    <div class="space-y-1">
-                        <button onclick="toggleDropdown('quiz')"
-                            class="sidebar-item w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-purple-500 hover:to-purple-600 hover:text-white focus:outline-none transition-all duration-300">
-                            <div class="flex items-center">
-                                <i class="fas fa-question-circle mr-3 text-lg"></i>
-                                <span>Kuis & Latihan</span>
-                            </div>
-                            <i id="quiz-arrow" class="fas fa-chevron-down transition-transform duration-300"></i>
-                        </button>
-                        <div class="hidden space-y-1 pl-8" id="quiz-dropdown">
-                            <a href="{{ route('siswa.fiturquiz') }}"
-                                class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200">
-                                <i class="fas fa-play mr-2 text-xs"></i>
-                                Mulai Kuis
-                                <span
-                                    class="ml-auto bg-yellow-400 text-yellow-800 text-xs px-2 py-1 rounded-full">Hot!</span>
-                            </a>
-                            <a href="https://www.desmos.com/scientific"
-                                class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200">
-                                <i class="fas fa-calculator mr-2 text-xs"></i>
-                                Kalkulator Ilmiah
-                            </a>
-                            <a href="{{ route('quiz.results') }}"
-                                class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200">
-                                <i class="fas fa-history mr-2 text-xs"></i>
-                                Riwayat Nilai
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Members Dropdown -->
-                    <div class="space-y-1">
-                        <button onclick="toggleDropdown('member')"
-                            class="sidebar-item w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-600 hover:text-white focus:outline-none transition-all duration-300">
-                            <div class="flex items-center">
-                                <i class="fas fa-users mr-3 text-lg"></i>
-                                <span>Komunitas</span>
-                            </div>
-                            <i id="member-arrow" class="fas fa-chevron-down transition-transform duration-300"></i>
-                        </button>
-                        <div class="hidden space-y-1 pl-8" id="member-dropdown">
-                            <a href="{{ route('forums.index') }}"
-                                class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-orange-100 hover:text-orange-700 transition-all duration-200">
-                                <i class="fas fa-comment-dots mr-2 text-xs"></i>
-                                Forum Diskusi
-                            </a>
-                            <a href="#"
-                                class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-orange-100 hover:text-orange-700 transition-all duration-200">
-                                <i class="fas fa-user-friends mr-2 text-xs"></i>
-                                Grup Belajar
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Calendar -->
-                    <a href="{{ route('calendar.index') }}"
-                        class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-pink-500 hover:to-pink-600 hover:text-white transition-all duration-300">
-                        <i class="fas fa-calendar-alt mr-3 text-lg"></i>
-                        <span>Kalender</span>
-                    </a>
-
-                    <!-- Information -->
-                    <a href="{{ route('setting.information') }}"
-                        class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-600 hover:text-white transition-all duration-300">
-                        <i class="fas fa-info-circle mr-3 text-lg"></i>
-                        <span>Informasi</span>
-                    </a>
-                </div>
-            </nav>
-
-            <!-- User Profile dengan animasi -->
-            <div class="mt-8 p-4 bg-gradient-to-r from-blue-50 to-purple-50 border-t border-gray-200">
-                <div class="flex items-center mb-4">
-                    <div class="relative">
-                        <img class="h-11 w-12 rounded-full"
-                            src="{{ Auth::user()->foto ? asset('storage/' . Auth::user()->foto) : 'https://via.placeholder.com/256' }}"
-                            alt="{{ Auth::user()->name }}">
-                        <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white">
-                        </div>
-                    </div>
-                    <div class="ml-3">
-                        <p class="text-sm font-medium text-gray-700">{{ Auth::user()->name }}</p>
-                        <p class="text-xs text-gray-400">{{ Auth::user()->email }}</p>
-                        <span
-                            class="inline-block mt-1 px-2 py-1 bg-indigo-100 text-indigo-700 rounded text-xs font-semibold">
-                            Kelas: {{ Auth::user()->kelas }}
-                        </span>
+                        <i id="material-arrow" class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div class="hidden space-y-1 pl-8 material-dropdown" id="material-dropdown">
+                        <a href="{{ route('material') }}"
+                            class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-green-100 hover:text-green-700 transition-all duration-200">
+                            <i class="fas fa-list-ul mr-2 text-xs"></i>
+                            Daftar Materi
+                        </a>
+                        <a href="{{ route('discussion.index') }}"
+                            class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-green-100 hover:text-green-700 transition-all duration-200">
+                            <i class="fas fa-comments mr-2 text-xs"></i>
+                            Diskusi dengan Guru
+                        </a>
                     </div>
                 </div>
 
-                <!-- Progress indicator -->
-                <div class="mb-4">
-                    <div class="flex justify-between text-xs text-gray-600 mb-1">
-                        <span>Progress Belajar</span>
-                        <span>75%</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="progress-bar w-3/4"></div>
+                <!-- Quiz Dropdown -->
+                <div class="space-y-1">
+                    <button onclick="toggleDropdown('quiz')"
+                        class="sidebar-item w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-purple-500 hover:to-purple-600 hover:text-white focus:outline-none transition-all duration-300">
+                        <div class="flex items-center">
+                            <i class="fas fa-question-circle mr-3 text-lg"></i>
+                            <span>Kuis & Latihan</span>
+                        </div>
+                        <i id="quiz-arrow" class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div class="hidden space-y-1 pl-8" id="quiz-dropdown">
+                        <a href="{{ route('siswa.fiturquiz') }}"
+                            class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200">
+                            <i class="fas fa-play mr-2 text-xs"></i>
+                            Mulai Kuis
+                            <span
+                                class="ml-auto bg-yellow-400 text-yellow-800 text-xs px-2 py-1 rounded-full">Hot!</span>
+                        </a>
+                        <a href="https://www.desmos.com/scientific"
+                            class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200">
+                            <i class="fas fa-calculator mr-2 text-xs"></i>
+                            Kalkulator Ilmiah
+                        </a>
+                        <a href="{{ route('quiz.results') }}"
+                            class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200">
+                            <i class="fas fa-history mr-2 text-xs"></i>
+                            Riwayat Nilai
+                        </a>
                     </div>
                 </div>
 
-                <!-- Action buttons -->
-                <div class="flex space-x-2">
-                    <a href="{{ route('setting.form') }}"
-                        class="flex-1 text-center bg-gradient-to-r from-gray-500 to-gray-600 text-white py-2 px-3 rounded-lg text-xs font-medium hover:from-gray-600 hover:to-gray-700 transition-all duration-300 transform hover:scale-105">
-                        <i class="fas fa-cog mr-1"></i> Setting
-                    </a>
+                <!-- Members Dropdown -->
+                <div class="space-y-1">
+                    <button onclick="toggleDropdown('member')"
+                        class="sidebar-item w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-600 hover:text-white focus:outline-none transition-all duration-300">
+                        <div class="flex items-center">
+                            <i class="fas fa-users mr-3 text-lg"></i>
+                            <span>Komunitas</span>
+                        </div>
+                        <i id="member-arrow" class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div class="hidden space-y-1 pl-8" id="member-dropdown">
+                        <a href="{{ route('forums.index') }}"
+                            class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-orange-100 hover:text-orange-700 transition-all duration-200">
+                            <i class="fas fa-comment-dots mr-2 text-xs"></i>
+                            Forum Diskusi
+                        </a>
+                        <a href="#"
+                            class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-orange-100 hover:text-orange-700 transition-all duration-200">
+                            <i class="fas fa-user-friends mr-2 text-xs"></i>
+                            Grup Belajar
+                        </a>
+                    </div>
+                </div>
 
-                    <form id="logout-form" method="POST" action="{{ route('logout') }}" class="flex-1">
-                        @csrf
-                        <button type="submit" onclick="confirmLogout(event)"
-                            class="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-3 rounded-lg text-xs font-medium hover:from-red-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105">
-                            <i class="fas fa-sign-out-alt mr-1"></i> Logout
-                        </button>
-                    </form>
+                <!-- Calendar -->
+                <a href="{{ route('calendar.index') }}"
+                    class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-pink-500 hover:to-pink-600 hover:text-white transition-all duration-300">
+                    <i class="fas fa-calendar-alt mr-3 text-lg"></i>
+                    <span>Kalender</span>
+                </a>
+
+                <!-- Information -->
+                <a href="{{ route('setting.information') }}"
+                    class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-600 hover:text-white transition-all duration-300">
+                    <i class="fas fa-info-circle mr-3 text-lg"></i>
+                    <span>Informasi</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- User Profile dengan animasi -->
+        <div class="mt-8 p-4 bg-gradient-to-r from-blue-50 to-purple-50 border-t border-gray-200">
+            <div class="flex items-center mb-4">
+                <div class="relative">
+                    <img class="h-11 w-12 rounded-full"
+                        src="{{ Auth::user()->foto ? asset('storage/' . Auth::user()->foto) : 'https://via.placeholder.com/256' }}"
+                        alt="{{ Auth::user()->name }}">
+                    <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white">
+                    </div>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm font-medium text-gray-700">{{ Auth::user()->name }}</p>
+                    <p class="text-xs text-gray-400">{{ Auth::user()->email }}</p>
+                    <span
+                        class="inline-block mt-1 px-2 py-1 bg-indigo-100 text-indigo-700 rounded text-xs font-semibold">
+                        Kelas: {{ Auth::user()->kelas }}
+                    </span>
                 </div>
             </div>
-        </aside>
 
-        <!-- Main Content dengan background interaktif -->
-        <main class="flex-1 relative min-h-screen overflow-y-auto">
+            <!-- Progress indicator -->
+            <div class="mb-4">
+                <div class="flex justify-between text-xs text-gray-600 mb-1">
+                    <span>Progress Belajar</span>
+                    <span>75%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="progress-bar w-3/4"></div>
+                </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="flex space-x-2">
+                <a href="{{ route('setting.form') }}"
+                    class="flex-1 text-center bg-gradient-to-r from-gray-500 to-gray-600 text-white py-2 px-3 rounded-lg text-xs font-medium hover:from-gray-600 hover:to-gray-700 transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-cog mr-1"></i> Setting
+                </a>
+
+                <form id="logout-form" method="POST" action="{{ route('logout') }}" class="flex-1">
+                    @csrf
+                    <button type="submit" onclick="confirmLogout(event)"
+                        class="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-3 rounded-lg text-xs font-medium hover:from-red-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </aside>
+    <aside id="sidebarMobile" class="sidebar-mobile" style="display:none;">
+        <!-- Background pattern -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute inset-0"
+                style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,.1) 10px, rgba(0,0,0,.1) 20px);">
+            </div>
+        </div>
+
+        <!-- Logo dengan animasi float -->
+        <div class="p-6 border-b border-gray-200 relative z-10">
+            <div class="flex items-center justify-center">
+                <div class="float-animation bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-xl shadow-lg">
+                    <i class="fas fa-calculator text-white text-2xl"></i>
+                </div>
+                <div class="flex items-center justify-between">
+                    <img src="{{ asset('images/LogoT.png') }}" alt="Logo Mathporia"
+                        class="max-h-24 w-auto flex-shrink-0">
+                </div>
+            </div>
+        </div>
+
+        <div class="p-4 relative z-10">
+            <div class="relative w-40 h-40 mx-auto">
+                <!-- Central hub -->
+                <div
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white border-2 border-gray-200 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:shadow-xl transition-shadow duration-300">
+                    <span class="text-2xl">🏠</span>
+                </div>
+
+                <!-- Orbiting elements -->
+                <div class="absolute inset-0 animate-spin-slow">
+                    <div
+                        class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
+                        <span class="text-white text-lg">📚</span>
+                    </div>
+                </div>
+
+                <div class="absolute inset-0 animate-spin-slow" style="animation-delay: -2s;">
+                    <div
+                        class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-green-400 to-green-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
+                        <span class="text-white text-lg">🎯</span>
+                    </div>
+                </div>
+
+                <div class="absolute inset-0 animate-spin-slow" style="animation-delay: -4s;">
+                    <div
+                        class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-500 rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
+                        <span class="text-white text-lg">⭐</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            @keyframes spin-slow {
+                from {
+                    transform: rotate(0deg);
+                }
+
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .animate-spin-slow {
+                animation: spin-slow 12s linear infinite;
+            }
+        </style>
+
+        <nav class="mt-2 px-4 relative z-10">
+            <!-- Navigation dengan hover effects -->
+            <div class="space-y-2">
+                <!-- Dashboard -->
+                <a href="{{ route('home') }}"
+                    class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300 bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md">
+                    <i class="fas fa-home mr-3 text-lg"></i>
+                    <span>Dashboard</span>
+                    <div class="ml-auto w-2 h-2 bg-white rounded-full pulse-animation"></div>
+                </a>
+
+                <!-- Take Material Dropdown -->
+                <div class="space-y-1">
+                    <button onclick="toggleDropdown('material-mobile')"
+                        class="sidebar-item w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-600 hover:text-white focus:outline-none transition-all duration-300">
+                        <div class="flex items-center">
+                            <i class="fas fa-book-open mr-3 text-lg"></i>
+                            <span>Materi Belajar</span>
+                        </div>
+                        <i id="material-arrow-mobile"
+                            class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div class="hidden space-y-1 pl-8 material-dropdown" id="material-dropdown-mobile">
+                        <a href="{{ route('material') }}"
+                            class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-green-100 hover:text-green-700 transition-all duration-200">
+                            <i class="fas fa-list-ul mr-2 text-xs"></i>
+                            Daftar Materi
+                        </a>
+                        <a href="{{ route('discussion.index') }}"
+                            class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-green-100 hover:text-green-700 transition-all duration-200">
+                            <i class="fas fa-comments mr-2 text-xs"></i>
+                            Diskusi dengan Guru
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quiz Dropdown -->
+                <div class="space-y-1">
+                    <button onclick="toggleDropdown('quiz-mobile')"
+                        class="sidebar-item w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-purple-500 hover:to-purple-600 hover:text-white focus:outline-none transition-all duration-300">
+                        <div class="flex items-center">
+                            <i class="fas fa-question-circle mr-3 text-lg"></i>
+                            <span>Kuis & Latihan</span>
+                        </div>
+                        <i id="quiz-arrow-mobile" class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div class="hidden space-y-1 pl-8" id="quiz-dropdown-mobile">
+                        <a href="{{ route('siswa.fiturquiz') }}"
+                            class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200">
+                            <i class="fas fa-play mr-2 text-xs"></i>
+                            Mulai Kuis
+                            <span
+                                class="ml-auto bg-yellow-400 text-yellow-800 text-xs px-2 py-1 rounded-full">Hot!</span>
+                        </a>
+                        <a href="https://www.desmos.com/scientific"
+                            class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200">
+                            <i class="fas fa-calculator mr-2 text-xs"></i>
+                            Kalkulator Ilmiah
+                        </a>
+                        <a href="{{ route('quiz.results') }}"
+                            class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200">
+                            <i class="fas fa-history mr-2 text-xs"></i>
+                            Riwayat Nilai
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Members Dropdown -->
+                <div class="space-y-1">
+                    <button onclick="toggleDropdown('member-mobile')"
+                        class="sidebar-item w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-600 hover:text-white focus:outline-none transition-all duration-300">
+                        <div class="flex items-center">
+                            <i class="fas fa-users mr-3 text-lg"></i>
+                            <span>Komunitas</span>
+                        </div>
+                        <i id="member-arrow-mobile" class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div class="hidden space-y-1 pl-8" id="member-dropdown-mobile">
+                        <a href="{{ route('forums.index') }}"
+                            class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-orange-100 hover:text-orange-700 transition-all duration-200">
+                            <i class="fas fa-comment-dots mr-2 text-xs"></i>
+                            Forum Diskusi
+                        </a>
+                        <a href="#"
+                            class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-orange-100 hover:text-orange-700 transition-all duration-200">
+                            <i class="fas fa-user-friends mr-2 text-xs"></i>
+                            Grup Belajar
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Calendar -->
+                <a href="{{ route('calendar.index') }}"
+                    class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-pink-500 hover:to-pink-600 hover:text-white transition-all duration-300">
+                    <i class="fas fa-calendar-alt mr-3 text-lg"></i>
+                    <span>Kalender</span>
+                </a>
+
+                <!-- Information -->
+                <a href="{{ route('setting.information') }}"
+                    class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-600 hover:text-white transition-all duration-300">
+                    <i class="fas fa-info-circle mr-3 text-lg"></i>
+                    <span>Informasi</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- User Profile dengan animasi -->
+        <div class="mt-8 p-4 bg-gradient-to-r from-blue-50 to-purple-50 border-t border-gray-200">
+            <div class="flex items-center mb-4">
+                <div class="relative">
+                    <img class="h-11 w-12 rounded-full"
+                        src="{{ Auth::user()->foto ? asset('storage/' . Auth::user()->foto) : 'https://via.placeholder.com/256' }}"
+                        alt="{{ Auth::user()->name }}">
+                    <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white">
+                    </div>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm font-medium text-gray-700">{{ Auth::user()->name }}</p>
+                    <p class="text-xs text-gray-400">{{ Auth::user()->email }}</p>
+                    <span
+                        class="inline-block mt-1 px-2 py-1 bg-indigo-100 text-indigo-700 rounded text-xs font-semibold">
+                        Kelas: {{ Auth::user()->kelas }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Progress indicator -->
+            <div class="mb-4">
+                <div class="flex justify-between text-xs text-gray-600 mb-1">
+                    <span>Progress Belajar</span>
+                    <span>75%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="progress-bar w-3/4"></div>
+                </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="flex space-x-2">
+                <a href="{{ route('setting.form') }}"
+                    class="flex-1 text-center bg-gradient-to-r from-gray-500 to-gray-600 text-white py-2 px-3 rounded-lg text-xs font-medium hover:from-gray-600 hover:to-gray-700 transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-cog mr-1"></i> Setting
+                </a>
+
+                <form id="logout-form" method="POST" action="{{ route('logout') }}" class="flex-1">
+                    @csrf
+                    <button type="submit" onclick="confirmLogout(event)"
+                        class="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-3 rounded-lg text-xs font-medium hover:from-red-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content dengan background interaktif -->
+    <main class="flex-1 relative min-h-screen overflow-y-auto ml-64" style="transition:margin 0.3s;">
+        <div class="relative z-10 p-8 pb-16" style="margin-top:0;">
             <!-- Animated background -->
             <div class="absolute inset-0 gradient-bg">
                 <div class="absolute inset-0 opacity-10">
@@ -479,22 +824,6 @@
                                 <i class="fas fa-minus mr-1"></i> Tidak ada perubahan dari minggu lalu
                             </div>
                         @endif
-                    </div>
-
-                    <div
-                        class="card-hover bg-white bg-opacity-90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white border-opacity-20">
-                        <div class="flex items-center">
-                            <div class="bg-gradient-to-r from-purple-400 to-purple-600 p-3 rounded-xl">
-                                <i class="fas fa-clock text-white text-xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-gray-600 text-sm">Waktu Belajar</p>
-                                <p class="text-2xl font-bold text-gray-800">45m</p>
-                            </div>
-                        </div>
-                        <div class="mt-4 text-purple-600 text-sm font-medium">
-                            <i class="fas fa-fire mr-1"></i> Streak 7 hari!
-                        </div>
                     </div>
                 </div>
 
@@ -607,47 +936,6 @@
                     </div>
                 </section>
 
-                <!-- Additional content to test scrolling -->
-                <section class="mt-8">
-                    <div class="flex items-center mb-4">
-                        <div
-                            class="bg-white bg-opacity-20 backdrop-blur-md px-4 py-2 rounded-xl border border-white border-opacity-30">
-                            <h2 class="text-xl font-semibold text-white flex items-center">
-                                <i class="fas fa-trophy mr-2"></i>
-                                Pencapaian Terbaru
-                            </h2>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div
-                            class="card-hover bg-white bg-opacity-90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white border-opacity-20">
-                            <div class="flex items-center">
-                                <div class="bg-gradient-to-r from-yellow-400 to-yellow-600 p-3 rounded-xl">
-                                    <i class="fas fa-medal text-white text-xl"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="font-semibold text-gray-800">Quiz Master</h3>
-                                    <p class="text-gray-600 text-sm">Selesaikan 10 quiz berturut-turut</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div
-                            class="card-hover bg-white bg-opacity-90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white border-opacity-20">
-                            <div class="flex items-center">
-                                <div class="bg-gradient-to-r from-green-400 to-green-600 p-3 rounded-xl">
-                                    <i class="fas fa-fire text-white text-xl"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="font-semibold text-gray-800">Streak Champion</h3>
-                                    <p class="text-gray-600 text-sm">Belajar 7 hari berturut-turut</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
                 <!-- Tips section -->
                 <section class="mt-8">
                     <div class="flex items-center mb-4">
@@ -680,10 +968,49 @@
                     </div>
                 </section>
             </div>
-        </main>
+    </main>
     </div>
 
     <script>
+        // Sidebar mobile logic
+        function openSidebar() {
+            document.getElementById('sidebarMobile').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('sidebarMobile').classList.add('active');
+                document.getElementById('sidebarBackdrop').classList.remove('hidden');
+            }, 10);
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebarMobile').classList.remove('active');
+            document.getElementById('sidebarBackdrop').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('sidebarMobile').style.display = 'none';
+            }, 300);
+        }
+
+        function handleSidebarDisplay() {
+            if (window.innerWidth <= 768) {
+                document.querySelector('.desktop-sidebar').style.display = 'none';
+                document.querySelector('.mobile-header').style.display = 'flex';
+                document.getElementById('sidebarMobile').style.display = 'none';
+                document.getElementById('sidebarMobile').classList.remove('active');
+                document.getElementById('sidebarBackdrop').classList.add('hidden');
+            } else {
+                document.querySelector('.desktop-sidebar').style.display = '';
+                document.querySelector('.mobile-header').style.display = 'none';
+                document.getElementById('sidebarMobile').style.display = 'none';
+                document.getElementById('sidebarMobile').classList.remove('active');
+                document.getElementById('sidebarBackdrop').classList.add('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            handleSidebarDisplay();
+            document.getElementById('openSidebar').onclick = openSidebar;
+            document.getElementById('sidebarBackdrop').onclick = closeSidebar;
+            window.addEventListener('resize', handleSidebarDisplay);
+        });
         // Update time and greeting
         function updateTimeAndGreeting() {
             const now = new Date();
@@ -714,13 +1041,25 @@
 
         // Dropdown functionality with smooth animations
         function toggleDropdown(type) {
-            const dropdown = document.getElementById(type + '-dropdown');
-            const arrow = document.getElementById(type + '-arrow');
+            // type: 'material', 'quiz', 'member', 'material-mobile', dst.
+            let dropdown, arrow;
+            if (type.endsWith('-mobile')) {
+                dropdown = document.getElementById(type + '-dropdown');
+                arrow = document.getElementById(type + '-arrow');
+            } else {
+                dropdown = document.getElementById(type + '-dropdown');
+                arrow = document.getElementById(type + '-arrow');
+            }
+            // Fallback jika id di atas tidak ditemukan (untuk kompatibilitas lama)
+            if (!dropdown) dropdown = document.getElementById(type.replace('-mobile', '') + '-dropdown-mobile');
+            if (!arrow) arrow = document.getElementById(type.replace('-mobile', '') + '-arrow-mobile');
+
+            if (!dropdown || !arrow) return;
 
             dropdown.classList.toggle('hidden');
             arrow.classList.toggle('rotate-180');
 
-            // Add slide animation
+            // Optional: animasi slide
             if (!dropdown.classList.contains('hidden')) {
                 dropdown.style.maxHeight = '0';
                 dropdown.style.overflow = 'hidden';
@@ -728,6 +1067,8 @@
                 setTimeout(() => {
                     dropdown.style.maxHeight = dropdown.scrollHeight + 'px';
                 }, 10);
+            } else {
+                dropdown.style.maxHeight = '';
             }
         }
 

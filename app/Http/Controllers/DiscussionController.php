@@ -20,12 +20,12 @@ class DiscussionController extends Controller
             $students = User::where('role', 'siswa')
                             ->whereIn('kelas', $kelasGuru)
                             ->get();
-            return view('guru.select_student', compact('students'));
+            return view('Guru.select_student', compact('students'));
         } elseif ($user->role === 'siswa') {
             $kelas = $user->kelas;
             $kelasObj = Kelas::where('nama', $kelas)->first();
             $gurus = $kelasObj ? $kelasObj->guru : collect();
-            return view('siswa.select_guru', compact('gurus'));
+            return view('Siswa.select_guru', compact('gurus'));
         }
 
         abort(403);
@@ -75,6 +75,28 @@ class DiscussionController extends Controller
 
         return back();
     }
+
+
+public function selectGuru()
+{
+    $user = Auth::user();
+    
+    if (!$user || !$user->kelas) {
+        abort(403, 'User tidak valid atau belum memiliki kelas.');
+    }
+
+    $kelas = \App\Models\Kelas::where('nama', $user->kelas)->first();
+
+    if (!$kelas) {
+        abort(403, 'Kelas tidak ditemukan.');
+    }
+
+    $gurus = $kelas->guru;
+
+    return view('Siswa.select_guru', compact('gurus'));
+}
+
+
 
     // ✅ Diletakkan di luar semua method lain
     private function isAllowedToMessage($sender, $receiver)
