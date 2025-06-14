@@ -18,6 +18,7 @@ use App\Http\Controllers\TekaTekiController;
 use App\Http\Controllers\BossQuizController;
 use App\Http\Controllers\FiturquizController;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Controllers\Admin\UserController;
 
 // Rute Halaman Utama
 Route::get('/', function () {
@@ -82,12 +83,14 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/discussion', [DiscussionController::class, 'index'])->name('discussion.index'); // pilih siswa
-    //  
-    Route::get('/discussion/{id}', [DiscussionController::class, 'show'])->name('discussion.show');
-    Route::get('/discussion/{receiver_id}', [DiscussionController::class, 'show'])->name('discussion.show'); // chat
-    Route::post('/discussion/send', [DiscussionController::class, 'store'])->name('discussion.send'); // kirim
-    Route::get('/guru/siswa', [GuruDashboardController::class, 'siswaDiampu'])->name('guru.siswa')->middleware('auth');
+    Route::get('/discussion', [DiscussionController::class, 'index'])->name('discussion.index'); // list diskusi
+    Route::get('/select-guru', [DiscussionController::class, 'selectGuru'])->name('select.guru'); // pilih guru
+
+    Route::get('/discussion/{id}', [DiscussionController::class, 'show'])->name('discussion.show'); // chat dengan guru
+
+    Route::post('/discussion/send', [DiscussionController::class, 'store'])->name('discussion.send'); // kirim pesan
+    Route::post('/discussion', [DiscussionController::class, 'store'])->name('discussion.store');
+    Route::get('/guru/siswa', [GuruDashboardController::class, 'siswaDiampu'])->name('guru.siswa');
 });
     
 
@@ -195,3 +198,13 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::get('/boss-quiz', [BossQuizController::class, 'index'])->name('boss-quiz.index');
 });
 // Route::get('/quizzes', [QuizController::class, 'index'])->name('quizzes.index');
+
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->middleware(['auth', 'admin'])->name('admin.dashboard');
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/user', [UserController::class, 'index'])->name('admin.user.index');
+    Route::get('/user/create', [UserController::class, 'create'])->name('admin.user.create');
+    Route::post('/user', [UserController::class, 'store'])->name('admin.user.store');
+    Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
+});

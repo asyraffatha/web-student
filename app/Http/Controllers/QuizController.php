@@ -20,7 +20,7 @@ class QuizController extends Controller
     }
 
     public function show($id)
-    {
+    {   
         $quiz = Quiz::with(['questions' => function($query) {
             $query->orderBy('id', 'asc');
         }])->findOrFail($id);
@@ -165,9 +165,7 @@ class QuizController extends Controller
     public function create()
     {
         $kelasDiampu = null;
-        if (Auth::user()->isGuru()) {
-            $kelasDiampu = Auth::user()->kelasDiampu;
-        }
+        $user = Auth::user();
         return view('guru.quizcreate', compact('kelasDiampu'));
     }
 

@@ -67,6 +67,10 @@ public function store(Request $request): RedirectResponse
     } elseif ($user->role === 'siswa') {
         return redirect()->intended(route('siswa.dashboard'));
     }
+      elseif ($user->role === 'admin') {
+        return redirect()->intended(route('admin.dashboard'));
+    }
+    
 
     // Default fallback
     return redirect()->intended('/');
@@ -85,6 +89,6 @@ public function store(Request $request): RedirectResponse
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }

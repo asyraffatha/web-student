@@ -24,6 +24,7 @@ class User extends Authenticatable
         'foto',
         'role',
         'kelas',
+        'is_active',
     ];
 
     /**
@@ -36,10 +37,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
     /**
      * Get the attributes that should be cast.
      *
@@ -50,51 +47,82 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
     }
 
+    // ===== ROLE METHODS ===== //
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isGuru(): bool
+    {
+        return $this->role === 'guru';
+    }
+
+    public function isSiswa(): bool
+    {
+        return $this->role === 'siswa';
+    }
+
+    // ===== ACCESSORS ===== //
+    public function getRoleDisplayAttribute(): string
+    {
+        return match($this->role) {
+            'admin' => 'Administrator',
+            'guru' => 'Guru',
+            'siswa' => 'Siswa',
+            default => 'Unknown'
+        };
+    }
+
+    // ===== SCOPES ===== //
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function scopeByRole($query, $role)
+    {
+        return $query->where('role', $role);
+    }
+
+    // ===== RELATIONSHIPS ===== //
     public function quizResults()
     {
-    return $this->hasMany(QuizResult::class);
-    }
-
-    public function isGuru()
-    {
-    return $this->role === 'guru';
-    }
-
-    public function isSiswa()
-    {
-    return $this->role === 'siswa';
+        return $this->hasMany(QuizResult::class);
     }
 
     public function kelasDiampu()
-{
-    return $this->belongsToMany(\App\Models\Kelas::class, 'guru_kelas', 'user_id', 'kelas_id');
-}
-public function sentMessages()
-{
-    return $this->hasMany(Message::class, 'sender_id');
-}
+    {
+        return $this->belongsToMany(Kelas::class, 'guru_kelas', 'user_id', 'kelas_id');
+    }
 
-public function receivedMessages()
-{
-    return $this->hasMany(Message::class, 'receiver_id');
-}
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
 
-public function setting()
-{
-    return $this->hasOne(\App\Models\Setting::class);
-}
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
 
-public function gurus()
-{
-    return $this->kelas?->guru ?? collect();
-}
+    public function setting()
+    {
+        return $this->hasOne(\App\Models\Setting::class);
+    }
 
-public function kelas()
-{
-    return $this->belongsTo(\App\Models\Kelas::class, 'kelas_id');
-}
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'kelas_id');
+    }
 
+    // ===== CUSTOM METHODS ===== //
+    public function gurus()
+    {
+        return $this->kelas?->guru ?? collect();
+    }
 }
