@@ -235,7 +235,7 @@ class QuizController extends Controller
     public function listForGuru()
     {
     $quizzes = Quiz::withCount('questions')->get();
-    return view('guru.quizlist', compact('quizzes'));
+    return view('Guru.quizlist', compact('quizzes'));
     }
 
     public function destroy($id)
