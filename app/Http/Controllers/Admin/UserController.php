@@ -28,7 +28,7 @@ class UserController extends Controller
         'email'    => 'required|email|unique:users',
         'password' => 'required|min:6',
         'role'     => 'required|in:siswa,guru',
-        'kelas'    => 'nullable|array',
+        'kelas'    => 'nullable',
     ]);
 
     // Buat user terlebih dahulu
@@ -40,15 +40,16 @@ class UserController extends Controller
     ]);
 
     // Jika guru, simpan ke tabel pivot guru_kelas
-    if ($request->role === 'guru' && $request->filled('kelas')) {
-        $user->kelasDiampu()->sync($request->kelas); // Pastikan relasi kelasDiampu() sudah ada di model User
-    }
+    if ($request->role === 'guru' && is_array($request->kelas)) {
+    $user->kelasDiampu()->sync($request->kelas);
+}
 
     // Jika siswa, simpan ke kolom kelas_id (pastikan kolom ini ada di tabel users)
     if ($request->role === 'siswa' && $request->filled('kelas')) {
-        $user->kelas_id = $request->kelas[0]; // Ambil satu kelas saja
-        $user->save();
-    }
+    $kelasTerpilih = Kelas::find($request->kelas); // Ambil nama kelas berdasarkan ID
+    $user->kelas = $kelasTerpilih ? $kelasTerpilih->nama : null;
+    $user->save();
+}
 
     return redirect()->route('admin.user.index')->with('success', 'User berhasil ditambahkan.');
 }
