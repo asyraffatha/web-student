@@ -1218,7 +1218,7 @@
 
                     <div class="dropdown-divider"></div>
 
-                    <a href="{{ url('/register') }}" class="dropdown-item">
+                    {{-- <a href="{{ url('/register') }}" class="dropdown-item">
                         <div class="dropdown-item-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -1230,7 +1230,7 @@
                             <div class="dropdown-item-title">Daftar Akun Baru</div>
                             <div class="dropdown-item-desc">Bergabung dengan Mathporia</div>
                         </div>
-                    </a>
+                    </a> --}}
                 </div>
             </div>
 
@@ -1281,16 +1281,16 @@
                     <h3>Apa yang Kami Tawarkan</h3>
                     <ul class="feature-list">
                         <li class="feature-item">
-                            <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" width="20"
-                                height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M5 13l4 4L19 7" />
                             </svg>
                             <span>Pembelajaran interaktif dengan visualisasi menarik</span>
                         </li>
                         <li class="feature-item">
-                            <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" width="20"
-                                height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M5 13l4 4L19 7" />
                             </svg>

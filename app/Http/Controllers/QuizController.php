@@ -166,7 +166,7 @@ class QuizController extends Controller
     {
         $kelasDiampu = null;
         $user = Auth::user();
-        return view('guru.quizcreate', compact('kelasDiampu'));
+        return view('Guru.quizcreate', compact('kelasDiampu'));
     }
 
     public function store(Request $request)

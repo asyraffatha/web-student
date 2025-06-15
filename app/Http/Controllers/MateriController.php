@@ -13,14 +13,14 @@ class MateriController extends Controller
     public function index()
     {
         $materis = Materi::where('kelas', Auth::user()->kelas)->get();
-        return view('guru.managematerial', compact('materis'));
+        return view('Guru.managematerial', compact('materis'));
     }
 
     // Halaman form tambah materi
     public function create()
     {
          $materis = Materi::latest()->get(); // untuk ditampilkan setelah form
-         return view('guru.managematerial', compact('materis'));
+         return view('Guru.managematerial', compact('materis'));
     }
 
     // Proses menyimpan materi baru

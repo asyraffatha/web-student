@@ -93,7 +93,7 @@ public function selectGuru()
 
     $gurus = $kelas->guru;
 
-    return view('Siswa.select_guru', compact('gurus'));
+    return view('siswa.select_guru', compact('gurus'));
 }
 
 
