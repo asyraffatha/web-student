@@ -418,12 +418,12 @@
             </div>
         </form>
 
-        <p class="text-center text-gray-600">
+        {{-- <p class="text-center text-gray-600">
             Belum punya akun?
             <a href="{{ route('register') }}" class="text-indigo-600 hover:text-indigo-800 font-semibold transition">
                 Daftar sekarang
             </a>
-        </p>
+        </p> --}}
     </div>
 
     <!-- JavaScript for dynamic effects -->

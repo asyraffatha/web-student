@@ -400,7 +400,7 @@
                 </div>
             </section>
 
-            <!-- Recent Activity -->
+            {{-- <!-- Recent Activity -->
             <section class="bg-white/80 backdrop-blur-lg p-8 rounded-3xl shadow-xl border border-white/20">
                 <div class="flex justify-between items-center mb-8">
                     <h3 class="text-2xl font-bold text-gray-800">Recent Activity</h3>
@@ -435,7 +435,7 @@
                         </div>
                     </template>
                 </div>
-            </section>
+            </section> --}}
 
             <!-- Quick Actions -->
             <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
