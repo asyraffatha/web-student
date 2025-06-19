@@ -7,8 +7,8 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="min-h-screen flex items-center justify-center bg-blue-900 bg-no-repeat bg-center bg-cover"
-    style="background-image: url('storage/images/LogoTA.png'); background-size: 400px;">
+<body class="min-h-screen flex items-center justify-center bg-no-repeat bg-center bg-cover"
+    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); background-image: url('storage/images/LogoTA.png'), linear-gradient(135deg, #667eea 0%, #764ba2 100%); background-size: 400px, cover; background-position: center; background-repeat: no-repeat;">
 
     <div class="w-full max-w-2xl bg-white bg-opacity-90 backdrop-blur-md p-8 rounded-2xl shadow-2xl">
         <h1 class="text-3xl font-extrabold text-blue-800 mb-6 border-b pb-2 text-center">📄 Informasi Siswa</h1>

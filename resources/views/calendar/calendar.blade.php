@@ -21,7 +21,7 @@
 <body class="min-h-screen">
 
     <main class="flex-1 p-8 min-h-screen relative bg-center bg-no-repeat"
-        style="background-color: #254aa7; background-image: url('storage/images/LogoTA.png'); background-size: 400px; background-position: center; background-repeat: no-repeat;">
+        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); background-image: url('storage/images/LogoTA.png'), linear-gradient(135deg, #667eea 0%, #764ba2 100%); background-size: 400px, cover; background-position: center; background-repeat: no-repeat;">
 
         <div class="max-w-5xl mx-auto bg-white bg-opacity-90 shadow-2xl rounded-3xl p-8 backdrop-blur-sm">
             <h1 class="text-4xl font-bold text-center text-blue-700 mb-8">📅 Calendar</h1>
@@ -51,7 +51,7 @@
                 events: '/events', // Mengambil acara dari server
                 dateClick: function(info) {
                     var title = prompt('Judul Acara:');
-                    if (title) {
+                    if (title && title.trim() !== '') {
                         // Simpan acara ke server
                         fetch('/events', {
                                 method: 'POST',
@@ -67,8 +67,9 @@
                             })
                             .then(response => response.json())
                             .then(event => {
-                                calendar.addEvent(event);
-                            });
+                                calendar.refetchEvents(); // reload dari server
+                            })
+                            .catch(() => alert('Gagal menambah acara.'));
                     }
                 },
                 eventClick: function(info) {
@@ -95,13 +96,25 @@
 
             document.getElementById('addEventBtn').addEventListener('click', function() {
                 var title = prompt('Judul Acara:');
-                if (title) {
+                if (title && title.trim() !== '') {
                     var date = new Date();
-                    calendar.addEvent({
-                        title: title,
-                        start: date.toISOString().split('T')[0],
-                        allDay: true
-                    });
+                    fetch('/events', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                title: title,
+                                start: date.toISOString().split('T')[0],
+                                allDay: true
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(event => {
+                            calendar.refetchEvents(); // reload dari server
+                        })
+                        .catch(() => alert('Gagal menambah acara.'));
                 }
             });
         });

@@ -408,7 +408,7 @@
                             <i class="fas fa-calculator mr-2 text-xs"></i>
                             Kalkulator Ilmiah
                         </a>
-                        <a href="{{ route('quiz.results') }}"
+                        <a href="{{ route('quizzes.index') }}"
                             class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200">
                             <i class="fas fa-history mr-2 text-xs"></i>
                             Riwayat Nilai
@@ -432,11 +432,11 @@
                             <i class="fas fa-comment-dots mr-2 text-xs"></i>
                             Forum Diskusi
                         </a>
-                        <a href="#"
+                        {{-- <a href="#"
                             class="sidebar-item group flex items-center px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-orange-100 hover:text-orange-700 transition-all duration-200">
                             <i class="fas fa-user-friends mr-2 text-xs"></i>
                             Grup Belajar
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
 

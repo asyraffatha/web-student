@@ -251,6 +251,6 @@ class QuizController extends Controller
     public function preview($id)
     {
     $quiz = Quiz::with('questions')->findOrFail($id);
-    return view('guru.quizpreview', compact('quiz'));
+    return view('Guru.quizpreview', compact('quiz'));
     }
 }

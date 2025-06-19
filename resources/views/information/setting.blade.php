@@ -7,8 +7,8 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="min-h-screen bg-blue-800 bg-no-repeat bg-center bg-cover relative"
-    style="background-image: url('storage/images/LogoTA.png'); background-size: 400px;">
+<body class="min-h-screen bg-no-repeat bg-center bg-cover relative"
+    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); background-image: url('storage/images/LogoTA.png'), linear-gradient(135deg, #667eea 0%, #764ba2 100%); background-size: 400px, cover; background-position: center; background-repeat: no-repeat;">
 
     <main class="container mx-auto px-4 py-10">
         <div class="max-w-5xl mx-auto bg-white/90 p-10 rounded-xl shadow-2xl backdrop-blur-md">
