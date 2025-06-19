@@ -11,6 +11,7 @@ return new class extends Migration
     // Jangan buat kolom lagi karena sudah ada!
     Schema::table('settings', function (Blueprint $table) {
         // Pastikan hanya pasang FOREIGN KEY saja
+        $table->unsignedBigInteger('user_id')->nullable();
         $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
     });
 }
@@ -21,7 +22,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('settings', function (Blueprint $table) {
-            //
+        $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
         });
     }
 };
