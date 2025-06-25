@@ -185,7 +185,7 @@
                 </a>
 
 
-                <a href="#"
+                {{-- <a href="#"
                     class="flex items-center px-4 py-3 rounded-xl text-emerald-600 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 transition">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24">
@@ -194,7 +194,7 @@
                             stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                     <span class="hidden md:block font-medium">Profile</span>
-                </a>
+                </a> --}}
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button
@@ -221,7 +221,7 @@
                     class="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
                     Dashboard</h1>
             </div>
-            <div class="flex items-center space-x-4">
+            {{-- <div class="flex items-center space-x-4">
                 <button class="p-2 rounded-full hover:bg-gray-100 transition-all duration-200 relative">
                     <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -230,7 +230,7 @@
                     <span
                         class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">3</span>
                 </button>
-            </div>
+            </div> --}}
         </nav>
 
         <!-- Content Area -->
