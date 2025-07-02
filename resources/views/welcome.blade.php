@@ -670,6 +670,7 @@
 
         .section-title {
             text-align: center;
+            font-family: 'Merriweather', serif;
             color: var(--text-primary);
             font-size: 2.75rem;
             margin-bottom: 4rem;
@@ -1171,6 +1172,68 @@
                 left: 0;
             }
         }
+
+        .faq-list {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-radius: 1rem;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.06);
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+
+        .faq-item.open {
+            box-shadow: 0 6px 24px rgba(99, 102, 241, 0.13);
+        }
+
+        .faq-question {
+            width: 100%;
+            font-family: 'Quicksand', sans-serif;
+            background: none;
+            border: none;
+            outline: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background: #f3f4f6;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+            background: #f9fafb;
+            color: #374151;
+            font-size: 1rem;
+            padding: 0 1.5rem;
+            transition: max-height 0.4s cubic-bezier(.4, 0, .2, 1), padding 0.4s;
+        }
+
+        .faq-item.open .faq-answer {
+            padding: 1rem 1.5rem 1.5rem 1.5rem;
+            max-height: 300px;
+        }
     </style>
 </head>
 
@@ -1186,7 +1249,7 @@
                 <a href="/" class="nav-link">HOME</a>
                 <a href="#about" class="nav-link">ABOUT</a>
                 <a href="#services" class="nav-link">SERVICE</a>
-                <a href="#contact" class="nav-link">CONTACT</a>
+                <a href="#faq" class="nav-link">FAQ</a>
             </div>
 
             <!--- Dropdown Navbar --->
@@ -1197,7 +1260,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                     </svg>
-                    <span>Login / Register</span>
+                    <span>Login</span>
                 </button>
 
                 <div id="dropdownMenu" class="dropdown-menu">
@@ -1370,52 +1433,76 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section contact">
+    <!-- FAQ -->
+    <section id="faq" class="section">
         <div class="container">
-            <h2 class="section-title fade-in">Hubungi Kami</h2>
-
-            <div class="contact-container">
-                <div class="contact-info fade-in">
-                    <h3>Informasi Kontak</h3>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" width="24"
-                                height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                            <span>info@mathporia.com</span>
-                        </div>
-                        <div class="contact-item">
-                            <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" width="24"
-                                height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                            </svg>
-                            <span>+62 123 4567 890</span>
-                        </div>
-                        <div class="contact-item">
-                            <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" width="24"
-                                height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            <span>Jl. Telkom No. 123, Bandung, Indonesia</span>
-                        </div>
+            <h2 class="section-title fade-in">Pertanyaan yang Sering Ditanyakan</h2>
+            <div class="faq-list space-y-4 mt-4">
+                <div class="faq-item fade-in">
+                    <button class="faq-question">
+                        <span>Apakah Mathporia gratis?</span>
+                        <svg class="faq-icon" width="20" height="20" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        Ya, Mathporia dapat digunakan secara gratis oleh siswa dan guru.
                     </div>
                 </div>
-
-                <div class="contact-form fade-in">
-                    <h3>Kirim Pesan</h3>
-                    <form>
-                        <input type="text" placeholder="Nama Anda" class="form-input" required>
-                        <input type="email" placeholder="Email Anda" class="form-input" required>
-                        <textarea placeholder="Pesan Anda" class="form-textarea" required></textarea>
-                        <button type="submit" class="form-button">Kirim Pesan</button>
-                    </form>
+                <div class="faq-item fade-in">
+                    <button class="faq-question">
+                        <span>Bagaimana cara login?</span>
+                        <svg class="faq-icon" width="20" height="20" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        Klik tombol login, isi data diri (role, email, dan password yang sudah dibuat oleh admin), lalu
+                        mulai belajar!
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <button class="faq-question">
+                        <span>Apakah ada fitur untuk guru?</span>
+                        <svg class="faq-icon" width="20" height="20" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        Guru dapat mengelola materi, quiz, dan memantau nilai siswa secara real-time.
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <button class="faq-question">
+                        <span>Apakah mathporia mudah untuk digunakan?</span>
+                        <svg class="faq-icon" width="20" height="20" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        Ya, semua fitur yang ada di mathporia dibuat interaktif dan mudah untuk dimengerti.
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <button class="faq-question">
+                        <span>Bagaimana jika lupa password?</span>
+                        <svg class="faq-icon" width="20" height="20" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        Gunakan fitur lupa password pada halaman login untuk mereset kata sandi Anda.
+                    </div>
                 </div>
             </div>
         </div>
@@ -1426,13 +1513,6 @@
         <div class="container">
             <p class="footer-title">Mathporia - Belajar Matematika dengan Cara Menyenangkan!</p>
             <p class="footer-copyright">© 2025 Mathporia. All Rights Reserved.</p>
-            <div class="footer-links">
-                <a href="#" class="footer-link">Privacy Policy</a>
-                <span class="footer-divider">|</span>
-                <a href="#" class="footer-link">Terms of Service</a>
-                <span class="footer-divider">|</span>
-                <a href="#" class="footer-link">Contact Us</a>
-            </div>
         </div>
     </footer>
 
@@ -1934,6 +2014,19 @@
                 camera.aspect = width / height;
                 camera.updateProjectionMatrix();
                 renderer.setSize(width, height);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.faq-question').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const item = this.closest('.faq-item');
+                    item.classList.toggle('open');
+                    // Close others
+                    document.querySelectorAll('.faq-item').forEach(other => {
+                        if (other !== item) other.classList.remove('open');
+                    });
+                });
             });
         });
     </script>

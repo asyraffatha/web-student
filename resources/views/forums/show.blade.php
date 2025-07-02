@@ -262,8 +262,8 @@
             <div>
                 <a href="{{ route('forums.index') }}"
                     class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 text-sm font-semibold mb-4 transition-all duration-300 hover:gap-3 tooltip"
-                    data-tooltip="Return to main forum">
-                    <span class="text-lg">←</span> Back to the Forum
+                    data-tooltip="Kembali ke daftar forum">
+                    <span class="text-lg">←</span> Kembali ke Forum
                 </a>
             </div>
 
@@ -299,7 +299,7 @@
             <div class="space-y-6">
                 <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-3">
                     <span class="emoji-big">💬</span>
-                    <span class="blue-text-gradient">Comments</span>
+                    <span class="blue-text-gradient">Komentar</span>
                     <span class="text-sm font-normal text-gray-500">({{ count($forum->comments) }})</span>
                 </h2>
 
@@ -315,18 +315,31 @@
                                     </span>
                                     {{ $comment->user->name }}
                                 </p>
-                                <button class="like-btn text-gray-400 hover:text-red-500 transition-colors tooltip"
-                                    data-tooltip="Like this comment">
-                                    ❤️ <span class="like-count">0</span>
-                                </button>
+                                <div class="flex items-center gap-2">
+                                    <button class="like-btn text-gray-400 hover:text-red-500 transition-colors tooltip"
+                                        data-tooltip="Like this comment">
+                                        ❤️ <span class="like-count">0</span>
+                                    </button>
+                                    @if (auth()->id() === $comment->user_id || (auth()->user() && auth()->user()->is_admin))
+                                        <form action="{{ route('comments.destroy', $comment->id) }}" method="POST"
+                                            class="inline-block" onsubmit="return confirm('Hapus komentar ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="ml-2 text-xs text-red-500 hover:text-red-700"
+                                                title="Hapus Komentar">
+                                                🗑️
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
                             </div>
                             <p class="text-gray-800 leading-relaxed">{{ $comment->content }}</p>
                         </div>
                     @empty
                         <div class="text-center py-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
                             <div class="emoji-big mb-4">🤔</div>
-                            <p class="text-gray-500 italic text-lg">No comments yet. Be the first to share your
-                                thoughts!</p>
+                            <p class="text-gray-500 italic text-lg">Belum ada komentar. Jadilah yang pertama untuk
+                                membagikan pendapatmu!</p>
                         </div>
                     @endforelse
                 </div>
@@ -340,12 +353,12 @@
                     <div>
                         <label for="content" class="flex items-center text-lg font-semibold text-gray-700 mb-3">
                             <span class="emoji-big">✍️</span>
-                            <span class="blue-text-gradient">Add Your Comment</span>
+                            <span class="blue-text-gradient">Berikan Komentarmu</span>
                         </label>
                         <div class="relative">
                             <textarea id="content" name="content" rows="4" maxlength="500"
                                 class="w-full rounded-xl border-2 border-gray-200 p-4 shadow-sm input-focus focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-blue-500 transition bg-white/80 backdrop-blur-sm resize-none"
-                                placeholder="Share your thoughts... What do you think about this topic?" required></textarea>
+                                placeholder="Bagikan pemikiranmu... Apa pendapatmu tentang topik ini?" required></textarea>
                             <div class="char-counter">
                                 <span id="char-count">0</span>/500 characters
                             </div>
@@ -354,16 +367,16 @@
 
                     <div class="flex justify-between items-center">
                         <div class="typing-indicator" id="typing-indicator" style="display: none;">
-                            <span class="text-sm text-gray-500">Typing...</span>
+                            <span class="text-sm text-gray-500">Mengetik...</span>
                             <div class="typing-dot"></div>
                             <div class="typing-dot"></div>
                             <div class="typing-dot"></div>
                         </div>
                         <button type="submit"
                             class="fun-button text-white font-bold px-8 py-3 rounded-xl shadow-lg transition duration-300 flex items-center gap-2 tooltip"
-                            data-tooltip="Share your comment with the community">
+                            data-tooltip="Bagikan komentar Anda dengan komunitas">
                             <span class="emoji-big" style="font-size: 1.2rem;">🚀</span>
-                            Send Comment
+                            Kirim Komentar
                         </button>
                     </div>
                 </form>
@@ -439,21 +452,28 @@
             }, 1000);
         });
 
-        // Like button functionality
+        // Like button toggle functionality
         document.querySelectorAll('.like-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const likeCount = this.querySelector('.like-count');
-                const currentCount = parseInt(likeCount.textContent);
-                likeCount.textContent = currentCount + 1;
+                let currentCount = parseInt(likeCount.textContent);
 
-                // Add pulse animation
-                this.classList.add('like-pulse');
-                setTimeout(() => {
-                    this.classList.remove('like-pulse');
-                }, 600);
-
-                // Change heart color
-                this.style.color = '#ef4444';
+                // Toggle state pakai data-liked attribute
+                if (this.dataset.liked === "true") {
+                    // UNLIKE
+                    likeCount.textContent = currentCount > 0 ? currentCount - 1 : 0;
+                    this.dataset.liked = "false";
+                    this.style.color = ''; // Kembali ke warna default
+                } else {
+                    // LIKE
+                    likeCount.textContent = currentCount + 1;
+                    this.dataset.liked = "true";
+                    this.classList.add('like-pulse');
+                    this.style.color = '#ef4444';
+                    setTimeout(() => {
+                        this.classList.remove('like-pulse');
+                    }, 600);
+                }
             });
         });
 

@@ -22,4 +22,14 @@ class CommentController extends Controller
 
         return back()->with('success', 'Komentar berhasil ditambahkan!');
     }
+    public function destroy($id)
+{
+    $comment = \App\Models\Comment::findOrFail($id);
+    // Hanya pemilik komentar atau admin yang boleh hapus
+    if (Auth::user()->id !== $comment->user_id && !Auth::user()->is_admin) {
+        abort(403);
+    }
+    $comment->delete();
+    return back()->with('success', 'Komentar berhasil dihapus.');
+}
 }

@@ -15,5 +15,9 @@ class Materi extends Model
     'deadline' => 'datetime',
     ];
 
+    public function kelasObj()
+    {
+        return $this->belongsTo(Kelas::class, 'kelas', 'id');
+    }
 }
 

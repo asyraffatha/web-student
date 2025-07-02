@@ -110,4 +110,14 @@ public function selectGuru()
     return false;
 }
 
+public function deleteMessage($id)
+{
+    $message = \App\Models\Message::findOrFail($id);
+    // Hanya pengirim yang boleh hapus
+    if ($message->sender_id !== Auth::id()) {
+        abort(403);
+    }
+    $message->delete();
+    return response()->json(['success' => true]);
+}
 }

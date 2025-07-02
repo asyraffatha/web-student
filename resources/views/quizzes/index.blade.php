@@ -558,15 +558,16 @@
 
         <!-- Header -->
         <div class="header">
-            <h1>🎮 Arena Kuis 🏆</h1>
-            <p class="subtitle">Ayo buktikan kemampuanmu dan jadilah master quiz!</p>
+            <h1>🎮 Arena Quiz 🏆</h1>
+            <p class="subtitle">Tunjukkan kemampuanmu di setiap kuis dari gurumu!
+                Belajar serius, hasil maksimal!</p>
         </div>
 
         <!-- Quiz Content -->
         @if ($quizzes->isEmpty())
             <div class="empty-state">
                 <h2>🎯 Belum Ada Tantangan</h2>
-                <p>Tunggu sebentar, admin sedang menyiapkan kuis-kuis keren untukmu!</p>
+                <p>Belum ada kuis saat ini. Guru kamu akan segera menambahkan kuis untuk kelasmu!</p>
             </div>
         @else
             <div class="quiz-grid">

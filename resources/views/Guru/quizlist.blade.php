@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Daftar Kuis</title>
+    <title>Daftar Quiz</title>
     @vite('resources/css/app.css')
     <style>
         @keyframes fadeIn {
@@ -178,9 +178,9 @@
                 <div class="slide-in">
                     <h1
                         class="text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-2">
-                        📚 Daftar Kuis
+                        📚 Daftar Quiz
                     </h1>
-                    <p class="text-gray-600">Kelola dan pantau semua kuis Anda dengan mudah</p>
+                    <p class="text-gray-600">Kelola dan pantau semua quiz Anda dengan mudah</p>
                 </div>
                 <a href="{{ route('quiz.create') }}"
                     class="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-all duration-300 group">
@@ -189,7 +189,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
-                    <span class="font-medium">Kembali ke Buat Kuis</span>
+                    <span class="font-medium">Kembali ke Buat Quiz</span>
                 </a>
             </div>
 
@@ -213,7 +213,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
-                    Buat Kuis Baru
+                    Buat Quiz Baru
                 </a>
             </div>
 
@@ -228,15 +228,15 @@
                                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-700 mb-3">Belum ada kuis yang dibuat</h3>
-                        <p class="text-gray-500 mb-6">Mulai buat kuis pertama Anda untuk menguji pengetahuan siswa</p>
+                        <h3 class="text-2xl font-bold text-gray-700 mb-3">Belum ada Quiz yang dibuat</h3>
+                        <p class="text-gray-500 mb-6">Mulai buat Quiz pertama Anda untuk menguji pengetahuan siswa</p>
                         <a href="{{ route('quiz.create') }}"
                             class="btn-primary inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 4v16m8-8H4" />
                             </svg>
-                            Buat Kuis Sekarang
+                            Buat Quiz Sekarang
                         </a>
                     </div>
                 </div>
@@ -329,7 +329,7 @@
                     </svg>
                 </div>
                 <h4 class="text-2xl font-bold text-gray-800 mb-2">{{ $quizzes->count() ?? 0 }}</h4>
-                <p class="text-gray-600 font-medium">Total Kuis</p>
+                <p class="text-gray-600 font-medium">Total Quiz</p>
             </div>
 
             <div class="glass-effect p-6 rounded-2xl shadow-xl text-center card-hover">

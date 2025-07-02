@@ -13,18 +13,21 @@ class HomeController extends Controller
 {
   public function index()
 {
-    $user = Auth::user();
-    $kelas = $user->kelas;
+   $user = Auth::user(); // <-- Tambahkan baris ini
+
+    $kelasNama = $user->kelas; // misal: "8.1"
+    $kelasObj = \App\Models\Kelas::where('nama', $kelasNama)->first();
+    $kelasId = $kelasObj ? $kelasObj->id : null;    
 
     $now = Carbon::now();
 
-    $materis = Materi::where('kelas', $kelas)
+    $materis = Materi::where('kelas', $kelasId)
         ->whereNotNull('deadline')
         ->where('deadline', '>', $now) // hanya ambil materi yang deadlinenya belum lewat
         ->orderBy('deadline')
         ->get();
 
-    $quizzes = Quiz::where('kelas', $kelas)
+    $quizzes = Quiz::where('kelas', $kelasId)
         ->whereNotNull('deadline')
         ->where('deadline', '>', $now) // hanya ambil kuis yang deadlinenya belum lewat
         ->orderBy('deadline')
@@ -69,6 +72,21 @@ class HomeController extends Controller
                     ->whereNotNull('score')
                     ->whereBetween('completed_at', [now()->subWeeks(2), now()->subWeek()])
                     ->avg('score') ?? 0;
+
+                    // Hitung total quiz dan materi untuk kelas user
+$totalQuiz = Quiz::where('kelas', $kelasId)->count();
+$totalMateri = Materi::where('kelas', $kelasId)->count();
+
+// Hitung quiz yang sudah dikerjakan user
+$quizSelesai = QuizResult::where('user_id', $user->id)->whereNotNull('score')->count();
+
+// Jika ingin tracking materi yang sudah dibaca, tambahkan logika di sini
+$materiSelesai = 0; // Jika belum ada tracking, biarkan 0
+
+// Hitung progress
+$totalTask = $totalQuiz + $totalMateri;
+$doneTask = $quizSelesai + $materiSelesai;
+$progress = $totalQuiz > 0 ? round(($quizSelesai / $totalQuiz) * 100) : 0;
 
                     // Tips Belajar Harian
 $tips = [
@@ -198,7 +216,7 @@ $tips = [
 $index = now()->dayOfWeek % count($tips);
 $todayTip = $tips[$index];
 
-    return view('home', compact('materis', 'quizzes', 'guru', 'tekaTekiPassed', 'totalTekaTeki', 'canAccessBossQuiz', 'totalKuisSelesai',  'kuisSebelumnya', 'rataRataNilai',  'nilaiSebelumnya', 'todayTip'));
+    return view('home', compact('materis', 'quizzes', 'guru', 'tekaTekiPassed', 'totalTekaTeki', 'canAccessBossQuiz', 'totalKuisSelesai',  'kuisSebelumnya', 'rataRataNilai',  'nilaiSebelumnya', 'todayTip', 'progress'));
 }
 
 }

@@ -742,7 +742,8 @@
                             </div>
 
                             <p class="text-sm text-gray-600 mb-2">
-                                🧩 Kelas: <span class="font-semibold">{{ $materi->kelas }}</span>
+                                🧩 Kelas: <span
+                                    class="font-semibold">{{ $materi->kelasObj->nama ?? $materi->kelas }}</span>
                             </p>
 
                             <p class="text-gray-700 text-sm mb-3 line-clamp-4">

@@ -85,12 +85,11 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/discussion', [DiscussionController::class, 'index'])->name('discussion.index'); // list diskusi
     Route::get('/select-guru', [DiscussionController::class, 'selectGuru'])->name('select.guru'); // pilih guru
-
     Route::get('/discussion/{id}', [DiscussionController::class, 'show'])->name('discussion.show'); // chat dengan guru
-
     Route::post('/discussion/send', [DiscussionController::class, 'store'])->name('discussion.send'); // kirim pesan
     Route::post('/discussion', [DiscussionController::class, 'store'])->name('discussion.store');
     Route::get('/guru/siswa', [GuruDashboardController::class, 'siswaDiampu'])->name('guru.siswa');
+    Route::delete('/discussion/message/{id}', [DiscussionController::class, 'deleteMessage'])->name('discussion.message.delete');
 });
     
 
@@ -106,6 +105,7 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::resource('forums', ForumController::class);
     Route::post('/forum/{forum}/comment', [CommentController::class, 'store'])->name('comments.store');
+    Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 
 

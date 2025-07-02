@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pilih Fitur Kuis</title>
+    <title>Pilih Fitur Quiz</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
@@ -419,7 +419,7 @@
         style="position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 2.5vw 0.5rem 2.5vw;">
         <a href="{{ route('siswa.dashboard') }}"
             style="display:flex;align-items:center;gap:0.7rem;background:rgba(255,255,255,0.7);padding:0.7rem 1.3rem;border-radius:1.2rem;font-weight:700;color:#6366f1;text-decoration:none;box-shadow:0 2px 8px rgba(99,102,241,0.08);font-size:1.1rem;">
-            <i class="fa-solid fa-arrow-left"></i> Kembali ke Dashboard
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Home
         </a>
         <div
             style="display:flex;align-items:center;gap:0.7rem;background:rgba(255,255,255,0.7);padding:0.7rem 1.3rem;border-radius:1.2rem;font-weight:700;color:#6366f1;box-shadow:0 2px 8px rgba(99,102,241,0.08);font-size:1.1rem;">
@@ -447,12 +447,12 @@
                     <div class="icon-container">
                         <i class="fa-solid fa-bolt bolt-icon"></i>
                     </div>
-                    <h1 class="feature-title">Pilih Fitur Kuis</h1>
+                    <h1 class="feature-title">Pilih Fitur Quiz</h1>
                 </div>
 
                 <div class="feature-subtitle">
-                    Eksplorasi berbagai tantangan seru dan asah kemampuanmu setiap hari!<br>
-                    Jadikan belajar matematika lebih menyenangkan! 🚀
+                    Asah kemampuanmu lewat kuis yang dibuat langsung oleh gurumu!
+                    Setiap soal dirancang sesuai kebutuhan kelas — belajar jadi lebih seru! 🚀
                 </div>
             </div>
 

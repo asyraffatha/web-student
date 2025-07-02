@@ -66,7 +66,7 @@
             @elseif ($currentUser->role === 'siswa')
                 <a href="{{ route('home') }}"
                     class="inline-flex items-center px-4 py-2 text-sm font-semibold bg-white text-blue-600 border border-blue-400 rounded-lg shadow hover:bg-blue-50 transition">
-                    ⬅️ Kembali ke Beranda
+                    ⬅️ Kembali ke Home
                 </a>
             @endif
         </div>
@@ -87,12 +87,21 @@
                             <span class="text-2xl">👤</span>
                         @endif
                         <div
-                            class="px-4 py-2 rounded-2xl text-sm shadow
-                            {{ $msg->sender_id === auth()->id() ? 'text-white bg-blue-600' : 'text-gray-900 bg-blue-100' }}">
+                            class="relative px-4 py-2 rounded-2xl text-sm shadow
+                {{ $msg->sender_id === auth()->id() ? 'text-white bg-blue-600' : 'text-gray-900 bg-blue-100' }}">
                             {{ $msg->content }}
                             <div class="text-xs text-right mt-1 text-blue-300">
                                 {{ $msg->created_at->format('H:i') }}
                             </div>
+                            @if ($msg->sender_id === auth()->id())
+                                <form class="delete-message-form absolute top-1 right-1" data-id="{{ $msg->id }}"
+                                    method="POST" action="{{ route('discussion.message.delete', $msg->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-xs text-red-400 hover:text-red-700"
+                                        title="Hapus Pesan">🗑️</button>
+                                </form>
+                            @endif
                         </div>
                         @if ($msg->sender_id === auth()->id())
                             <span class="text-2xl">🙋‍♂️</span>
@@ -142,6 +151,22 @@
                     // Ambil ulang chat dan tampilkan
                     $('#chat-box').load(window.location.href + " #chat-box > *");
                     $('input[name="content"]').val('');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).on('submit', '.delete-message-form', function(e) {
+            e.preventDefault();
+            if (!confirm('Hapus pesan ini?')) return;
+            let form = $(this);
+            $.ajax({
+                url: '/discussion/message/' + form.data('id'),
+                method: 'POST',
+                data: form.serialize(),
+                success: function() {
+                    $('#chat-box').load(window.location.href + " #chat-box > *");
                 }
             });
         });

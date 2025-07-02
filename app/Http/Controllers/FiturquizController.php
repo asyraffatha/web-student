@@ -3,21 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FiturquizController extends Controller
 {
     public function show()
     {
-        $user = auth()->user();
-        $kelas = $user->kelas;
-        // Ambil quiz harian dan teka-teki yang diberikan guru untuk kelas user
-        $quizzes = \App\Models\Quiz::where('kelas', $kelas)->where('type', 'daily')->get();
-        $tekaTekis = \App\Models\Quiz::where('kelas', $kelas)->where('type', 'teka-teki')->get();
+        $user = Auth::user();
+        $kelasNama = $user->kelas;
+        $kelasObj = \App\Models\Kelas::where('nama', $kelasNama)->first();
+        $kelasId = $kelasObj ? $kelasObj->id : null;
+            // Ambil quiz harian dan teka-teki yang diberikan guru untuk kelas user
+            $quizzes = \App\Models\Quiz::where('kelas', $kelasId)->where('type', 'daily')->get();
+            $tekaTekis = \App\Models\Quiz::where('kelas', $kelasId)->where('type', 'teka-teki')->get();
 
-        // Ambil hasil teka-teki user dari QuizResult (bukan TekaTekiResult)
-        $tekaTekiResults = \App\Models\QuizResult::where('user_id', $user->id)
-            ->whereIn('quiz_id', $tekaTekis->pluck('id'))
-            ->get()->keyBy('quiz_id');
+            // Ambil hasil teka-teki user dari QuizResult (bukan TekaTekiResult)
+            $tekaTekiResults = \App\Models\QuizResult::where('user_id', $user->id)
+                ->whereIn('quiz_id', $tekaTekis->pluck('id'))
+                ->get()->keyBy('quiz_id');
 
         // Syarat: semua teka-teki harus sudah dikerjakan dan semua nilai >= 60
         $allTekaTekiDone = true;
@@ -44,7 +47,7 @@ class FiturquizController extends Controller
         $results = \App\Models\QuizResult::where('user_id', $user->id)->get()->keyBy('quiz_id');
 
         // Ambil Boss Quiz Mingguan
-        $bossQuizzes = \App\Models\Quiz::where('kelas', $kelas)->where('type', 'boss')->get();
+        $bossQuizzes = \App\Models\Quiz::where('kelas', $kelasId)->where('type', 'boss')->get();
         $bossQuizResults = $results->only($bossQuizzes->pluck('id')->all());
         $jumlahBossQuiz = $bossQuizzes->count();
 

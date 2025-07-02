@@ -113,14 +113,12 @@
                                 class="block w-full border border-gray-300 rounded-lg px-4 py-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition appearance-none bg-white"
                                 required>
                                 <option value="">Pilih Kelas</option>
-                                @for ($tingkat = 7; $tingkat <= 9; $tingkat++)
-                                    @for ($sub = 1; $sub <= 9; $sub++)
-                                        <option value="{{ $tingkat . '.' . $sub }}">Kelas {{ $tingkat . '.' . $sub }}
-                                        </option>
-                                    @endfor
-                                @endfor
+                                @foreach ($kelasDiampu as $kelas)
+                                    <option value="{{ $kelas->id }}">
+                                        Kelas {{ $kelas->nama ?? ($kelas->kode ?? $kelas->id) }}
+                                    </option>
+                                @endforeach
                             </select>
-
                         </div>
                     </div>
 
@@ -193,7 +191,7 @@
                                     <div class="flex items-center mb-2">
                                         <span
                                             class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-medium mr-2">Kelas
-                                            {{ $materi->kelas }}</span>
+                                            {{ $materi->kelasObj->nama ?? ($materi->kelasObj->kode ?? $materi->kelas) }}</span>
                                         <span
                                             class="text-gray-500 text-sm">{{ $materi->created_at->format('d M Y') }}</span>
                                     </div>
@@ -216,8 +214,19 @@
                                     </div>
                                 </div>
 
-                                <div class="ml-4 flex items-start">
-                                    {{-- Form delete --}}
+                                <div class="ml-4 flex flex-col space-y-2 items-start">
+                                    {{-- Tombol Edit --}}
+                                    <a href="{{ route('materi.edit', $materi->id) }}"
+                                        class="flex items-center px-3 py-2 bg-yellow-50 text-yellow-700 rounded-lg hover:bg-yellow-100 transition">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5h2m-1 1v10m0 0l-3-3m3 3l3-3M4 4l16 16" />
+                                        </svg>
+                                        Edit
+                                    </a>
+
+                                    {{-- Tombol Hapus --}}
                                     <form action="{{ route('materi.destroy', $materi->id) }}" method="POST"
                                         onsubmit="return confirm('Yakin ingin menghapus materi ini?')">
                                         @csrf
@@ -233,6 +242,7 @@
                                         </button>
                                     </form>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -254,7 +264,7 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-gray-400 text-sm">
         <div class="max-w-5xl mx-auto py-4 px-6">
-            <p>© {{ date('Y') }} Portal Pembelajaran. All rights reserved.</p>
+            <p>© {{ date('Y') }} Mathporia. All rights reserved.</p>
         </div>
     </footer>
 

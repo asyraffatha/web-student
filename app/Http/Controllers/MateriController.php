@@ -12,15 +12,19 @@ class MateriController extends Controller
     // Menampilkan semua materi untuk guru
     public function index()
     {
-        $materis = Materi::where('kelas', Auth::user()->kelas)->get();
-        return view('Guru.managematerial', compact('materis'));
+        $guru = Auth::user();
+        $kelasDiampu = $guru->kelasDiampu;
+        $materis = Materi::whereIn('kelas', $kelasDiampu->pluck('id'))->get();
+        return view('Guru.managematerial', compact('materis', 'kelasDiampu'));
     }
 
     // Halaman form tambah materi
     public function create()
     {
-         $materis = Materi::latest()->get(); // untuk ditampilkan setelah form
-         return view('Guru.managematerial', compact('materis'));
+        $guru = Auth::user();
+        $kelasDiampu = $guru->kelasDiampu;
+        $materis = Materi::whereIn('kelas', $kelasDiampu->pluck('id'))->get(); // <-- filter sesuai kelas diampu
+        return view('Guru.managematerial', compact('materis', 'kelasDiampu'));  
     }
 
     // Proses menyimpan materi baru
@@ -49,8 +53,19 @@ class MateriController extends Controller
     // List materi untuk siswa
     public function listSiswa()
     {
-    $kelas = Auth::user()->kelas;
-    $materis = Materi::where('kelas', $kelas)->get(); // hanya tampilkan materi sesuai kelas user
+        // Ambil nama kelas dari user (misal: "8.1")
+        $kelasNama = Auth::user()->kelas;
+
+        // Cari ID kelas yang sesuai
+        $kelasObj = \App\Models\Kelas::where('nama', $kelasNama)->first();
+
+        // Jika kelas ditemukan, ambil materi berdasarkan ID kelas
+        if ($kelasObj) {
+            $materis = Materi::where('kelas', $kelasObj->id)->get();
+        } else {
+            $materis = collect(); // kosongkan jika tidak ada kelas
+        }
+
         return view('list-of-material', compact('materis'));
     }
 
@@ -68,10 +83,12 @@ class MateriController extends Controller
     return redirect()->back()->with('success', 'Materi berhasil dihapus!');
     }
 
-    public function edit($id)
+   public function edit($id)
     {
-    $materi = Materi::findOrFail($id);
-    return view('guru.editmateri', compact('materi'));
+        $materi = Materi::findOrFail($id);
+        $guru = Auth::user();
+        $kelasDiampu = $guru->kelasDiampu; // relasi di model User
+        return view('Guru.editmateri', compact('materi', 'kelasDiampu'));
     }
 
     public function update(Request $request, $id)   

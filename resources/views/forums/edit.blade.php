@@ -191,7 +191,7 @@
                     <h2 class="text-4xl font-bold blue-text-gradient mb-2">
                         <span class="emoji-big">✏️</span>Edit Forum
                     </h2>
-                    <p class="text-white/80">Transform your ideas into amazing forum content</p>
+                    <p class="text-white/80">Ubah idemu menjadi konten forum yang luar biasa.</p>
                 </div>
             </div>
 
@@ -206,11 +206,11 @@
                     <div class="group">
                         <label for="title"
                             class="block text-white font-semibold mb-2 transition-colors group-hover:text-blue-200">
-                            <span class="emoji-big">📝</span>Forum Title
+                            <span class="emoji-big">📝</span>Judul Forum
                         </label>
                         <input type="text" name="title" id="titleInput"
                             class="w-full px-6 py-4 bg-white/90 border-2 border-blue-200 rounded-2xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 input-focus transition-all duration-300 blue-border-gradient"
-                            value="{{ old('title', $forum->title) }}" placeholder="Enter an amazing title..."
+                            value="{{ old('title', $forum->title) }}" placeholder="Masukkan judul forum terbaru..."
                             maxlength="100" required>
                         <div class="char-counter">
                             <span id="titleCount">0</span>/100 characters
@@ -224,11 +224,11 @@
                     <div class="group">
                         <label for="content"
                             class="block text-white font-semibold mb-2 transition-colors group-hover:text-blue-200">
-                            <span class="emoji-big">✍️</span>Forum Content
+                            <span class="emoji-big">✍️</span>Isi Forum Diskusi
                         </label>
                         <textarea name="content" id="contentInput"
                             class="w-full px-6 py-4 bg-white/90 border-2 border-blue-200 rounded-2xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 input-focus transition-all duration-300 resize-none blue-border-gradient"
-                            rows="6" placeholder="Share your thoughts and ideas..." maxlength="1000" required>{{ old('content', $forum->content) }}</textarea>
+                            rows="6" placeholder="Bagikan pemikiran dan ide-ide Anda..." maxlength="1000" required>{{ old('content', $forum->content) }}</textarea>
                         <div class="char-counter">
                             <span id="contentCount">0</span>/1000 characters
                         </div>
@@ -245,7 +245,7 @@
                             class="flex-1 px-8 py-4 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-bold rounded-2xl shadow-lg fun-button transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-transparent text-center">
                             <span class="flex items-center justify-center space-x-2">
                                 <span class="emoji-big">⬅️</span>
-                                <span>Back to Forum</span>
+                                <span>Kembali ke Forum</span>
                             </span>
                         </a>
 

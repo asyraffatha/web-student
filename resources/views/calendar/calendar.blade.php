@@ -30,11 +30,11 @@
             <div class="flex justify-between mb-6">
                 <a href="{{ route('home') }}"
                     class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-5 py-2 rounded-lg shadow transition duration-300 ease-in-out">
-                    ← Back to the Home
+                    ← Kembali ke Home
                 </a>
                 <button id="addEventBtn"
                     class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition duration-300 ease-in-out shadow">
-                    + Add Event
+                    + Tambah Acara
                 </button>
             </div>
 

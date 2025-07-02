@@ -701,7 +701,7 @@
 
             <div class="nav-controls">
                 <a href="{{ route('home') }}" class="back-btn">
-                    <span class="fun-icon">🏠</span> Kembali ke Beranda
+                    <span class="fun-icon">🏠</span> Kembali ke Home
                 </a>
                 <a href="{{ route('forums.create') }}" class="create-btn">
                     <span class="fun-icon">✨</span> Buat Forum Baru

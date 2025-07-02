@@ -45,10 +45,12 @@
                 <select name="kelas" id="kelas"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     required>
-                    <option value="">Pilih Kelas</option>
-                    <option value="7" {{ $materi->kelas == '7' ? 'selected' : '' }}>Kelas 7</option>
-                    <option value="8" {{ $materi->kelas == '8' ? 'selected' : '' }}>Kelas 8</option>
-                    <option value="9" {{ $materi->kelas == '9' ? 'selected' : '' }}>Kelas 9</option>
+                    <option value="" disabled>Pilih Kelas</option>
+                    @foreach ($kelasDiampu as $kelas)
+                        <option value="{{ $kelas->id }}" {{ $materi->kelas == $kelas->id ? 'selected' : '' }}>
+                            Kelas {{ $kelas->nama ?? ($kelas->kode ?? $kelas->id) }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
 

@@ -12,9 +12,13 @@ class QuizController extends Controller
 {
     public function index()
     {
-   $user = Auth::user(); // lebih aman diintelisense dan bisa digunakan ulang
-    $quizzes = Quiz::where('kelas', $user->kelas)->get();
-    $results = QuizResult::where('user_id', $user->id)->get()->keyBy('quiz_id');
+        $user = Auth::user();
+        $kelasNama = $user->kelas;
+        $kelasObj = \App\Models\Kelas::where('nama', $kelasNama)->first();
+        $kelasId = $kelasObj ? $kelasObj->id : null;
+
+        $quizzes = Quiz::where('kelas', $kelasId)->get();
+        $results = QuizResult::where('user_id', $user->id)->get()->keyBy('quiz_id');
 
     return view('quizzes.index', compact('quizzes', 'results'));
     }
@@ -164,27 +168,27 @@ class QuizController extends Controller
 
     public function create()
     {
-        $kelasDiampu = null;
         $user = Auth::user();
-        return view('Guru.quizcreate', compact('kelasDiampu'));
+        $kelasDiampu = $user->kelasDiampu;
+    return view('Guru.quizcreate', compact('kelasDiampu')); 
     }
 
     public function store(Request $request)
     {
-    $request->validate([
-    'title' => 'required|string|max:255',
-    'kelas' => 'required|string',
-    'type' => 'required|string|in:daily,teka-teki,boss',
-    'passing_score' => 'required|numeric|min:0|max:100',
-    'questions' => 'required|array|min:1',
-    'questions.*.question' => 'required|string',
-    'questions.*.options' => 'required|array|size:4',
-    'questions.*.answer' => 'required|string|in:A,B,C,D',
-    'questions.*.image' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
-    'questions.*.video' => 'nullable|file|mimes:mp4,webm,ogg|max:10240',
-    'questions.*.options_images.*' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
-    'deadline' => 'nullable|date',
-]);
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'kelas' => 'required|string',
+            'type' => 'required|string|in:daily,teka-teki,boss',
+            'passing_score' => 'required|numeric|min:0|max:100',
+            'questions' => 'required|array|min:1',
+            'questions.*.question' => 'required|string',
+            'questions.*.options' => 'required|array|size:4',
+            'questions.*.answer' => 'required|string|in:A,B,C,D',
+            'questions.*.image' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
+            'questions.*.video' => 'nullable|file|mimes:mp4,webm,ogg|max:10240',
+            'questions.*.options_images.*' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
+            'deadline' => 'nullable|date',
+    ]);
 
     $quiz = Quiz::create([
         'title' => $request->title,
@@ -234,23 +238,27 @@ class QuizController extends Controller
 
     public function listForGuru()
     {
-    $quizzes = Quiz::withCount('questions')->get();
-    return view('Guru.quizlist', compact('quizzes'));
+        $guru = Auth::user();
+        $kelasDiampu = $guru->kelasDiampu; // relasi ke kelas yang diampu guru
+        $quizzes = Quiz::withCount('questions')
+            ->whereIn('kelas', $kelasDiampu->pluck('id'))
+            ->get();
+    return view('Guru.quizlist', compact('quizzes', 'kelasDiampu'));
     }
 
     public function destroy($id)
     {
-    $quiz = Quiz::findOrFail($id);
+        $quiz = Quiz::findOrFail($id);
 
-    // Otomatis menghapus questions & results karena relasi cascade
-    $quiz->delete();
+        // Otomatis menghapus questions & results karena relasi cascade
+        $quiz->delete();
 
     return redirect()->route('quiz.list')->with('success', 'Quiz berhasil dihapus.');
     }
 
     public function preview($id)
     {
-    $quiz = Quiz::with('questions')->findOrFail($id);
+        $quiz = Quiz::with('questions')->findOrFail($id);
     return view('Guru.quizpreview', compact('quiz'));
     }
 }

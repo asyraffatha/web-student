@@ -225,14 +225,17 @@
                             <select name="kelas" required
                                 class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:outline-none bg-white/80 shadow-sm">
                                 <option value="">Pilih Kelas</option>
-                                @if(isset($kelasDiampu))
-                                    @foreach($kelasDiampu as $kelas)
-                                        <option value="{{ $kelas->nama }}">{{ $kelas->nama }}</option>
+                                @if (isset($kelasDiampu))
+                                    @foreach ($kelasDiampu as $kelas)
+                                        <option value="{{ $kelas->id }}">
+                                            Kelas {{ $kelas->nama ?? ($kelas->kode ?? $kelas->id) }}
+                                        </option>
                                     @endforeach
                                 @else
                                     @for ($tingkat = 7; $tingkat <= 9; $tingkat++)
                                         @for ($sub = 1; $sub <= 9; $sub++)
-                                            <option value="{{ $tingkat . '.' . $sub }}">{{ $tingkat . '.' . $sub }}</option>
+                                            <option value="{{ $tingkat . '.' . $sub }}">Kelas
+                                                {{ $tingkat . '.' . $sub }}</option>
                                         @endfor
                                     @endfor
                                 @endif
@@ -290,32 +293,45 @@
                             <div class="question-container mb-6 p-4 border rounded-lg bg-white">
                                 <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700">Pertanyaan 1</label>
-                                    <textarea name="questions[0][question]" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required></textarea>
-                                    
+                                    <textarea name="questions[0][question]" rows="2"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required></textarea>
+
                                     <!-- Media untuk pertanyaan -->
                                     <div class="mt-2 space-y-2">
                                         <div>
-                                            <label class="block text-sm font-medium text-gray-700">Gambar Pertanyaan (max 2MB)</label>
-                                            <input type="file" name="questions[0][image]" accept="image/jpeg,image/png,image/webp" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
+                                            <label class="block text-sm font-medium text-gray-700">Gambar Pertanyaan
+                                                (max 2MB)</label>
+                                            <input type="file" name="questions[0][image]"
+                                                accept="image/jpeg,image/png,image/webp"
+                                                class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
                                         </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700">Video Pertanyaan (max 10MB)</label>
-                                            <input type="file" name="questions[0][video]" accept="video/mp4,video/webm,video/ogg" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
-                                        </div>
+                                        {{-- <div>
+                                            <label class="block text-sm font-medium text-gray-700">Video Pertanyaan (max
+                                                10MB)</label>
+                                            <input type="file" name="questions[0][video]"
+                                                accept="video/mp4,video/webm,video/ogg"
+                                                class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
+                                        </div> --}}
                                     </div>
                                 </div>
 
                                 <!-- Opsi jawaban -->
                                 <div class="space-y-2">
-                                    @foreach(['A', 'B', 'C', 'D'] as $optionIndex => $option)
+                                    @foreach (['A', 'B', 'C', 'D'] as $optionIndex => $option)
                                         <div class="flex items-center space-x-2">
-                                            <input type="radio" name="questions[0][answer]" value="{{ $option }}" class="text-blue-600" required>
-                                            <input type="text" name="questions[0][options][]" class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Opsi {{ $option }}" required>
-                                            
+                                            <input type="radio" name="questions[0][answer]"
+                                                value="{{ $option }}" class="text-blue-600" required>
+                                            <input type="text" name="questions[0][options][]"
+                                                class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                                placeholder="Opsi {{ $option }}" required>
+
                                             <!-- Gambar untuk opsi -->
                                             <div class="w-32">
-                                                <label class="block text-sm font-medium text-gray-700">Gambar (max 2MB)</label>
-                                                <input type="file" name="questions[0][options_images][]" accept="image/jpeg,image/png,image/webp" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
+                                                <label class="block text-sm font-medium text-gray-700">Gambar (max
+                                                    2MB)</label>
+                                                <input type="file" name="questions[0][options_images][]"
+                                                    accept="image/jpeg,image/png,image/webp"
+                                                    class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
                                             </div>
                                         </div>
                                     @endforeach
@@ -364,10 +380,10 @@
                                 <label class="block text-sm font-medium text-gray-700">Gambar Pertanyaan (max 2MB)</label>
                                 <input type="file" name="questions[${questionCount - 1}][image]" accept="image/jpeg,image/png,image/webp" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Video Pertanyaan (max 10MB)</label>
-                                <input type="file" name="questions[${questionCount - 1}][video]" accept="video/mp4,video/webm,video/ogg" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
-                            </div>
+                            // <div>
+                            //     <label class="block text-sm font-medium text-gray-700">Video Pertanyaan (max 10MB)</label>
+                            //     <input type="file" name="questions[${questionCount - 1}][video]" accept="video/mp4,video/webm,video/ogg" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
+                            // </div>
                         </div>
                     </div>
 
@@ -476,6 +492,7 @@
         const videoWrapper = document.getElementById('video-upload-wrapper');
         const labelImage = document.getElementById('label-image');
         const descImage = document.getElementById('desc-image');
+
         function updateMediaInputs() {
             if (typeSelect.value === 'teka-teki' || typeSelect.value === 'boss') {
                 videoWrapper.classList.remove('hidden');
@@ -498,7 +515,7 @@
                     const file = e.target.files[0];
                     const maxBytes = parseInt(maxSizeMB) * 1024;
                     if (file.size > maxBytes) {
-                        alert('Ukuran file terlalu besar! Maksimal ' + (maxSizeMB/1024) + ' MB.');
+                        alert('Ukuran file terlalu besar! Maksimal ' + (maxSizeMB / 1024) + ' MB.');
                         e.target.value = '';
                     }
                 }

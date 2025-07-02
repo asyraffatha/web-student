@@ -65,7 +65,7 @@
         @endif
 
         <div class="mt-8 text-center">
-            <a href="/home" class="text-gray-500 hover:underline">← Kembali ke Beranda</a>
+            <a href="/home" class="text-gray-500 hover:underline">← Kembali ke Home</a>
         </div>
     </div>
 </body>

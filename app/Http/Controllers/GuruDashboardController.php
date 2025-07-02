@@ -34,8 +34,8 @@ foreach ($kelasDiampu as $kelas) {
 $rataRataNilai = QuizResult::whereIn('user_id', $siswaIds)->avg('score');
 $rataRataNilai = round($rataRataNilai, 2);
     // Hitung total material
-    $totalMaterials = Materi::count();
-    $totalQuizzes = Quiz::count();
+    $totalMaterials = Materi::whereIn('kelas', $kelasIds)->count(); 
+    $totalQuizzes = Quiz::whereIn('kelas', $kelasIds)->count();
 
     // Kirim semua variabel ke view
     return view('Guru.dashboardguru', compact('guru', 'kelasDiampu', 'totalMaterials','totalQuizzes','totalSiswa','rataRataNilai'));

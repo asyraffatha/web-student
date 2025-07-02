@@ -30,15 +30,17 @@ class GuruGoalsController extends Controller
         if ($kelasTerpilih) {
             $kelas = Kelas::where('nama', $kelasTerpilih)->first();
             $siswa = $kelas ? $kelas->siswa : collect();
-            $quizzes = Quiz::where('kelas', $kelasTerpilih)->where('type', $tipeQuizTerpilih)->get();
+            $quizzes = $kelas
+                ? Quiz::where('kelas', $kelas->id)->where('type', $tipeQuizTerpilih)->get()
+                : collect();
 
             foreach ($siswa as $s) {
                 foreach ($quizzes as $q) {
                     $result = QuizResult::where('user_id', $s->id)->where('quiz_id', $q->id)->first();
                     $nilai[$s->id][$q->id] = $result ? $result->score : null;
-                }
             }
         }
+    }
 
         return view('Guru.goals', compact('kelasDiampu', 'kelasTerpilih', 'siswa', 'quizzes', 'nilai', 'tipeQuiz', 'tipeQuizTerpilih'));
     }
