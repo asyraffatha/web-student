@@ -63,7 +63,7 @@ public function store(Request $request): RedirectResponse
 
     // Redirect sesuai role
     if ($user->role === 'guru') {
-        return redirect()->intended(route('guru.dashboard'));
+        return redirect()->intended(route('Guru.dashboard'));
     } elseif ($user->role === 'siswa') {
         return redirect()->intended(route('siswa.dashboard'));
     }

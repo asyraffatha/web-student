@@ -25,7 +25,7 @@ class DiscussionController extends Controller
             $kelas = $user->kelas;
             $kelasObj = Kelas::where('nama', $kelas)->first();
             $gurus = $kelasObj ? $kelasObj->guru : collect();
-            return view('Siswa.select_guru', compact('gurus'));
+            return view('siswa.select_guru', compact('gurus'));
         }
 
         abort(403);
