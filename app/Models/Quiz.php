@@ -10,7 +10,7 @@ class Quiz extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'passing_score', 'kelas', 'deadline', 'type', 'image_path', 'video_path'];
+    protected $fillable = ['title', 'passing_score', 'kelas_id', 'deadline', 'type', 'image_path', 'video_path'];
 
     protected $casts = [
     'deadline' => 'datetime',
@@ -48,4 +48,9 @@ class Quiz extends Model
             $quiz->results()->delete();
         });
     }
+
+    public function kelasObj()
+{
+    return $this->belongsTo(Kelas::class, 'kelas', 'id');
+}
 }

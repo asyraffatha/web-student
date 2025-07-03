@@ -53,20 +53,25 @@ class MateriController extends Controller
     // List materi untuk siswa
     public function listSiswa()
     {
-        // Ambil nama kelas dari user (misal: "8.1")
-        $kelasNama = Auth::user()->kelas;
+        $user = Auth::user();
+        $kelasNama = $user->kelas;
 
         // Cari ID kelas yang sesuai
         $kelasObj = \App\Models\Kelas::where('nama', $kelasNama)->first();
 
-        // Jika kelas ditemukan, ambil materi berdasarkan ID kelas
         if ($kelasObj) {
             $materis = Materi::where('kelas', $kelasObj->id)->get();
+
+            // Progress belajar berdasarkan quiz saja
+            $totalQuiz = \App\Models\Quiz::where('kelas', $kelasObj->id)->count();
+            $quizSelesai = \App\Models\QuizResult::where('user_id', $user->id)->whereNotNull('score')->count();
+            $progress = $totalQuiz > 0 ? round(($quizSelesai / $totalQuiz) * 100) : 0;
         } else {
-            $materis = collect(); // kosongkan jika tidak ada kelas
+            $materis = collect();
+            $progress = 0;
         }
 
-        return view('list-of-material', compact('materis'));
+        return view('list-of-material', compact('materis', 'progress'));
     }
 
     public function destroy($id)

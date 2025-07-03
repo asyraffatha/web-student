@@ -704,10 +704,10 @@
             <div class="mb-4">
                 <div class="flex justify-between text-xs text-gray-600 mb-1">
                     <span>Progress Belajar</span>
-                    <span>75%</span>
+                    <span>{{ $progress }}%</span>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div class="progress-bar w-3/4"></div>
+                    <div class="progress-bar" style="width: {{ $progress }}%"></div>
                 </div>
             </div>
 
@@ -890,7 +890,8 @@
                                         <h3 class="font-semibold text-gray-900 text-lg">Quiz: {{ $quiz->title }}</h3>
                                     </div>
 
-                                    <p class="text-gray-700 text-sm mb-3">Kuis untuk kelas {{ $quiz->kelas }}</p>
+                                    <p class="text-gray-700 text-sm mb-3">Quiz untuk kelas
+                                        {{ $quiz->kelasObj->nama ?? '-' }}</p>
 
                                     <div class="flex items-center justify-between">
                                         <div class="text-sm text-gray-500">

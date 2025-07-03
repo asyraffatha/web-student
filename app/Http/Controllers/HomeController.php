@@ -88,7 +88,7 @@ $totalTask = $totalQuiz + $totalMateri;
 $doneTask = $quizSelesai + $materiSelesai;
 $progress = $totalQuiz > 0 ? round(($quizSelesai / $totalQuiz) * 100) : 0;
 
-                    // Tips Belajar Harian
+// Tips Belajar Harian
 $tips = [
     [
         'judul' => 'Teknik Pomodoro untuk Matematika',
