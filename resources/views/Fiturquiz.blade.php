@@ -533,7 +533,9 @@
                                 $remedialCount = $tekaTekiRemedialCount[$tekaTeki->id] ?? 0;
                                 $result = $tekaTekiResults->get($tekaTeki->id);
                             @endphp
-                            @if (!isset($tekaTekiResults[$tekaTeki->id]) || ($result && $result->score < 60 && $remedialCount < 2))
+                            @if (
+                                !isset($tekaTekiResults[$tekaTeki->id]) ||
+                                    ($result && $result->score < ($tekaTeki->passing_score ?? 60) && $remedialCount < 2))
                                 <div
                                     style="background:rgba(255,255,255,0.97);border-radius:1rem;padding:1rem;margin-bottom:0.7rem;box-shadow:0 2px 8px rgba(168,85,247,0.08);width:100%;font-size:0.98rem;">
                                     <div class="quiz-title"
@@ -547,7 +549,7 @@
                                     <div style="margin-top:0.4rem;">
                                         <div
                                             style="background:#f1f5f9;color:#64748b;font-weight:700;padding:0.3rem 0.8rem;border-radius:0.8rem;display:inline-block;margin-bottom:0.2rem;">
-                                            @if ($result && $result->score < 60)
+                                            @if ($result && $result->score < ($tekaTeki->passing_score ?? 60))
                                                 💪 Coba lagi!
                                             @else
                                                 🚀 Siap untuk tantangan?
@@ -557,7 +559,7 @@
                                             <a href="{{ route('quizzes.show', $tekaTeki->id) }}"
                                                 style="display:inline-block;margin-top:0.3rem;background:#a78bfa;color:#fff;font-weight:700;padding:0.4rem 1rem;border-radius:0.8rem;text-decoration:none;font-size:0.98rem;"><i
                                                     class="fa-solid fa-rotate-right"></i> KERJAKAN</a>
-                                        @elseif($result && $result->score < 60 && $remedialCount < 2)
+                                        @elseif($result && $result->score < ($tekaTeki->passing_score ?? 60) && $remedialCount < 2)
                                             <a href="{{ route('quizzes.show', $tekaTeki->id) }}"
                                                 style="display:inline-block;margin-top:0.3rem;background:#a78bfa;color:#fff;font-weight:700;padding:0.4rem 1rem;border-radius:0.8rem;text-decoration:none;font-size:0.98rem;"><i
                                                     class="fa-solid fa-rotate-right"></i> COBA LAGI</a>
@@ -631,7 +633,7 @@
                                 style="margin-top:1rem;background:#fef3c7;border-radius:0.7rem;padding:0.7rem 1rem;color:#b91c1c;font-size:0.98rem;position:relative;z-index:2;">
                                 <b>Aturan:</b><br>
                                 - Selesaikan semua Teka-Teki Harian<br>
-                                - Nilai semua Teka-Teki minimal 60
+                                - Nilai minimal semua Teka-Teki ditentukan oleh guru
                             </div>
                         @endif
                     </div>

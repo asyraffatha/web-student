@@ -380,10 +380,6 @@
                                 <label class="block text-sm font-medium text-gray-700">Gambar Pertanyaan (max 2MB)</label>
                                 <input type="file" name="questions[${questionCount - 1}][image]" accept="image/jpeg,image/png,image/webp" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
                             </div>
-                            // <div>
-                            //     <label class="block text-sm font-medium text-gray-700">Video Pertanyaan (max 10MB)</label>
-                            //     <input type="file" name="questions[${questionCount - 1}][video]" accept="video/mp4,video/webm,video/ogg" class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
-                            // </div>
                         </div>
                     </div>
 
@@ -489,23 +485,23 @@
 
         // Tampilkan input video hanya untuk teka-teki/boss, gambar selalu ada
         const typeSelect = document.querySelector('select[name="type"]');
-        const videoWrapper = document.getElementById('video-upload-wrapper');
+        // const videoWrapper = document.getElementById('video-upload-wrapper');
         const labelImage = document.getElementById('label-image');
         const descImage = document.getElementById('desc-image');
 
-        function updateMediaInputs() {
-            if (typeSelect.value === 'teka-teki' || typeSelect.value === 'boss') {
-                videoWrapper.classList.remove('hidden');
-                labelImage.textContent = 'Gambar (jpg, png, webp, max 2MB)';
-                descImage.textContent = 'Teka-Teki/Boss: gambar & video. Gambar wajib, video opsional.';
-            } else {
-                videoWrapper.classList.add('hidden');
-                labelImage.textContent = 'Gambar (jpg, png, webp, max 2MB)';
-                descImage.textContent = 'Misi Harian: hanya gambar.';
-            }
-        }
-        typeSelect.addEventListener('change', updateMediaInputs);
-        window.addEventListener('DOMContentLoaded', updateMediaInputs);
+        // function updateMediaInputs() {
+        //     if (typeSelect.value === 'teka-teki' || typeSelect.value === 'boss') {
+        //         videoWrapper.classList.remove('hidden');
+        //         labelImage.textContent = 'Gambar (jpg, png, webp, max 2MB)';
+        //         descImage.textContent = 'Teka-Teki/Boss: gambar & video. Gambar wajib, video opsional.';
+        //     } else {
+        //         videoWrapper.classList.add('hidden');
+        //         labelImage.textContent = 'Gambar (jpg, png, webp, max 2MB)';
+        //         descImage.textContent = 'Misi Harian: hanya gambar.';
+        //     }
+        // }
+        // typeSelect.addEventListener('change', updateMediaInputs);
+        // window.addEventListener('DOMContentLoaded', updateMediaInputs);
 
         // Validasi ukuran file gambar/video (gambar max 2MB, video max 10MB)
         document.addEventListener('change', function(e) {

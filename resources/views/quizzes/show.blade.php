@@ -360,7 +360,8 @@
                             <p class="text-xl mb-4">Skormu: <span
                                     class="font-extrabold text-red-800 text-2xl">{{ $userQuizResult->score }}%</span>
                             </p>
-                            <p class="text-xl">Passing Score: <span class="font-bold text-pink-600">60%</span></p>
+                            <p class="text-xl">Passing Score: <span
+                                    class="font-bold text-pink-600">{{ $quiz->passing_score }}%</span></p>
                         </div>
                         <p class="text-xl mb-8 text-center font-semibold">Tapi jangan sedih! Kamu punya kesempatan
                             terakhir untuk membuktikan kemampuanmu! 💪</p>
@@ -409,7 +410,8 @@
 
                         <div class="bg-white/80 p-4 rounded-xl inline-block">
                             <p class="text-xl text-gray-800 font-semibold">
-                                Passing Score: <span class="font-bold text-pink-600 text-2xl">60%</span>
+                                Passing Score: <span
+                                    class="font-bold text-pink-600 text-2xl">{{ $quiz->passing_score }}%</span>
                             </p>
                         </div>
                     </div>
@@ -696,7 +698,7 @@
                     </div>
                     <div
                         class="text-center text-yellow-300 font-bold text-2xl mb-8 animate__animated animate__fadeInRight animate__delay-1.2s">
-                        HP Boss: 80%</div>
+                        Passing Score: <span class="font-bold text-yellow-400">{{ $quiz->passing_score }}%</div>
                     <p class="mb-8 text-xl text-yellow-200 font-semibold text-center">Kalahkan boss dengan menjawab
                         semua soal dengan benar!</p>
                     @if (session('error'))

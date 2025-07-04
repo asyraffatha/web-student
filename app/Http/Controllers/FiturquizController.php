@@ -26,16 +26,17 @@ class FiturquizController extends Controller
         $allTekaTekiDone = true;
         $allTekaTekiPassed = true;
         foreach ($tekaTekis as $tekaTeki) {
-            $result = $tekaTekiResults->get($tekaTeki->id);
-            if (!$result) {
-                $allTekaTekiDone = false;
-                $allTekaTekiPassed = false;
-                break;
-            }
-            if ($result->score < 60) {
-                $allTekaTekiPassed = false;
-            }
-        }
+    $result = $tekaTekiResults->get($tekaTeki->id);
+    if (!$result) {
+        $allTekaTekiDone = false;
+        $allTekaTekiPassed = false;
+        break;
+    }
+    // Gunakan passing_score dari guru
+    if ($result->score < ($tekaTeki->passing_score ?? 60)) {
+        $allTekaTekiPassed = false;
+    }
+}
         $canAccessBossQuiz = ($tekaTekis->count() > 0) && $allTekaTekiDone && $allTekaTekiPassed;
 
         // Untuk Blade: passing info remedial teka-teki (max 2 attempt)
