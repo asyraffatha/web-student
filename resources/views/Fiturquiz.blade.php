@@ -628,14 +628,6 @@
                             <div style="color:#64748b;font-size:0.98rem;margin-top:1.2rem;position:relative;z-index:2;">
                                 Tidak ada boss quiz yang perlu dikerjakan.</div>
                         @endif
-                        @if (!$canAccessBossQuiz)
-                            <div
-                                style="margin-top:1rem;background:#fef3c7;border-radius:0.7rem;padding:0.7rem 1rem;color:#b91c1c;font-size:0.98rem;position:relative;z-index:2;">
-                                <b>Aturan:</b><br>
-                                - Selesaikan semua Teka-Teki Harian<br>
-                                - Nilai minimal semua Teka-Teki ditentukan oleh guru
-                            </div>
-                        @endif
                     </div>
                     <!-- Tantang Teman -->
                     <div class="fitur-card teman">

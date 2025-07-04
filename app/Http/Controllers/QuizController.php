@@ -53,13 +53,13 @@ class QuizController extends Controller
                 $tekaTekiResult = QuizResult::where('user_id', $user->id)
                     ->where('quiz_id', $tekaTeki->id)
                     ->first();
-                if (!$tekaTekiResult || $tekaTekiResult->score < 60) {
+                if (!$tekaTekiResult || $tekaTekiResult->score <= $tekaTeki->passing_score) {
                     $allTekaTekiPassed = false;
                     break;
                 }
             }
             if (!$allTekaTekiPassed) {
-                return redirect()->route('quizzes.index')->with('error', 'Selesaikan semua Teka-teki terlebih dahulu untuk mengakses Boss Quiz!');
+                return redirect()->route('quizzes.index')->with('error', 'Selesaikan semua Teka-teki dengan skor LEBIH DARI passing score untuk mengakses Boss Quiz!');
             }
             // If user has already attempted boss quiz
             if ($result) {
@@ -105,13 +105,13 @@ class QuizController extends Controller
                 $tekaTekiResult = QuizResult::where('user_id', $user->id)
                     ->where('quiz_id', $tekaTeki->id)
                     ->first();
-                if (!$tekaTekiResult || $tekaTekiResult->score < 60) {
+                if (!$tekaTekiResult || $tekaTekiResult->score <= $tekaTeki->passing_score) {
                     $allTekaTekiPassed = false;
                     break;
                 }
             }
             if (!$allTekaTekiPassed) {
-                return redirect()->route('quizzes.index')->with('error', 'Selesaikan semua Teka-teki terlebih dahulu untuk mengakses Boss Quiz!');
+                return redirect()->route('quizzes.index')->with('error', 'Selesaikan semua Teka-teki dengan skor LEBIH DARI passing score untuk mengakses Boss Quiz!');
             }
             // If user has already attempted boss quiz
             if ($result) {

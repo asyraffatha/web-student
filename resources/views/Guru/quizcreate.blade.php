@@ -305,13 +305,6 @@
                                                 accept="image/jpeg,image/png,image/webp"
                                                 class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
                                         </div>
-                                        {{-- <div>
-                                            <label class="block text-sm font-medium text-gray-700">Video Pertanyaan (max
-                                                10MB)</label>
-                                            <input type="file" name="questions[0][video]"
-                                                accept="video/mp4,video/webm,video/ogg"
-                                                class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none">
-                                        </div> --}}
                                     </div>
                                 </div>
 
