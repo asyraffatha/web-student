@@ -47,7 +47,10 @@ class QuizController extends Controller
         // Handle Boss quiz access
         else if ($quiz->type === 'boss') {
             // Check if user has passed all Teka-teki quizzes
-            $tekaTekis = Quiz::where('type', 'teka-teki')->where('kelas', $user->kelas)->get();
+            $kelasNama = $user->kelas;
+            $kelasObj = \App\Models\Kelas::where('nama', $kelasNama)->first();
+            $kelasId = $kelasObj ? $kelasObj->id : null;
+            $tekaTekis = Quiz::where('type', 'teka-teki')->where('kelas', $kelasId)->get();
             $allTekaTekiPassed = true;
             foreach ($tekaTekis as $tekaTeki) {
                 $tekaTekiResult = QuizResult::where('user_id', $user->id)
@@ -99,7 +102,10 @@ class QuizController extends Controller
         // Handle Boss quiz access
         else if ($quiz->type === 'boss') {
             // Check if user has passed all Teka-teki quizzes
-            $tekaTekis = Quiz::where('type', 'teka-teki')->where('kelas', $user->kelas)->get();
+            $kelasNama = $user->kelas;
+            $kelasObj = \App\Models\Kelas::where('nama', $kelasNama)->first();
+            $kelasId = $kelasObj ? $kelasObj->id : null;
+            $tekaTekis = Quiz::where('type', 'teka-teki')->where('kelas', $kelasId)->get();
             $allTekaTekiPassed = true;
             foreach ($tekaTekis as $tekaTeki) {
                 $tekaTekiResult = QuizResult::where('user_id', $user->id)

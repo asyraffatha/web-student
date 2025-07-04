@@ -679,7 +679,6 @@
                                         <span style="font-size:1.3rem;vertical-align:middle;margin-right:8px;">🔒</span>
                                         Terkunci
                                     </button>
-                                    <div class="text-center text-sm text-red-500 mt-2 font-semibold">Selesaikan semua Teka-Teki dengan skor LEBIH DARI passing score untuk melawan Boss!</div>
                                 @else
                                     <a href="{{ route('quizzes.show', $quiz->id) }}"
                                         class="action-btn {{ $btnClass }}">
