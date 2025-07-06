@@ -140,6 +140,7 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::get('/setting/home', [SettingController::class, 'home'])->name('setting.home');
     Route::delete('/setting/{id}', [SettingController::class, 'destroy'])->name('setting.destroy');
     Route::get('/setting/{id}/edit', [SettingController::class, 'edit'])->name('setting.edit');
+    Route::put('/setting/{id}', [SettingController::class, 'update'])->name('setting.update');
 });
 
 //Lupa Password

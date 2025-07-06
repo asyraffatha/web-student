@@ -37,7 +37,7 @@
             </div>
 
             <div class="mt-8 flex justify-center gap-6">
-                <a href="/setting"
+                <a href="{{ route('setting.edit', $setting->id) }}"
                     class="inline-flex items-center gap-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
                     ✏️ Edit
                 </a>
@@ -71,3 +71,4 @@
 </body>
 
 </html>
+<script>
