@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::whereIn('role', ['siswa', 'guru'])->get();
+        $users = User::whereIn('role', ['siswa', 'guru','admin'])->get();
         return view('admin.user.index', compact('users'));
     }
 
@@ -27,7 +27,7 @@ class UserController extends Controller
         'name'     => 'required|string|max:255',
         'email'    => 'required|email|unique:users',
         'password' => 'required|min:6',
-        'role'     => 'required|in:siswa,guru',
+        'role'     => 'required|in:siswa,guru,admin',
         'kelas'    => 'nullable',
     ]);
 
@@ -62,5 +62,53 @@ class UserController extends Controller
 
         return redirect()->route('admin.user.index')->with('success', 'User berhasil dihapus.');
     }
+
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        $allKelas = Kelas::all();
+        $kelasDipilih = $user->kelasDiampu->pluck('id')->toArray();
+
+        return view('admin.user.edit', compact('user', 'allKelas', 'kelasDipilih'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email,' . $id,
+            'password' => 'nullable|min:6',
+            'role'     => 'required|in:siswa,guru,admin',
+            'kelas'    => 'nullable',
+    ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->role = $request->role;
+
+        if ($request->role === 'guru') {
+            $user->kelasDiampu()->sync($request->kelas ?? []);
+            $user->kelas = null;
+        } elseif ($request->role === 'siswa') {
+            $kelas = Kelas::find($request->kelas);
+            $user->kelas = $kelas ? $kelas->nama : null;
+            $user->kelasDiampu()->detach();
+        } else {
+            $user->kelas = null;
+            $user->kelasDiampu()->detach();
+        }
+
+        $user->save();
+
+        return redirect()->route('admin.user.index')->with('success', 'User berhasil diperbarui.');
+    }
+
 }
 

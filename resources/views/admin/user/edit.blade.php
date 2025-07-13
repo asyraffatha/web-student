@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Tambah User</title>
+    <title>Edit User</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         function toggleKelasField() {
@@ -39,7 +39,7 @@
 <body class="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen flex items-center justify-center">
 
     <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-xl">
-        <h2 class="text-3xl font-bold text-center text-blue-700 mb-6">➕ Tambah Pengguna Baru</h2>
+        <h2 class="text-3xl font-bold text-center text-blue-700 mb-6">✏️ Edit Pengguna</h2>
 
         @if ($errors->any())
             <div class="mb-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded">
@@ -51,28 +51,29 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('admin.user.store') }}">
+        <form method="POST" action="{{ route('admin.user.update', $user->id) }}">
             @csrf
+            @method('PUT')
 
             <div class="mb-4">
                 <label class="block font-medium text-gray-700">Nama</label>
-                <input type="text" name="name"
+                <input type="text" name="name" value="{{ old('name', $user->name) }}"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     required>
             </div>
 
             <div class="mb-4">
                 <label class="block font-medium text-gray-700">Email</label>
-                <input type="email" name="email"
+                <input type="email" name="email" value="{{ old('email', $user->email) }}"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     required>
             </div>
 
             <div class="mb-4">
-                <label class="block font-medium text-gray-700">Password</label>
+                <label class="block font-medium text-gray-700">Password <small class="text-sm text-gray-500">(Kosongkan
+                        jika tidak ingin diubah)</small></label>
                 <input type="password" name="password"
-                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    required>
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
 
             <div class="mb-4">
@@ -81,30 +82,34 @@
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     required>
                     <option value="">-- Pilih Role --</option>
-                    <option value="siswa">Siswa</option>
-                    <option value="guru">Guru</option>
-                    <option value="admin">Admin</option>
+                    <option value="siswa" {{ $user->role == 'siswa' ? 'selected' : '' }}>Siswa</option>
+                    <option value="guru" {{ $user->role == 'guru' ? 'selected' : '' }}>Guru</option>
+                    <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
                 </select>
             </div>
 
             <div class="mb-4 hidden" id="kelas-group">
                 <label class="block font-medium text-gray-700 mb-1">Kelas</label>
 
-                <!-- Dropdown untuk siswa -->
+                <!-- Untuk siswa -->
                 <select name="kelas" id="kelas-select"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 hidden mb-2">
                     <option value="">-- Pilih Kelas --</option>
                     @foreach ($allKelas as $kelas)
-                        <option value="{{ $kelas->id }}">Kelas {{ $kelas->nama }}</option>
+                        <option value="{{ $kelas->id }}"
+                            {{ $user->role == 'siswa' && $user->kelas == $kelas->nama ? 'selected' : '' }}>
+                            Kelas {{ $kelas->nama }}
+                        </option>
                     @endforeach
                 </select>
 
-                <!-- Checkbox untuk guru -->
+                <!-- Untuk guru -->
                 <div id="kelas-checkboxes"
                     class="hidden border rounded-lg px-4 py-2 bg-gray-50 max-h-40 overflow-y-auto space-y-1">
                     @foreach ($allKelas as $kelas)
                         <label class="inline-flex items-center space-x-2">
                             <input type="checkbox" name="kelas[]" value="{{ $kelas->id }}"
+                                {{ $user->role == 'guru' && $user->kelasDiampu->pluck('id')->contains($kelas->id) ? 'checked' : '' }}
                                 class="form-checkbox text-blue-600">
                             <span>{{ $kelas->nama }}</span>
                         </label><br>
@@ -117,9 +122,9 @@
             <div class="flex justify-between mt-6">
                 <a href="{{ route('admin.user.index') }}"
                     class="text-sm text-gray-600 hover:underline flex items-center">← Kembali</a>
-                <button
+                <button type="submit"
                     class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition">
-                    Simpan
+                    Simpan Perubahan
                 </button>
             </div>
         </form>
