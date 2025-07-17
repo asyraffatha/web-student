@@ -72,12 +72,20 @@
 </head>
 
 <body class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 text-gray-800 flex min-h-screen"
-    x-data="dashboardData()">
+    x-data="{ open: false }">
+
+    <!-- Hamburger Button (Mobile Only) -->
+    <button class="fixed top-4 left-4 z-50 p-2 bg-white rounded-full shadow-lg md:hidden" @click="open = !open">
+        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
 
     <!-- Sidebar -->
     <aside
-        class="w-64 bg-white/80 backdrop-blur-lg shadow-2xl flex flex-col justify-between sticky top-0 h-screen transition-all duration-300 border-r border-white/20"
-        x-data="{ open: false }" :class="open ? 'w-64' : 'w-20 md:w-64'">
+        class="fixed inset-y-0 left-0 z-40 w-64 bg-white/80 backdrop-blur-lg shadow-2xl flex flex-col justify-between transition-all duration-300 border-r border-white/20 overflow-y-auto px-2 py-4
+    -translate-x-full md:translate-x-0 md:sticky md:top-0 md:h-screen md:w-64"
+        :class="{ 'translate-x-0': open }" x-show="open || window.innerWidth >= 768" x-transition>
         <div>
             <!-- Logo Section -->
             <div class="px-6 py-6 border-b border-gray-100/50 bg-white flex justify-center">
@@ -85,7 +93,7 @@
             </div>
 
             <!-- Welcome Section -->
-            <div class="px-6 py-4">
+            <div class="p-4 md:p-6 space-y-6 md:space-y-8">
                 <div
                     class="flex items-center space-x-3 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
                     <div class="bg-gradient-to-r from-blue-500 to-indigo-500 p-2 rounded-full shadow-lg">
@@ -95,10 +103,9 @@
                             </path>
                         </svg>
                     </div>
-                    <div class="hidden md:block text-sm">
+                    <div class="block text-sm md:block">
                         <h5 class="font-medium text-gray-800">Welcome</h5>
                         <p class="text-gray-600 text-xs">{{ $guru->name }}</p>
-
                         @if ($kelasDiampu->count())
                             <p class="text-[11px] text-sky-700 mt-1">
                                 {{ $kelasDiampu->pluck('nama')->implode(', ') }}
@@ -118,7 +125,7 @@
                         <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3"
                             stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    <span class="hidden md:block font-medium">Dashboard</span>
+                    <span class="font-medium">Dashboard</span>
                 </a>
 
                 <!-- Manage Dropdown -->
@@ -132,10 +139,10 @@
                                     d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            <span class="hidden md:block font-medium">Manage</span>
+                            <span class="font-medium">Manage</span>
                         </div>
-                        <svg class="w-4 h-4 hidden md:block transition-transform" :class="{ 'rotate-180': open }"
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': open }" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
@@ -152,7 +159,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <span class="hidden md:block">Materials</span>
+                            <span class="font-medium">Materials</span>
                         </a>
                         <a href="{{ route('quiz.create') }}"
                             class="flex items-center px-4 py-2 rounded-lg text-purple-600 hover:bg-purple-50 transition">
@@ -160,18 +167,19 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                             </svg>
-                            <span class="hidden md:block">Quizzes</span>
+                            <span class="font-medium">Quizzes</span>
                         </a>
                     </div>
                 </div>
 
                 <a href="{{ route('goals') }}"
                     class="flex items-center px-4 py-3 rounded-xl text-amber-600 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 transition">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path d="M12 8v4l3 3m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
                             stroke-linejoin="round" />
                     </svg>
-                    <span class="hidden md:block font-medium">Goals</span>
+                    <span class="font-medium">Goals</span>
                 </a>
 
                 <a href="{{ route('discussion.index') }}"
@@ -181,7 +189,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M17 8h2a2 2 0 012 2v7a2 2 0 01-2 2h-7l-4 4v-4H7a2 2 0 01-2-2V10a2 2 0 012-2h2" />
                     </svg>
-                    <span class="hidden md:block font-medium">Diskusi</span>
+                    <span class="font-medium">Diskusi</span>
                 </a>
 
 
@@ -205,7 +213,7 @@
                                 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        <span class="hidden md:block font-medium">Logout</span>
+                        <span class="font-medium">Logout</span>
                     </button>
             </nav>
         </div>
@@ -241,14 +249,14 @@
                 <div class="absolute inset-0 bg-black/10"></div>
                 <div class="relative z-10 flex flex-col md:flex-row items-center justify-between">
                     <div class="mb-6 md:mb-0">
-                        <h2 class="text-3xl font-bold mb-2 animate__animated animate__fadeInUp">Welcome to Your
+                        <h2 class="text-xl md:text-3xl font-bold mb-2">Welcome to Your
                             Dashboard</h2>
-                        <p class="text-lg text-blue-100 animate__animated animate__fadeInUp animate__delay-1s">Track
+                        <p class="text-base md:text-lg text-blue-100">Track
                             your progress and manage your educational content with ease.</p>
                     </div>
                     <div class="floating-animation">
                         <a href="{{ route('goals') }}"
-                            class="bg-white/20 hover:bg-white/30 backdrop-blur-lg text-white font-semibold px-6 py-3 rounded-2xl transition-all duration-300 border border-white/30 shadow-lg hover:shadow-xl flex items-center justify-center">
+                            class="bg-white/20 hover:bg-white/30 backdrop-blur-lg text-white font-semibold px-4 md:px-6 py-2 md:py-3 rounded-2xl transition-all duration-300 border border-white/30 shadow-lg hover:shadow-xl flex items-center justify-center">
                             <span class="flex items-center">
                                 View Progress
                                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
