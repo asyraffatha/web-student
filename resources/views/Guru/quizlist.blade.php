@@ -158,6 +158,112 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
+        @media (max-width: 600px) {
+            .max-w-6xl {
+                max-width: 100vw !important;
+                padding: 0 !important;
+            }
+
+            .glass-effect {
+                padding: 10px !important;
+                border-radius: 12px !important;
+            }
+
+            .fade-in,
+            .card-hover {
+                padding: 10px !important;
+                border-radius: 10px !important;
+            }
+
+            .rounded-2xl,
+            .rounded-xl {
+                border-radius: 10px !important;
+            }
+
+            .p-8,
+            .mb-8 {
+                padding: 10px !important;
+                margin-bottom: 12px !important;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4 {
+                font-size: 1.1rem !important;
+            }
+
+            .text-2xl,
+            .text-4xl {
+                font-size: 1.2rem !important;
+            }
+
+            .text-lg,
+            .text-base,
+            .text-sm {
+                font-size: 1rem !important;
+            }
+
+            .py-16 {
+                padding-top: 24px !important;
+                padding-bottom: 24px !important;
+            }
+
+            .p-12 {
+                padding: 14px !important;
+            }
+
+            .grid,
+            .md\:grid-cols-2,
+            .md\:grid-cols-3 {
+                display: block !important;
+            }
+
+            .gap-6 {
+                gap: 10px !important;
+            }
+
+            .flex,
+            .md\:flex-row {
+                flex-direction: column !important;
+                gap: 8px !important;
+            }
+
+            .items-center,
+            .items-start {
+                align-items: stretch !important;
+            }
+
+            .w-12,
+            .w-16,
+            .w-24,
+            .w-32 {
+                width: 48px !important;
+                height: 48px !important;
+                min-width: 48px !important;
+            }
+
+            .px-4,
+            .px-6 {
+                padding-left: 8px !important;
+                padding-right: 8px !important;
+            }
+
+            .py-2,
+            .py-3,
+            .py-4,
+            .py-6 {
+                padding-top: 8px !important;
+                padding-bottom: 8px !important;
+            }
+
+            .action-btn,
+            .btn-primary {
+                font-size: 0.95rem !important;
+                padding: 8px 12px !important;
+            }
+        }
     </style>
 </head>
 

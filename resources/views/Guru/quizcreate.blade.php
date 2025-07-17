@@ -6,6 +6,7 @@
     <title>Buat Quiz</title>
     @vite('resources/css/app.css')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -123,6 +124,117 @@
             background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 16px;
+                padding: 0 !important;
+            }
+
+            .max-w-4xl {
+                max-width: 100vw !important;
+                margin: 0 !important;
+            }
+
+            .bg-white\/95,
+            .card-shadow,
+            .rounded-3xl,
+            .fade-in {
+                border-radius: 12px !important;
+                padding: 12px !important;
+            }
+
+            .text-4xl {
+                font-size: 1.5rem !important;
+            }
+
+            .text-3xl {
+                font-size: 1.2rem !important;
+            }
+
+            .text-2xl {
+                font-size: 1rem !important;
+            }
+
+            .text-lg {
+                font-size: 0.95rem !important;
+            }
+
+            .p-8 {
+                padding: 12px !important;
+            }
+
+            .mb-8 {
+                margin-bottom: 16px !important;
+            }
+
+            .space-y-8> :not([hidden])~ :not([hidden]) {
+                margin-top: 12px !important;
+            }
+
+            .grid,
+            .md\:grid-cols-2 {
+                display: block !important;
+            }
+
+            .gap-6 {
+                gap: 10px !important;
+            }
+
+            .rounded-xl,
+            .rounded-lg {
+                border-radius: 8px !important;
+            }
+
+            .px-8,
+            .px-12 {
+                padding-left: 12px !important;
+                padding-right: 12px !important;
+            }
+
+            .py-4 {
+                padding-top: 10px !important;
+                padding-bottom: 10px !important;
+            }
+
+            .question-container {
+                padding: 8px !important;
+            }
+
+            label,
+            input,
+            select,
+            textarea {
+                font-size: 1rem !important;
+            }
+
+            .w-32 {
+                width: 100% !important;
+            }
+
+            .flex {
+                flex-direction: column !important;
+                gap: 8px !important;
+            }
+
+            .flex-row,
+            .sm\:flex-row {
+                flex-direction: column !important;
+            }
+
+            .items-center {
+                align-items: stretch !important;
+            }
+
+            .space-x-2,
+            .gap-3 {
+                gap: 8px !important;
+            }
+
+            .mb-6 {
+                margin-bottom: 12px !important;
+            }
         }
     </style>
 </head>
