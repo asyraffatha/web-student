@@ -63,7 +63,7 @@
     </div>
 
     <footer class="text-center py-6 text-sm text-gray-500">
-        &copy; {{ date('Y') }} Sistem Administrasi. All rights reserved.
+        &copy; {{ date('Y') }} Mathporia. Learning Mathematics
     </footer>
 
 </body>

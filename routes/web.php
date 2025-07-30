@@ -7,7 +7,7 @@ use App\Http\Controllers\ForumController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventController;       
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\GuruDashboardController;
