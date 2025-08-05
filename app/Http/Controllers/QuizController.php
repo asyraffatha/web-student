@@ -8,14 +8,17 @@ use App\Models\QuizResult;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Question;
 use App\Services\GamificationService;
+use App\Services\BossQuizBadgeService;
 
 class QuizController extends Controller
 {
     protected $gamificationService;
+    protected $bossQuizBadgeService;
 
-    public function __construct(GamificationService $gamificationService)
+    public function __construct(GamificationService $gamificationService, BossQuizBadgeService $bossQuizBadgeService)
     {
         $this->gamificationService = $gamificationService;
+        $this->bossQuizBadgeService = $bossQuizBadgeService;
     }
 
     public function index()
@@ -180,7 +183,13 @@ class QuizController extends Controller
         // Award gamification points
         $this->awardQuizPoints($user, $score, $passed, $quiz, $result);
 
-        return view('quizzes.result', compact('score', 'quiz', 'result'));
+        // Check and award Boss Quiz badges if this is a Boss Quiz with score > 90
+        $awardedBadges = [];
+        if ($quiz->type === 'boss' && $score > 90) {
+            $awardedBadges = $this->bossQuizBadgeService->checkAndAwardBadges($user);
+        }
+
+        return view('quizzes.result', compact('score', 'quiz', 'result', 'awardedBadges'));
     }
 
     /**

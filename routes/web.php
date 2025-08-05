@@ -209,10 +209,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/user/create', [UserController::class, 'create'])->name('admin.user.create');
     Route::post('/user', [UserController::class, 'store'])->name('admin.user.store');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
-<<<<<<< Updated upstream
     Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('admin.user.edit');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('admin.user.update');
-=======
+
 });
 
 // ===== GAMIFICATION ROUTES ===== //
@@ -231,5 +230,4 @@ Route::middleware(['auth', 'role:siswa', 'award-daily-login'])->group(function (
     Route::post('/gamification/check-badges', [App\Http\Controllers\GamificationController::class, 'checkBadges'])->name('gamification.check-badges');
     Route::get('/gamification/leaderboard-data', [App\Http\Controllers\GamificationController::class, 'getLeaderboardData'])->name('gamification.leaderboard-data');
     Route::get('/gamification/point-activities', [App\Http\Controllers\GamificationController::class, 'getPointActivities'])->name('gamification.point-activities');
->>>>>>> Stashed changes
 });

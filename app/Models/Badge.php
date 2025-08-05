@@ -79,6 +79,14 @@ class Badge extends Model
             case 'quiz_perfect_score':
                 $count = $user->quizResults()->where('score', 100)->count();
                 break;
+            case 'boss_quiz_perfect':
+                $count = $user->quizResults()
+                    ->whereHas('quiz', function($query) {
+                        $query->where('type', 'boss');
+                    })
+                    ->where('score', '>', 90)
+                    ->count();
+                break;
             case 'login_streak':
                 $count = $this->calculateLoginStreak($user);
                 break;

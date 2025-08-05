@@ -153,7 +153,7 @@ class GamificationSeeder extends Seeder
             [
                 'name' => 'Matematikawan Pemula',
                 'description' => 'Menyelesaikan 5 materi awal',
-                'icon' => 'badge-beginner',
+                'icon' => '🎓',
                 'category' => 'achievement',
                 'criteria' => [
                     ['type' => 'materi_completed', 'operator' => '>=', 'value' => 5]
@@ -162,7 +162,7 @@ class GamificationSeeder extends Seeder
             [
                 'name' => 'Juara Kuis',
                 'description' => 'Mendapatkan skor sempurna dalam 3 kuis',
-                'icon' => 'badge-quiz-champion',
+                'icon' => '🏆',
                 'category' => 'achievement',
                 'criteria' => [
                     ['type' => 'quiz_perfect_score', 'operator' => '>=', 'value' => 3]
@@ -171,7 +171,7 @@ class GamificationSeeder extends Seeder
             [
                 'name' => 'Konsisten Belajar',
                 'description' => 'Login dan belajar selama 7 hari berturut-turut',
-                'icon' => 'badge-consistent',
+                'icon' => '🔥',
                 'category' => 'achievement',
                 'criteria' => [
                     ['type' => 'login_streak', 'operator' => '>=', 'value' => 7]
@@ -180,10 +180,66 @@ class GamificationSeeder extends Seeder
             [
                 'name' => 'Pembelajar Aktif',
                 'description' => 'Menyelesaikan 10 kuis',
-                'icon' => 'badge-active-learner',
+                'icon' => '⭐',
                 'category' => 'achievement',
                 'criteria' => [
                     ['type' => 'quiz_completed', 'operator' => '>=', 'value' => 10]
+                ],
+            ],
+            
+            // Boss Quiz Badges
+            [
+                'name' => 'Boss Slayer Pertama',
+                'description' => 'Berhasil mengalahkan Boss Quiz pertama dengan nilai >90',
+                'icon' => '⚔️',
+                'category' => 'boss_quiz',
+                'criteria' => [
+                    ['type' => 'boss_quiz_perfect', 'operator' => '>=', 'value' => 1]
+                ],
+            ],
+            [
+                'name' => 'Boss Hunter',
+                'description' => 'Mengalahkan 3 Boss Quiz dengan nilai >90',
+                'icon' => '🗡️',
+                'category' => 'boss_quiz',
+                'criteria' => [
+                    ['type' => 'boss_quiz_perfect', 'operator' => '>=', 'value' => 3]
+                ],
+            ],
+            [
+                'name' => 'Boss Master',
+                'description' => 'Mengalahkan 5 Boss Quiz dengan nilai >90',
+                'icon' => '👑',
+                'category' => 'boss_quiz',
+                'criteria' => [
+                    ['type' => 'boss_quiz_perfect', 'operator' => '>=', 'value' => 5]
+                ],
+            ],
+            [
+                'name' => 'Boss Legend',
+                'description' => 'Mengalahkan 10 Boss Quiz dengan nilai >90',
+                'icon' => '🏅',
+                'category' => 'boss_quiz',
+                'criteria' => [
+                    ['type' => 'boss_quiz_perfect', 'operator' => '>=', 'value' => 10]
+                ],
+            ],
+            [
+                'name' => 'Boss Destroyer',
+                'description' => 'Mengalahkan 15 Boss Quiz dengan nilai >90',
+                'icon' => '💎',
+                'category' => 'boss_quiz',
+                'criteria' => [
+                    ['type' => 'boss_quiz_perfect', 'operator' => '>=', 'value' => 15]
+                ],
+            ],
+            [
+                'name' => 'Boss God',
+                'description' => 'Mengalahkan 20 Boss Quiz dengan nilai >90',
+                'icon' => '👑',
+                'category' => 'boss_quiz',
+                'criteria' => [
+                    ['type' => 'boss_quiz_perfect', 'operator' => '>=', 'value' => 20]
                 ],
             ],
             
@@ -191,7 +247,7 @@ class GamificationSeeder extends Seeder
             [
                 'name' => 'Level 5',
                 'description' => 'Mencapai level 5',
-                'icon' => 'badge-level-5',
+                'icon' => '🎯',
                 'category' => 'milestone',
                 'criteria' => [
                     ['type' => 'level_reached', 'operator' => '>=', 'value' => 5]
@@ -200,7 +256,7 @@ class GamificationSeeder extends Seeder
             [
                 'name' => 'Level 10',
                 'description' => 'Mencapai level 10',
-                'icon' => 'badge-level-10',
+                'icon' => '🎯',
                 'category' => 'milestone',
                 'criteria' => [
                     ['type' => 'level_reached', 'operator' => '>=', 'value' => 10]
@@ -209,7 +265,7 @@ class GamificationSeeder extends Seeder
             [
                 'name' => 'Level 20',
                 'description' => 'Mencapai level 20',
-                'icon' => 'badge-level-20',
+                'icon' => '🎯',
                 'category' => 'milestone',
                 'criteria' => [
                     ['type' => 'level_reached', 'operator' => '>=', 'value' => 20]
@@ -220,7 +276,7 @@ class GamificationSeeder extends Seeder
             [
                 'name' => 'Poin Master',
                 'description' => 'Mengumpulkan 1000 poin',
-                'icon' => 'badge-points-master',
+                'icon' => '💎',
                 'category' => 'special',
                 'criteria' => [
                     ['type' => 'total_points', 'operator' => '>=', 'value' => 1000]
@@ -229,7 +285,7 @@ class GamificationSeeder extends Seeder
             [
                 'name' => 'Pembelajar Sejati',
                 'description' => 'Menyelesaikan 20 materi dan 15 kuis',
-                'icon' => 'badge-true-learner',
+                'icon' => '🌟',
                 'category' => 'special',
                 'criteria' => [
                     ['type' => 'materi_completed', 'operator' => '>=', 'value' => 20],

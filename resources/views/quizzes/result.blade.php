@@ -419,6 +419,36 @@
             </div>
         @endif
 
+        <!-- Boss Quiz Badge Notification -->
+        @if($quiz->type === 'boss' && $score > 90 && !empty($awardedBadges))
+            <div class="badge-notification animate__animated animate__fadeInUp animate__delay-2s" style="margin: 2rem 0; padding: 2rem; background: linear-gradient(135deg, #ffd700, #ffed4e); border-radius: 1rem; box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3); border: 3px solid #ffb347;">
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">🏆</div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #8b4513; margin-bottom: 0.5rem;">Badge Baru Diperoleh!</h3>
+                    <p style="color: #8b4513; font-size: 1rem;">Selamat! Anda berhasil mengalahkan Boss Quiz dengan nilai sempurna!</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    @foreach($awardedBadges as $awardedBadge)
+                    <div style="background: rgba(255, 255, 255, 0.9); border-radius: 0.8rem; padding: 1.5rem; text-align: center; border: 2px solid #ffb347;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">{{ $awardedBadge['badge']->icon }}</div>
+                        <h4 style="font-size: 1.2rem; font-weight: 700; color: #8b4513; margin-bottom: 0.5rem;">{{ $awardedBadge['badge']->name }}</h4>
+                        <p style="color: #8b4513; font-size: 0.9rem; line-height: 1.4;">{{ $awardedBadge['badge']->description }}</p>
+                    </div>
+                    @endforeach
+                </div>
+                
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <a href="{{ route('gamification.badges') }}" 
+                       style="display: inline-block; background: linear-gradient(90deg, #ff6b35, #f7931e); color: white; padding: 0.8rem 2rem; border-radius: 0.8rem; font-weight: 600; text-decoration: none; transition: transform 0.2s;" 
+                       onmouseover="this.style.transform='scale(1.05)'" 
+                       onmouseout="this.style.transform='scale(1)'">
+                        🏅 Lihat Semua Badge
+                    </a>
+                </div>
+            </div>
+        @endif
+
         <div class="text-center">
             <a href="{{ route('quizzes.index') }}"
                 class="back-btn animate__animated animate__fadeInUp animate__delay-1s">

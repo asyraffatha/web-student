@@ -21,6 +21,122 @@
             overflow-x: hidden;
         }
 
+        /* Floating stars background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(1px 1px at 20px 30px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 40px 70px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 90px 40px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 130px 80px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 160px 30px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 200px 60px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 240px 90px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 280px 40px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 320px 70px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 360px 30px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 400px 80px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 440px 50px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 480px 90px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 520px 30px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 560px 70px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 600px 40px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 640px 80px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 680px 50px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 720px 90px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 760px 30px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 800px 60px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 840px 90px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 880px 30px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 920px 70px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 960px 40px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1000px 80px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1040px 50px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1080px 90px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1120px 30px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1160px 70px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1200px 40px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1240px 80px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1280px 50px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1320px 90px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1360px 30px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1400px 70px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1440px 40px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1480px 80px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1520px 50px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1560px 90px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1600px 30px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1640px 70px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1680px 40px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1720px 80px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1760px 50px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1800px 90px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1840px 30px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1880px 70px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1920px 40px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 1960px 80px, #fbbf24, transparent),
+                radial-gradient(1px 1px at 2000px 50px, #fbbf24, transparent);
+            background-repeat: repeat;
+            background-size: 2000px 200px;
+            animation: starFloat 45s linear infinite, twinkle 10s ease-in-out infinite;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        @keyframes starFloat {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-200px); }
+        }
+
+        /* Additional star animations */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.4; }
+            20% { opacity: 0.8; }
+            40% { opacity: 0.6; }
+            60% { opacity: 0.9; }
+            80% { opacity: 0.5; }
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1) rotate(180deg);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            }
+            50% {
+                box-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
+            }
+        }
+
         .animated-bg {
             position: fixed;
             top: 0;
@@ -32,6 +148,457 @@
             background-size: 400% 400%;
             animation: gradientShift 8s ease infinite;
         }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(odd) {
+            animation-direction: reverse;
+            animation-duration: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 1;
+            }
+        }
+
+        .star-animated {
+            position: absolute;
+            color: #fbbf24;
+            font-size: 0.6rem;
+            opacity: 0.5;
+            filter: drop-shadow(0 0 3px #fbbf24);
+            pointer-events: auto;
+            animation: starTwinkle 6s infinite, starSpin 6s infinite;
+            will-change: opacity, transform;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .star-animated:hover {
+            transform: scale(1.5) rotate(180deg);
+            filter: drop-shadow(0 0 8px #fbbf24);
+            animation-play-state: paused;
+        }
+
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.3; }
+            15% { opacity: 0.8; }
+            30% { opacity: 0.5; }
+            45% { opacity: 0.9; }
+            60% { opacity: 0.3; }
+            75% { opacity: 0.7; }
+            90% { opacity: 0.4; }
+        }
+
+        @keyframes starSpin {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            10% { transform: rotate(0deg) scale(1); }
+            15% { transform: rotate(360deg) scale(1.3); }
+            20% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(0deg) scale(1); }
+            55% { transform: rotate(360deg) scale(1.3); }
+            60% { transform: rotate(0deg) scale(1); }
+        }
+
+        body::before {
+            animation: starFloat 20s linear infinite, twinkle 3s ease-in-out infinite;
+        }
+
+        /* Toggle Button */
+        .toggle-btn {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1001;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: togglePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes togglePulse {
+            0%, 100% {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), 0 0 15px rgba(56, 189, 248, 0.2);
+            }
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-50%) scale(1.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25), 0 0 25px rgba(56, 189, 248, 0.4);
+            animation: none;
+        }
+
+        .toggle-btn.sidebar-open {
+            left: 370px;
+            z-index: 1002;
+            animation: none;
+        }
+
+        .toggle-btn svg {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-btn.sidebar-open svg {
+            transform: rotate(180deg);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: -350px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 350px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            overflow-y: auto;
+            pointer-events: none;
+            animation: sidebarGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes sidebarGlow {
+            0%, 100% {
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            }
+            50% {
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 20px rgba(56, 189, 248, 0.1);
+            }
+        }
+
+        .sidebar.open {
+            left: 20px;
+            pointer-events: auto;
+            animation: sidebarGlow 4s ease-in-out infinite;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-title {
+            color: #4f46e5;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-subtitle {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Badge Display */
+        .badge-display {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+            padding: 15px;
+            border-radius: 16px;
+            font-weight: 700;
+            color: #f59e0b;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+            font-size: 1rem;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .badge-display:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .badge-icon {
+            font-size: 1.8rem;
+            filter: drop-shadow(0 2px 4px rgba(245, 158, 11, 0.3));
+        }
+
+        .badge-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.7rem;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Points Display */
+        .points-display {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05));
+            padding: 15px;
+            border-radius: 16px;
+            font-weight: 700;
+            color: #3b82f6;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+            font-size: 1rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .points-display:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .points-icon {
+            font-size: 1.8rem;
+            filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
+        }
+
+        /* Experience Display */
+        .experience-display {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+            padding: 20px;
+            border-radius: 16px;
+            font-weight: 700;
+            color: #10b981;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.2);
+            font-size: 1rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .experience-display:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .exp-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .exp-icon {
+            font-size: 1.8rem;
+            filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3));
+        }
+
+        .exp-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .exp-amount {
+            font-size: 1.1rem;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .next-level {
+            font-size: 0.8rem;
+            color: #10b981;
+            opacity: 0.8;
+            background: rgba(16, 185, 129, 0.15);
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: relative;
+            height: 12px;
+            background: rgba(16, 185, 129, 0.15);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            margin-bottom: 10px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .progress-bar:hover {
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(16, 185, 129, 0.3);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            border-radius: 8px;
+            position: relative;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #065f46;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            z-index: 2;
+        }
+
+        .progress-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #10b981;
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .sidebar.open .stats-container > * {
+            animation: slideIn 0.5s ease forwards;
+        }
+
+        .sidebar.open .stats-container > *:nth-child(1) { animation-delay: 0.1s; }
+        .sidebar.open .stats-container > *:nth-child(2) { animation-delay: 0.2s; }
+        .sidebar.open .stats-container > *:nth-child(3) { animation-delay: 0.3s; }
+
+        .sidebar.open .stats-container > *:hover {
+            transform: translateY(-3px);
+            transition: transform 0.4s ease;
+        }
+
+        .main-content {
+            margin-left: 0;
+            transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-content.sidebar-open {
+            margin-left: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -350px;
+            }
+
+            .sidebar.open {
+                left: 20px;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .main-content.sidebar-open {
+                margin-left: 0;
+            }
+
+            .toggle-btn {
+                display: flex;
+            }
+        }
+
+
 
         .particles {
             position: fixed;
@@ -92,93 +659,327 @@
             }
         }
 
+        @keyframes shimmer-subtitle {
+            0% {
+                transform: translateX(-100%);
+            }
+            50% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
         @keyframes particleFloat {
             0%, 100% {
                 transform: translateY(0px) scale(1);
                 opacity: 0.8;
             }
             50% {
-                transform: translateY(-3px) scale(1.2);
+                transform: translateY(-3px) scale(1.1);
                 opacity: 1;
             }
         }
 
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 1;
+        .progress-particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: particleFloat 3s infinite ease-in-out;
+        }
+
+        .level-up-indicator {
+            position: absolute;
+            right: -2px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: #fbbf24;
+            border-radius: 50%;
+            animation: levelUpPulse 1.5s infinite;
+            box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+        }
+
+        @keyframes levelUpPulse {
+            0%, 100% { transform: translateY(-50%) scale(1); opacity: 1; }
+            50% { transform: translateY(-50%) scale(1.5); opacity: 0.7; }
+        }
+
+        .progress-bar-container {
+            position: relative;
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .progress-bar-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .progress-pattern {
+            position: absolute;
+            inset: 0;
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(16, 185, 129, 0.05) 2px, rgba(16, 185, 129, 0.05) 4px);
+            pointer-events: none;
+        }
+
+        .shimmer-effect {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+            pointer-events: none;
+        }
+
+        .glowing-edge {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.8), transparent);
+            pointer-events: none;
+        }
+
+        .remaining-progress {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            background: white;
+            border-radius: 0 4px 4px 0;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            .feature-title {
+                font-size: 2rem;
             }
-            50% {
-                transform: scale(1.3);
-                opacity: 0.7;
+
+            .feature-subtitle {
+                font-size: 1rem;
+                padding: 1rem 1.5rem;
+            }
+
+            .icon-container {
+                width: 3.2rem;
+                height: 3.2rem;
+            }
+
+            .bolt-icon {
+                font-size: 1.4rem;
+            }
+
+            .title-container {
+                gap: 0.8rem;
+            }
+
+            .header-section {
+                padding-top: 1rem;
+            }
+
+            /* Bintang di kiri dan kanan judul untuk mobile */
+            .header-section > div:nth-child(2) {
+                left: 20% !important;
+                font-size: 0.7rem !important;
+            }
+            .header-section > div:nth-child(3) {
+                right: 20% !important;
+                font-size: 0.7rem !important;
             }
         }
 
-        @keyframes glow {
-
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        @media (max-width: 480px) {
+            .feature-title {
+                font-size: 1.8rem;
             }
 
-            50% {
-                box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
-            }
-        }
-
-        @keyframes slideInDown {
-            from {
-                transform: translateY(-100px);
-                opacity: 0;
+            .feature-subtitle {
+                font-size: 0.9rem;
+                padding: 0.8rem 1.2rem;
             }
 
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
+            .icon-container {
+                width: 3rem;
+                height: 3rem;
             }
 
-            to {
-                transform: translateY(0);
-                opacity: 1;
+            .bolt-icon {
+                font-size: 1.3rem;
+            }
+
+            .title-container {
+                gap: 0.6rem;
+            }
+
+            /* Bintang di kiri dan kanan judul untuk mobile kecil */
+            .header-section > div:nth-child(2) {
+                left: 15% !important;
+                font-size: 0.6rem !important;
+            }
+            .header-section > div:nth-child(3) {
+                right: 15% !important;
+                font-size: 0.6rem !important;
             }
         }
 
-        @keyframes sparkle {
-
-            0%,
-            100% {
-                opacity: 0;
-                transform: scale(0) rotate(0deg);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1) rotate(180deg);
-            }
-        }
-
-        .main-content {
-            padding: 3rem 1rem;
+        .fitur-quiz-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 2.2rem;
+            margin-bottom: 2.2rem;
             position: relative;
             z-index: 1;
         }
 
-        .container {
-            max-width: 56rem;
+        .fitur-quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1.7rem;
+            width: 100%;
+            max-width: 1400px;
+            justify-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .fitur-card {
+            width: 100%;
+            max-width: 320px;
+            min-width: 220px;
             margin: 0 auto;
+            border-radius: 2.2rem;
+            padding: 2.2rem 1.2rem;
+            position: relative;
+            z-index: 1;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: cardFadeIn 0.8s ease-out;
+        }
+
+        .fitur-card:nth-child(1) { animation-delay: 0.2s; }
+        .fitur-card:nth-child(2) { animation-delay: 0.4s; }
+        .fitur-card:nth-child(3) { animation-delay: 0.6s; }
+        .fitur-card:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fitur-card.harian,
+        .fitur-card.teka {
+            background: rgba(255, 255, 255, 0.82);
+            box-shadow: 0 8px 32px 0 rgba(80, 80, 200, 0.10);
+            backdrop-filter: blur(2px);
+        }
+
+        .fitur-card.harian:hover,
+        .fitur-card.teka:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 50px 0 rgba(80, 80, 200, 0.18);
+        }
+
+        .fitur-card.boss {
+            background: rgba(251, 191, 36, 0.10);
+            box-shadow: 0 8px 32px 0 rgba(251, 191, 36, 0.13);
+        }
+
+        .fitur-card.boss:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 50px 0 rgba(251, 191, 36, 0.22);
+        }
+
+        .fitur-card.teman {
+            background: rgba(22, 22, 22, 0.13);
+            filter: brightness(0.85) blur(0.5px);
+            opacity: 0.7;
+        }
+
+        .fitur-card.teman:hover {
+            transform: translateY(-6px);
+            filter: brightness(0.95) blur(0.2px);
+            opacity: 0.85;
+        }
+
+        @media (max-width: 1200px) {
+            .fitur-quiz-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .fitur-quiz-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .fitur-card {
+                max-width: 95vw;
+            }
+        }
+
+        .quiz-title {
+            display: block;
+            font-weight: 700;
+            color: #2563eb;
+            font-size: 1.05rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 90%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
         }
 
         .header-section {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 3rem;
             position: relative;
+            z-index: 1;
+            padding-top: 2rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .title-container {
@@ -186,45 +987,32 @@
             align-items: center;
             justify-content: center;
             gap: 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
             position: relative;
-            animation: slideInDown 1s ease-out;
         }
 
-        .icon-container {
-            background: linear-gradient(135deg, #ffd700, #ffed4a);
-            width: 4rem;
-            height: 4rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-            position: relative;
-            animation: glow 2s ease-in-out infinite, pulse 3s ease-in-out infinite;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .icon-container::before {
+        .title-container::before {
             content: '';
             position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
-            background: linear-gradient(45deg, #ffd700, #ff6b6b, #4ecdc4, #45b7d1);
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, transparent 70%);
             border-radius: 50%;
             z-index: -1;
-            animation: gradientShift 3s ease infinite;
-            opacity: 0.7;
+            animation: titleGlow 5s ease-in-out infinite;
         }
 
-        .bolt-icon {
-            font-size: 1.5rem;
-            color: #fff;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            animation: sparkle 2s ease-in-out infinite;
+        @keyframes titleGlow {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.15);
+            }
         }
 
         .feature-title {
@@ -253,41 +1041,32 @@
         }
 
         .feature-subtitle {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.125rem;
-            line-height: 1.7;
-            max-width: 42rem;
+            font-size: 1.1rem;
+            color: white;
+            max-width: 600px;
             margin: 0 auto;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            animation: slideInUp 1s ease-out 0.3s both;
-            background: rgba(255, 255, 255, 0.1);
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 1.5rem 2rem;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+            border-radius: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
             position: relative;
             overflow: hidden;
+            letter-spacing: 0.3px;
         }
 
         .feature-subtitle::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: shimmer 3s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                left: -100%;
-            }
-
-            100% {
-                left: 100%;
-            }
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            animation: shimmer-subtitle 4s infinite;
         }
 
         .sparkles {
@@ -340,196 +1119,198 @@
             animation-delay: 2.5s;
         }
 
-        @media (max-width: 768px) {
-            .feature-title {
-                font-size: 2rem;
-            }
-
-            .feature-subtitle {
-                font-size: 1rem;
-                padding: 1rem 1.5rem;
-            }
-
-            .icon-container {
-                width: 3rem;
-                height: 3rem;
-            }
-
-            .bolt-icon {
-                font-size: 1.25rem;
-            }
-        }
-
-        .fitur-quiz-wrapper {
+        .icon-container {
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
             display: flex;
+            align-items: center;
             justify-content: center;
-            width: 100%;
-            margin-top: 2.2rem;
-            margin-bottom: 2.2rem;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            position: relative;
+            animation: glow 2s ease-in-out infinite, pulse 3s ease-in-out infinite;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
         }
 
-        .fitur-quiz-grid {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 1.7rem;
-            width: 100%;
-            max-width: 1400px;
-            justify-items: center;
-        }
-
-        .fitur-card {
-            width: 100%;
-            max-width: 320px;
-            min-width: 220px;
-            margin: 0 auto;
-            border-radius: 2.2rem;
-            padding: 2.2rem 1.2rem;
-        }
-
-        .fitur-card.harian,
-        .fitur-card.teka {
-            background: rgba(255, 255, 255, 0.82);
-            box-shadow: 0 8px 32px 0 rgba(80, 80, 200, 0.10);
-            backdrop-filter: blur(2px);
-        }
-
-        .fitur-card.boss {
-            background: rgba(251, 191, 36, 0.10);
-            box-shadow: 0 8px 32px 0 rgba(251, 191, 36, 0.13);
-        }
-
-        .fitur-card.teman {
-            background: rgba(22, 22, 22, 0.13);
-            filter: brightness(0.85) blur(0.5px);
+        .icon-container::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b, #4ecdc4, #45b7d1);
+            border-radius: 50%;
+            z-index: -1;
+            animation: gradientShift 3s ease infinite;
             opacity: 0.7;
         }
 
-        @media (max-width: 1200px) {
-            .fitur-quiz-grid {
-                grid-template-columns: repeat(2, 1fr);
+        .icon-container::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .icon-container:hover {
+            transform: scale(1.1);
+            box-shadow: 
+                0 15px 50px rgba(236, 72, 153, 0.7),
+                0 8px 25px rgba(56, 189, 248, 0.5),
+                0 0 40px rgba(236, 72, 153, 0.5),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3);
+        }
+
+        .icon-container:active {
+            transform: scale(0.92);
+        }
+
+        /* Animation for icon container on page load */
+        .icon-container {
+            animation: iconPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.03);
             }
         }
 
-        @media (max-width: 700px) {
-            .fitur-quiz-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .fitur-card {
-                max-width: 95vw;
-            }
+        .icon-container:hover {
+            animation: none;
         }
 
-        .quiz-title {
-            display: block;
-            font-weight: 700;
-            color: #2563eb;
-            font-size: 1.05rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 90%;
+        .bolt-icon {
+            font-size: 1.5rem;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            animation: sparkle 2s ease-in-out infinite;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </style>
 </head>
 
 <body>
-    <div
-        style="position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 2.5vw 0.5rem 2.5vw;">
-        <a href="{{ route('siswa.dashboard') }}"
-            style="display:flex;align-items:center;gap:0.7rem;background:rgba(255,255,255,0.7);padding:0.7rem 1.3rem;border-radius:1.2rem;font-weight:700;color:#6366f1;text-decoration:none;box-shadow:0 2px 8px rgba(99,102,241,0.08);font-size:1.1rem;">
-            <i class="fa-solid fa-arrow-left"></i> Kembali ke Home
-        </a>
+    <!-- Toggle Button -->
+    <button class="toggle-btn" id="toggleBtn">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 class="sidebar-title">Status Pengguna</h2>
+            <p class="sidebar-subtitle">Lacak progress dan pencapaian Anda</p>
+        </div>
         
-        <!-- Gamification Info -->
-        <div style="display:flex;align-items:center;gap:1rem;">
+        <div class="stats-container">
             <!-- Badge Display -->
-            <div style="position:relative;display:flex;align-items:center;gap:0.7rem;background:rgba(255,255,255,0.9);padding:0.7rem 1.3rem;border-radius:1.2rem;font-weight:700;color:#f59e0b;box-shadow:0 2px 8px rgba(245,158,11,0.2);font-size:1rem;">
-                <span style="font-size:1.5rem;">🏅</span>
+            <div class="badge-display">
+                <span class="badge-icon">🏅</span>
                 <div>
-                    <div style="font-size:0.9rem;color:#f59e0b;">{{ Auth::user()->getLevelTitle() }}</div>
-                    <div style="font-size:0.8rem;color:#f59e0b;opacity:0.8;">Level {{ Auth::user()->getLevel() }}</div>
+                    <div style="font-size: 0.9rem; color: #f59e0b;">{{ Auth::user()->getLevelTitle() }}</div>
+                    <div style="font-size: 0.8rem; color: #f59e0b; opacity: 0.8;">Level {{ Auth::user()->getLevel() }}</div>
                 </div>
                 @if(Auth::user()->getEarnedBadges()->count() > 0)
-                <div style="position:absolute;-top:1;-right-1;background:#ef4444;color:white;font-size:0.7rem;border-radius:50%;width:1.2rem;height:1.2rem;display:flex;align-items:center;justify-content:center;font-weight:bold;">
-                    {{ Auth::user()->getEarnedBadges()->count() }}
-                </div>
+                <div class="badge-count">{{ Auth::user()->getEarnedBadges()->count() }}</div>
                 @endif
             </div>
             
             <!-- Points Display -->
-            <div style="display:flex;align-items:center;gap:0.7rem;background:rgba(255,255,255,0.9);padding:0.7rem 1.3rem;border-radius:1.2rem;font-weight:700;color:#3b82f6;box-shadow:0 2px 8px rgba(59,130,246,0.2);font-size:1rem;">
-                <span style="font-size:1.5rem;">⭐</span>
+            <div class="points-display">
+                <span class="points-icon">⭐</span>
                 <div>
-                    <div style="font-size:0.9rem;color:#3b82f6;">{{ number_format(Auth::user()->getTotalPoints()) }}</div>
-                    <div style="font-size:0.8rem;color:#3b82f6;opacity:0.8;">Poin</div>
+                    <div style="font-size: 0.9rem; color: #3b82f6;">{{ number_format(Auth::user()->getTotalPoints()) }}</div>
+                    <div style="font-size: 0.8rem; color: #3b82f6; opacity: 0.8;">Poin</div>
                 </div>
             </div>
             
-            <!-- Experience Display with Professional Progress Bar -->
-            <div style="display:flex;align-items:center;gap:0.7rem;background:rgba(255,255,255,0.95);padding:0.7rem 1.3rem;border-radius:1.2rem;font-weight:700;color:#10b981;box-shadow:0 4px 15px rgba(16,185,129,0.3);font-size:1rem;min-width:280px;backdrop-filter:blur(10px);border:1px solid rgba(16,185,129,0.2);">
-                <span style="font-size:1.5rem;">📈</span>
-                <div style="flex:1;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
-                        <span style="font-size:0.9rem;color:#10b981;font-weight:600;">{{ number_format(Auth::user()->userPoint?->experience ?? 0) }} XP</span>
-                        <span style="font-size:0.8rem;color:#10b981;opacity:0.8;background:rgba(16,185,129,0.1);padding:0.2rem 0.5rem;border-radius:0.5rem;">Level {{ Auth::user()->getLevel() + 1 }}</span>
-                    </div>
-                    
-                    <!-- Professional Progress Bar -->
-                    <div style="position:relative;width:100%;height:0.8rem;background:#fff;border-radius:0.4rem;overflow:hidden;border:1px solid rgba(16,185,129,0.2);">
-                        <!-- Background Pattern -->
-                        <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(16,185,129,0.05) 2px,rgba(16,185,129,0.05) 4px);"></div>
-                        
-                        <!-- Main Progress Fill - Gradasi Hijau -->
-                        <div style="height:100%;background:linear-gradient(90deg,#10b981,#34d399,#10b981);background-size:200% 100%;border-radius:0.4rem;transition:width 1.5s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,0.1);" 
-                             style="width:{{ Auth::user()->getProgressToNextLevel() }}%">
-                            
-                            <!-- Animated Shimmer Effect -->
-                            <div style="position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);animation:shimmer 2.5s infinite;transform:skewX(-20deg);"></div>
-                            
-                            <!-- Glowing Edge Effect -->
-                            <div style="position:absolute;right:0;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,0.8),transparent);box-shadow:0 0 10px rgba(255,255,255,0.5);"></div>
-                            
-                            <!-- Progress Particles -->
-                            <div style="position:absolute;inset:0;">
-                                <div style="position:absolute;top:1/2;left:1/4;width:2px;height:2px;background:rgba(255,255,255,0.8);border-radius:50%;animation:particleFloat 3s infinite;box-shadow:0 0 4px rgba(255,255,255,0.6);"></div>
-                                <div style="position:absolute;top:1/2;left:1/2;width:1.5px;height:1.5px;background:rgba(255,255,255,0.6);border-radius:50%;animation:particleFloat 3s infinite;animation-delay:1s;box-shadow:0 0 3px rgba(255,255,255,0.4);"></div>
-                                <div style="position:absolute;top:1/2;left:3/4;width:1px;height:1px;background:rgba(255,255,255,0.4);border-radius:50%;animation:particleFloat 3s infinite;animation-delay:2s;box-shadow:0 0 2px rgba(255,255,255,0.3);"></div>
-                            </div>
-                            
-                            <!-- Level Up Indicator -->
-                            @if(Auth::user()->getProgressToNextLevel() > 90)
-                            <div style="position:absolute;right:2px;top:50%;transform:translateY(-50%);width:6px;height:6px;background:#fbbf24;border-radius:50%;animation:pulse 1s infinite;box-shadow:0 0 8px rgba(251,191,36,0.6);"></div>
-                            @endif
+            <!-- Experience Display -->
+            <div class="experience-display">
+                <div class="exp-header">
+                    <span class="exp-icon">📈</span>
+                    <div style="flex: 1;">
+                        <div class="exp-info">
+                            <span class="exp-amount">{{ number_format(Auth::user()->userPoint?->experience ?? 0) }} XP</span>
+                            <span class="next-level">Level {{ Auth::user()->getLevel() + 1 }}</span>
                         </div>
-                        
-                        <!-- Progress Text Overlay - Dihilangkan -->
                     </div>
-                    
-                    <!-- Progress Details -->
-                    <div style="display:flex;justify-content:space-between;margin-top:0.3rem;">
-                        <span style="font-size:0.7rem;color:#10b981;opacity:0.8;">{{ number_format(Auth::user()->userPoint?->experience ?? 0) }}/{{ number_format(Auth::user()->userPoint?->experience_to_next_level ?? 100) }}</span>
-                        <span style="font-size:0.7rem;color:#10b981;opacity:0.8;font-weight:600;">
-                            {{ number_format(100 - Auth::user()->getProgressToNextLevel(), 1) }}% tersisa
-                        </span>
-                    </div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="progress-bar" onclick="showExpDetails()" title="Klik untuk detail EXP">
+                    @php
+                        $currentExp = Auth::user()->userPoint?->experience ?? 0;
+                        $nextLevelExp = Auth::user()->userPoint?->experience_to_next_level ?? 100;
+                        $progressPercentage = $nextLevelExp > 0 ? ($currentExp / $nextLevelExp) * 100 : 0;
+                    @endphp
+                    <div class="progress-fill" style="width: {{ $progressPercentage }}%"></div>
+                    <div class="progress-text">{{ number_format($progressPercentage, 1) }}%</div>
+                </div>
+                
+                <!-- Progress Details -->
+                <div class="progress-details">
+                    <span>{{ number_format($currentExp) }}/{{ number_format($nextLevelExp) }}</span>
+                    <span style="font-weight: 600;">{{ number_format(100 - $progressPercentage, 1) }}% tersisa</span>
                 </div>
             </div>
         </div>
-        
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <div
+        style="position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 2.5vw 0.5rem 2.5vw;">
+        <a href="{{ route('siswa.dashboard') }}"
+            style="display:flex;align-items:center;gap:0.7rem;background:rgba(255,255,255,0.8);padding:0.7rem 1.3rem;border-radius:1.2rem;font-weight:700;color:#6366f1;text-decoration:none;box-shadow:0 2px 8px rgba(99,102,241,0.08);font-size:1.1rem;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3);transition:all 0.3s ease;"
+            onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 15px rgba(99,102,241,0.15)'" 
+            onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 8px rgba(99,102,241,0.08)'">
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Home
+        </a>
         <div
-            style="display:flex;align-items:center;gap:0.7rem;background:rgba(255,255,255,0.7);padding:0.7rem 1.3rem;border-radius:1.2rem;font-weight:700;color:#6366f1;box-shadow:0 2px 8px rgba(99,102,241,0.08);font-size:1.1rem;">
+            style="display:flex;align-items:center;gap:0.7rem;background:rgba(255,255,255,0.8);padding:0.7rem 1.3rem;border-radius:1.2rem;font-weight:700;color:#6366f1;box-shadow:0 2px 8px rgba(99,102,241,0.08);font-size:1.1rem;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3);">
             <i class="fa-solid fa-user-circle"></i> {{ Auth::user()->name ?? 'User' }}
         </div>
     </div>
+
+
 
     <div class="animated-bg"></div>
 
     <div class="particles" id="particles"></div>
 
-    <div class="main-content">
+    <div class="main-content" id="mainContent" style="position:relative;z-index:1;">
         <div class="container">
-            <div class="header-section">
+            <div class="header-section" style="position:relative;z-index:1;">
                 <div class="sparkles">
                     <i class="sparkle fa-solid fa-star"></i>
                     <i class="sparkle fa-solid fa-star"></i>
@@ -539,11 +1320,13 @@
                     <i class="sparkle fa-solid fa-star"></i>
                 </div>
 
-                <div class="title-container">
+                <div class="title-container" style="position:relative;z-index:2;">
                     <div class="icon-container">
                         <i class="fa-solid fa-bolt bolt-icon"></i>
                     </div>
-                    <h1 class="feature-title">Pilih Fitur Quiz</h1>
+                    <h1 class="feature-title">
+                        Pilih Fitur Quiz
+                    </h1>
                 </div>
 
                 <div class="feature-subtitle">
@@ -553,10 +1336,10 @@
             </div>
 
             <!-- 4 Fitur Quiz -->
-            <div class="fitur-quiz-wrapper">
-                <div class="fitur-quiz-grid">
+            <div class="fitur-quiz-wrapper" style="position:relative;z-index:2;">
+                <div class="fitur-quiz-grid" style="position:relative;z-index:2;">
                     <!-- Misi Harian -->
-                    <div class="fitur-card harian">
+                    <div class="fitur-card harian" style="position:relative;z-index:2;">
                         <div
                             style="background:#38bdf8;width:3.2rem;height:3.2rem;display:flex;align-items:center;justify-content:center;border-radius:1rem;margin-bottom:1.1rem;font-size:2rem;">
                             <span role="img" aria-label="misi">📝</span>
@@ -628,7 +1411,7 @@
                         @endif
                     </div>
                     <!-- Teka-Teki Harian -->
-                    <div class="fitur-card teka">
+                    <div class="fitur-card teka" style="position:relative;z-index:2;">
                         <div
                             style="background:#a78bfa;width:3.2rem;height:3.2rem;display:flex;align-items:center;justify-content:center;border-radius:1rem;margin-bottom:1.1rem;font-size:2rem;">
                             <span role="img" aria-label="teka-teki">🧩</span>
@@ -699,7 +1482,7 @@
                     </div>
                     <!-- Boss Quiz Mingguan -->
                     <div class="fitur-card boss"
-                        style="position:relative;{{ !$canAccessBossQuiz ? 'opacity:0.7;' : '' }}">
+                        style="position:relative;z-index:2;{{ !$canAccessBossQuiz ? 'opacity:0.7;' : '' }}">
                         @if (!$canAccessBossQuiz)
                             <div
                                 style="position:absolute;inset:0;background:rgba(0,0,0,0.18);border-radius:2.2rem;z-index:1;">
@@ -813,7 +1596,9 @@
 
             <!-- Info Ringkas Quiz -->
             <div
-                style="max-width:900px;margin:0 auto 2.5rem auto;text-align:center;background:rgba(255,255,255,0.7);border-radius:18px;padding:1.7rem 1.2rem 1.4rem 1.2rem;box-shadow:0 2px 12px rgba(80,80,200,0.08);">
+                style="max-width:900px;margin:0 auto 2.5rem auto;text-align:center;background:rgba(255,255,255,0.7);border-radius:18px;padding:1.7rem 1.2rem 1.4rem 1.2rem;box-shadow:0 2px 12px rgba(80,80,200,0.08);position:relative;z-index:1;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3);transition:all 0.3s ease;"
+                onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 25px rgba(80,80,200,0.15)'" 
+                onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 12px rgba(80,80,200,0.08)'">
                 <div style="font-size:1.25rem;font-weight:700;color:#4f46e5;margin-bottom:0.7rem;">Info Quiz Kamu</div>
                 <div style="display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;font-size:1.13rem;">
                     <div><span style="font-weight:700;color:#2563eb;">Total Quiz:</span>
@@ -828,15 +1613,18 @@
             </div>
 
             <!-- Tombol Lihat Semua Quiz -->
-            <div style="text-align:center;margin-bottom:2.5rem;">
+            <div style="text-align:center;margin-bottom:2.5rem;position:relative;z-index:1;">
                 <a href="{{ route('quizzes.index') }}"
-                    style="display:inline-block;background:linear-gradient(90deg,#6366f1,#a78bfa);color:#fff;font-weight:700;padding:1.1rem 2.5rem;border-radius:1.7rem;font-size:1.18rem;box-shadow:0 4px 16px rgba(99,102,241,0.13);text-decoration:none;transition:filter 0.2s;"
-                    onmouseover="this.style.filter='brightness(1.08)'" onmouseout="this.style.filter='none'">
+                    style="display:inline-block;background:linear-gradient(90deg,#6366f1,#a78bfa);color:#fff;font-weight:700;padding:1.1rem 2.5rem;border-radius:1.7rem;font-size:1.18rem;box-shadow:0 4px 16px rgba(99,102,241,0.13);text-decoration:none;transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);"
+                    onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 25px rgba(99,102,241,0.25)'" 
+                    onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 16px rgba(99,102,241,0.13)'">
                     <i class="fa-solid fa-list-ul" style="margin-right:0.7rem;"></i> Lihat Semua Quiz
                 </a>
             </div>
         </div>
     </div>
+
+
 
     <script>
         // Create floating particles
@@ -867,6 +1655,96 @@
         // Initialize particles
         createParticles();
 
+        // Create interactive stars
+        function createInteractiveStars() {
+            const starField = document.getElementById('star-field');
+            if (!starField) return;
+            
+            // Clear existing stars
+            starField.innerHTML = '';
+            
+            // Create many small stars
+            const STAR_COUNT = 25;
+            for (let i = 0; i < STAR_COUNT; i++) {
+                const star = document.createElement('span');
+                star.className = 'star-animated';
+                star.innerHTML = '⭐';
+                
+                // Random position around header
+                const top = Math.random() * 150 + 10; // px
+                const left = Math.random() * 95 + 2; // %
+                const size = Math.random() * 0.3 + 0.5; // rem
+                
+                star.style.top = `${top}px`;
+                star.style.left = `${left}%`;
+                star.style.fontSize = `${size}rem`;
+                
+                // Random animation delay
+                star.style.animationDelay = `${Math.random() * 6}s`;
+                
+                starField.appendChild(star);
+            }
+        }
+
+        // Initialize interactive stars
+        createInteractiveStars();
+
+        // Add click effect to stars
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('star-animated')) {
+                const star = e.target;
+                star.style.transform = 'scale(2) rotate(720deg)';
+                star.style.filter = 'drop-shadow(0 0 15px #fbbf24)';
+                
+                // Create ripple effect
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.left = '50%';
+                ripple.style.top = '50%';
+                ripple.style.width = '0';
+                ripple.style.height = '0';
+                ripple.style.background = 'rgba(251, 191, 36, 0.2)';
+                ripple.style.borderRadius = '50%';
+                ripple.style.transform = 'translate(-50%, -50%)';
+                ripple.style.pointerEvents = 'none';
+                ripple.style.zIndex = '1000';
+                ripple.style.animation = 'ripple 1s ease-out';
+                
+                star.appendChild(ripple);
+                
+                setTimeout(() => {
+                    star.style.transform = '';
+                    star.style.filter = '';
+                    if (ripple.parentNode) {
+                        ripple.parentNode.removeChild(ripple);
+                    }
+                }, 1000);
+            }
+        });
+
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                0% {
+                    width: 0;
+                    height: 0;
+                    opacity: 1;
+                }
+                50% {
+                    width: 40px;
+                    height: 40px;
+                    opacity: 0.6;
+                }
+                100% {
+                    width: 80px;
+                    height: 80px;
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
         // Add interactive effects
         document.addEventListener('mousemove', (e) => {
             const particles = document.querySelectorAll('.particle');
@@ -891,6 +1769,140 @@
                 this.style.transform = 'scale(1)';
             }, 150);
         });
+
+        // Sidebar functionality
+        let sidebarOpen = false;
+
+        function toggleSidebar(event) {
+            // Prevent default behavior and stop propagation
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            const toggleBtn = document.getElementById('toggleBtn');
+            const overlay = document.getElementById('overlay');
+            
+            sidebarOpen = !sidebarOpen;
+            
+            if (sidebarOpen) {
+                // Open sidebar
+                sidebar.classList.add('open');
+                mainContent.classList.add('sidebar-open');
+                toggleBtn.classList.add('sidebar-open');
+                overlay.classList.add('show');
+            } else {
+                // Close sidebar
+                sidebar.classList.remove('open');
+                mainContent.classList.remove('sidebar-open');
+                toggleBtn.classList.remove('sidebar-open');
+                overlay.classList.remove('show');
+            }
+        }
+
+        function closeSidebar(event) {
+            // Prevent default behavior and stop propagation
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            const toggleBtn = document.getElementById('toggleBtn');
+            const overlay = document.getElementById('overlay');
+            
+            sidebar.classList.remove('open');
+            mainContent.classList.remove('sidebar-open');
+            toggleBtn.classList.remove('sidebar-open');
+            overlay.classList.remove('show');
+            sidebarOpen = false;
+        }
+
+        // Initialize sidebar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-open sidebar after 2 seconds for demo
+            setTimeout(() => {
+                if (!sidebarOpen) {
+                    toggleSidebar();
+                }
+            }, 2000);
+            
+            // Update progress bar animation
+            const progressFill = document.querySelector('.progress-fill');
+            if (progressFill) {
+                const currentWidth = progressFill.style.width;
+                progressFill.style.width = '0%';
+                
+                setTimeout(() => {
+                    progressFill.style.width = currentWidth;
+                }, 500);
+            }
+            
+            // Add event listeners to prevent path changes
+            const toggleBtn = document.getElementById('toggleBtn');
+            const overlay = document.getElementById('overlay');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleSidebar(e);
+                });
+            }
+            
+            if (overlay) {
+                overlay.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeSidebar(e);
+                });
+            }
+        });
+
+        // EXP Details Function
+        function showExpDetails() {
+            const currentExp = {{ Auth::user()->userPoint?->experience ?? 0 }};
+            const nextLevelExp = {{ Auth::user()->userPoint?->experience_to_next_level ?? 100 }};
+            const currentLevel = {{ Auth::user()->getLevel() }};
+            const progressPercentage = {{ (Auth::user()->userPoint?->experience ?? 0) > 0 && (Auth::user()->userPoint?->experience_to_next_level ?? 100) > 0 ? ((Auth::user()->userPoint?->experience ?? 0) / (Auth::user()->userPoint?->experience_to_next_level ?? 100)) * 100 : 0 }};
+            
+            alert(`Detail EXP:\n\nCurrent Level: ${currentLevel}\nCurrent XP: ${currentExp.toLocaleString()}\nNext Level XP: ${nextLevelExp.toLocaleString()}\nProgress: ${progressPercentage.toFixed(1)}%\n\nKeep learning to reach the next level!`);
+        }
+
+        // Create floating particles for background
+        function createBackgroundParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                // Random size
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+
+                // Random position
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+
+                // Random animation delay
+                particle.style.animationDelay = Math.random() * 6 + 's';
+
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize background particles
+        createBackgroundParticles();
+
+
+
+
     </script>
 </body>
 

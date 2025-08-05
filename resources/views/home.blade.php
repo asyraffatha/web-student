@@ -487,6 +487,76 @@
                 </div>
             </div>
 
+            <!-- Badge and Points Display -->
+            <div class="mb-4 space-y-3">
+                <!-- Badge Display -->
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg p-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-2">🏅</span>
+                            <div>
+                                <p class="text-xs font-semibold text-yellow-800">{{ Auth::user()->getLevelTitle() }}</p>
+                                <p class="text-xs text-yellow-600">Level {{ Auth::user()->getLevel() }}</p>
+                            </div>
+                        </div>
+                        @if(Auth::user()->getEarnedBadges()->count() > 0)
+                        <div class="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                            {{ Auth::user()->getEarnedBadges()->count() }}
+                        </div>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Points Display -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-2">⭐</span>
+                            <div>
+                                <p class="text-xs font-semibold text-blue-800">{{ number_format(Auth::user()->getTotalPoints()) }}</p>
+                                <p class="text-xs text-blue-600">Total Poin</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Earned Badges Display -->
+                @if(Auth::user()->getEarnedBadges()->count() > 0)
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-3">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-2">🏆</span>
+                            <div>
+                                <p class="text-xs font-semibold text-purple-800">Badge yang Didapat</p>
+                                <p class="text-xs text-purple-600">{{ Auth::user()->getEarnedBadges()->count() }} Badge</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Badge List -->
+                    <div class="grid grid-cols-3 gap-2">
+                        @foreach(Auth::user()->getEarnedBadges()->take(6) as $userBadge)
+                        <div class="bg-white rounded-lg p-2 border border-purple-100 shadow-sm">
+                            <div class="text-center">
+                                <span class="text-lg">{{ $userBadge->badge->icon ?? '🏅' }}</span>
+                                <p class="text-xs text-purple-700 font-medium truncate">{{ $userBadge->badge->name }}</p>
+                            </div>
+                        </div>
+                        @endforeach
+                        @if(Auth::user()->getEarnedBadges()->count() > 6)
+                        <div class="bg-white rounded-lg p-2 border border-purple-100 shadow-sm">
+                            <div class="text-center">
+                                <span class="text-lg">➕</span>
+                                <p class="text-xs text-purple-700 font-medium">+{{ Auth::user()->getEarnedBadges()->count() - 6 }}</p>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+                @endif
+
+            </div>
+
             <!-- Action buttons -->
             <div class="flex space-x-2">
                 <a href="{{ route('setting.form') }}"
@@ -708,6 +778,68 @@
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2">
                     <div class="progress-bar" style="width: {{ $progress }}%"></div>
+                </div>
+            </div>
+
+            <!-- Badge and Points Display -->
+            <div class="mb-4 space-y-3">
+                <!-- Badge Display -->
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg p-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-2">🏅</span>
+                            <div>
+                                <p class="text-xs font-semibold text-yellow-800">{{ Auth::user()->getLevelTitle() }}</p>
+                                <p class="text-xs text-yellow-600">Level {{ Auth::user()->getLevel() }}</p>
+                            </div>
+                        </div>
+                        @if(Auth::user()->getEarnedBadges()->count() > 0)
+                        <div class="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                            {{ Auth::user()->getEarnedBadges()->count() }}
+                        </div>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Points Display -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-2">⭐</span>
+                            <div>
+                                <p class="text-xs font-semibold text-blue-800">{{ number_format(Auth::user()->getTotalPoints()) }}</p>
+                                <p class="text-xs text-blue-600">Total Poin</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience Display -->
+                <div class="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-3">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-2">📈</span>
+                            <div>
+                                <p class="text-xs font-semibold text-green-800">{{ number_format(Auth::user()->userPoint?->experience ?? 0) }} XP</p>
+                                <p class="text-xs text-green-600">Level {{ Auth::user()->getLevel() + 1 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    @php
+                        $currentExp = Auth::user()->userPoint?->experience ?? 0;
+                        $nextLevelExp = Auth::user()->userPoint?->experience_to_next_level ?? 100;
+                        $progressPercentage = $nextLevelExp > 0 ? ($currentExp / $nextLevelExp) * 100 : 0;
+                    @endphp
+                    <div class="w-full bg-green-200 rounded-full h-1.5 mb-1">
+                        <div class="bg-gradient-to-r from-green-500 to-emerald-500 h-1.5 rounded-full transition-all duration-500" 
+                             style="width: {{ $progressPercentage }}%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-green-600">
+                        <span>{{ number_format($currentExp) }}/{{ number_format($nextLevelExp) }}</span>
+                        <span>{{ number_format($progressPercentage, 1) }}%</span>
+                    </div>
                 </div>
             </div>
 
