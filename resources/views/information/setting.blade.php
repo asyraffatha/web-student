@@ -28,44 +28,55 @@
                 </a>
             </div>
 
-            <form action="/setting/store" method="POST" enctype="multipart/form-data"
+            @php
+                $isEdit = isset($setting);
+            @endphp
+            <form action="{{ $isEdit ? route('setting.update', $setting->id) : route('setting.store') }}" method="POST" enctype="multipart/form-data"
                 class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 @csrf
+                @if($isEdit)
+                    @method('PUT')
+                @endif
 
                 <div class="md:col-span-2">
                     <label class="block text-gray-700 font-semibold mb-1">Foto Profile</label>
                     <input type="file" name="foto" accept="image/*"
                         class="w-full border rounded-lg px-4 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    @if($isEdit && $setting->foto)
+                        <div class="mt-2">
+                            <img src="{{ asset('storage/' . $setting->foto) }}" alt="Foto Profil" style="width: 100px; height: 100px; border-radius: 50%;">
+                        </div>
+                    @endif
                 </div>
 
                 <div>
                     <label class="block text-gray-700 font-semibold mb-1">Nama Lengkap</label>
-                    <input type="text" name="nama" required
+                    <input type="text" name="nama" required value="{{ old('nama', $setting->nama ?? '') }}"
                         class="w-full border rounded-lg px-4 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </div>
 
                 <div>
                     <label class="block text-gray-700 font-semibold mb-1">NISN</label>
-                    <input type="text" name="nisn" required
+                    <input type="text" name="nisn" required value="{{ old('nisn', $setting->nisn ?? '') }}"
                         class="w-full border rounded-lg px-4 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </div>
 
                 <div>
                     <label class="block text-gray-700 font-semibold mb-1">Kelas</label>
-                    <input type="text" name="kelas" required
+                    <input type="text" name="kelas" required value="{{ old('kelas', $setting->kelas ?? '') }}"
                         class="w-full border rounded-lg px-4 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </div>
 
                 <div>
                     <label class="block text-gray-700 font-semibold mb-1">Tanggal Kelahiran</label>
-                    <input type="date" name="tgl_lahir" required
+                    <input type="date" name="tgl_lahir" required value="{{ old('tgl_lahir', $setting->tgl_lahir ?? '') }}"
                         class="w-full border rounded-lg px-4 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </div>
 
                 <div class="md:col-span-2">
                     <label class="block text-gray-700 font-semibold mb-1">Alamat</label>
                     <textarea name="alamat" rows="3" required
-                        class="w-full border rounded-lg px-4 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+                        class="w-full border rounded-lg px-4 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400">{{ old('alamat', $setting->alamat ?? '') }}</textarea>
                 </div>
 
                 <div class="md:col-span-2">
@@ -73,15 +84,15 @@
                     <select name="jenis_kelamin" required
                         class="w-full border rounded-lg px-4 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400">
                         <option value="">-- Pilih --</option>
-                        <option value="Laki-laki">Laki-Laki</option>
-                        <option value="Perempuan">Perempuan</option>
+                        <option value="Laki-laki" {{ old('jenis_kelamin', $setting->jenis_kelamin ?? '') == 'Laki-laki' ? 'selected' : '' }}>Laki-Laki</option>
+                        <option value="Perempuan" {{ old('jenis_kelamin', $setting->jenis_kelamin ?? '') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                     </select>
                 </div>
 
                 <div class="md:col-span-2 flex justify-end mt-4">
                     <button type="submit"
                         class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition">
-                        Simpan Informasi
+                        {{ $isEdit ? 'Update Informasi' : 'Simpan Informasi' }}
                     </button>
                 </div>
             </form>

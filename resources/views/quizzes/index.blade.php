@@ -139,7 +139,7 @@
         /* Quiz Grid */
         .quiz-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
         }
@@ -155,6 +155,9 @@
             position: relative;
             overflow: hidden;
             cursor: pointer;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
         }
 
         .quiz-card::before {
@@ -200,6 +203,7 @@
             align-items: center;
             margin-bottom: 1.5rem;
             position: relative;
+            flex-shrink: 0;
         }
 
         .quiz-icon {
@@ -263,6 +267,7 @@
         /* Quiz Info */
         .quiz-info {
             margin-bottom: 1.5rem;
+            flex-grow: 1;
         }
 
         .deadline {
@@ -282,6 +287,7 @@
         /* Status Section */
         .status-section {
             margin-bottom: 1.5rem;
+            flex-shrink: 0;
         }
 
         .status-badge {
@@ -327,6 +333,8 @@
         .action-buttons {
             display: flex;
             gap: 1rem;
+            flex-shrink: 0;
+            margin-top: auto;
         }
 
         .action-btn {
@@ -608,16 +616,17 @@
                     @endphp
 
                     <div
-                        class="quiz-card {{ $cardClass }} {{ $type === 'boss' && !$canAccessBossQuiz ? 'opacity-60 pointer-events-none cursor-not-allowed relative' : '' }}">
+                        class="quiz-card {{ $cardClass }} {{ $type === 'boss' && !$canAccessBossQuiz ? 'opacity-60 pointer-events-none cursor-not-allowed relative' : '' }}"
+                        style="min-height: 280px; display: flex; flex-direction: column;">
                         <!-- Card Header -->
-                        <div class="card-header">
+                        <div class="card-header" style="flex-shrink: 0;">
                             <span class="quiz-icon">{{ $icon }}</span>
                             <h2 class="quiz-title">{{ $quiz->title }}</h2>
                             <span class="quiz-badge {{ $badgeClass }}">{{ $typeLabel }}</span>
                         </div>
 
                         <!-- Quiz Info -->
-                        <div class="quiz-info">
+                        <div class="quiz-info" style="flex-grow: 1;">
                             @if ($quiz->deadline)
                                 <p class="deadline">
                                     🕒 Deadline:
@@ -630,7 +639,7 @@
                         </div>
 
                         <!-- Status Section -->
-                        <div class="status-section">
+                        <div class="status-section" style="flex-shrink: 0;">
                             @if ($isAttempted)
                                 <div class="status-badge {{ $isPassed ? 'status-passed' : 'status-failed' }}">
                                     {{ $isPassed ? '🏆' : '💪' }} Skor: {{ $results[$quiz->id]->score }}
@@ -654,7 +663,7 @@
                         </div>
 
                         <!-- Action Buttons -->
-                        <div class="action-buttons">
+                        <div class="action-buttons" style="flex-shrink: 0; margin-top: auto;">
                             @if ($isAttempted)
                                 @if ($type === 'daily' && !$isPassed && $results[$quiz->id]->attempts < 3)
                                     <a href="{{ route('quizzes.show', $quiz->id) }}" class="action-btn btn-retry">

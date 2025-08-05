@@ -6,9 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\Materi;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use App\Services\GamificationService;
 
 class MateriController extends Controller
 {
+    protected $gamificationService;
+
+    public function __construct(GamificationService $gamificationService)
+    {
+        $this->gamificationService = $gamificationService;
+    }
+
     // Menampilkan semua materi untuk guru
     public function index()
     {
@@ -125,5 +133,117 @@ class MateriController extends Controller
     $materi->save();
 
     return redirect()->route('materi.create')->with('success', 'Materi berhasil diperbarui.');
+    }
+
+    /**
+     * Mark material as completed and award points
+     */
+    public function markAsCompleted(Request $request, $id)
+    {
+        $user = Auth::user();
+        $materi = Materi::findOrFail($id);
+        
+        // Determine material type based on file extension or content
+        $materialType = $this->determineMaterialType($materi->file_path);
+        
+        try {
+            // Award points for material completion
+            $history = $this->gamificationService->awardMaterialPoints($user, $materialType);
+            
+            // Check for badges
+            $awardedBadges = $this->gamificationService->checkAndAwardBadges($user);
+            
+            // Store completion info
+            $completionInfo = [
+                'materi_id' => $materi->id,
+                'materi_title' => $materi->judul,
+                'material_type' => $materialType,
+                'points_earned' => $history ? $history->points_earned : 0,
+                'experience_earned' => $history ? ($history->metadata['experience_earned'] ?? 0) : 0,
+                'level_up' => $history ? ($history->metadata['level_up'] ?? false) : false,
+                'awarded_badges' => $awardedBadges
+            ];
+            
+            session()->flash('material_completion_info', $completionInfo);
+            
+            if (count($awardedBadges) > 0) {
+                session()->flash('new_badges', $awardedBadges);
+            }
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Materi berhasil ditandai sebagai selesai!',
+                'completion_info' => $completionInfo
+            ]);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menandai materi sebagai selesai: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Determine material type based on file extension
+     */
+    private function determineMaterialType($filePath): string
+    {
+        if (!$filePath) {
+            return 'regular';
+        }
+        
+        $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+        
+        return match($extension) {
+            'pdf', 'docx', 'doc' => 'document',
+            'pptx', 'ppt' => 'presentation',
+            'mp4', 'avi', 'mov' => 'video',
+            'html', 'htm' => 'interactive',
+            default => 'regular'
+        };
+    }
+
+    /**
+     * Get material completion reward info
+     */
+    public function getMaterialRewardInfo($materialType = 'regular'): array
+    {
+        $basePoints = match($materialType) {
+            'video' => 20,
+            'document' => 30,
+            'interactive' => 40,
+            'presentation' => 25,
+            default => 25
+        };
+        
+        $baseExperience = match($materialType) {
+            'video' => 30,
+            'document' => 40,
+            'interactive' => 60,
+            'presentation' => 35,
+            default => 35
+        };
+        
+        return [
+            'material_type' => $materialType,
+            'base_points' => $basePoints,
+            'base_experience' => $baseExperience,
+            'description' => $this->getMaterialTypeDescription($materialType)
+        ];
+    }
+
+    /**
+     * Get material type description
+     */
+    private function getMaterialTypeDescription($materialType): string
+    {
+        return match($materialType) {
+            'video' => 'Video Pembelajaran',
+            'document' => 'Dokumen Pembelajaran',
+            'interactive' => 'Materi Interaktif',
+            'presentation' => 'Presentasi',
+            default => 'Materi Pembelajaran'
+        };
     }
 }

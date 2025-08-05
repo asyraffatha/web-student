@@ -36,11 +36,50 @@
             </header>
         @endisset
 
+        <!-- Flash Messages -->
+        @if(session('success'))
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">{{ session('success') }}</span>
+                </div>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">{{ session('error') }}</span>
+                </div>
+            </div>
+        @endif
+
+        @if(session('new_badges'))
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+                <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-2">🏅</span>
+                        <div>
+                            <span class="block sm:inline font-bold">Selamat! Anda mendapatkan lencana baru!</span>
+                            <div class="mt-2">
+                                @foreach(session('new_badges') as $badge)
+                                    <span class="inline-block bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-sm mr-2 mb-1">
+                                        {{ $badge->name }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         <!-- Page Content -->
         <main class="p-6">
             @yield('content')
         </main>
     </div>
+
+    @stack('scripts')
 </body>
 
 </html>

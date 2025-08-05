@@ -83,6 +83,37 @@
             }
         }
 
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translateY(0px) scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-3px) scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 0.7;
+            }
+        }
+
         @keyframes glow {
 
             0%,
@@ -92,18 +123,6 @@
 
             50% {
                 box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
-            }
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
             }
         }
 
@@ -421,6 +440,83 @@
             style="display:flex;align-items:center;gap:0.7rem;background:rgba(255,255,255,0.7);padding:0.7rem 1.3rem;border-radius:1.2rem;font-weight:700;color:#6366f1;text-decoration:none;box-shadow:0 2px 8px rgba(99,102,241,0.08);font-size:1.1rem;">
             <i class="fa-solid fa-arrow-left"></i> Kembali ke Home
         </a>
+        
+        <!-- Gamification Info -->
+        <div style="display:flex;align-items:center;gap:1rem;">
+            <!-- Badge Display -->
+            <div style="position:relative;display:flex;align-items:center;gap:0.7rem;background:rgba(255,255,255,0.9);padding:0.7rem 1.3rem;border-radius:1.2rem;font-weight:700;color:#f59e0b;box-shadow:0 2px 8px rgba(245,158,11,0.2);font-size:1rem;">
+                <span style="font-size:1.5rem;">🏅</span>
+                <div>
+                    <div style="font-size:0.9rem;color:#f59e0b;">{{ Auth::user()->getLevelTitle() }}</div>
+                    <div style="font-size:0.8rem;color:#f59e0b;opacity:0.8;">Level {{ Auth::user()->getLevel() }}</div>
+                </div>
+                @if(Auth::user()->getEarnedBadges()->count() > 0)
+                <div style="position:absolute;-top:1;-right-1;background:#ef4444;color:white;font-size:0.7rem;border-radius:50%;width:1.2rem;height:1.2rem;display:flex;align-items:center;justify-content:center;font-weight:bold;">
+                    {{ Auth::user()->getEarnedBadges()->count() }}
+                </div>
+                @endif
+            </div>
+            
+            <!-- Points Display -->
+            <div style="display:flex;align-items:center;gap:0.7rem;background:rgba(255,255,255,0.9);padding:0.7rem 1.3rem;border-radius:1.2rem;font-weight:700;color:#3b82f6;box-shadow:0 2px 8px rgba(59,130,246,0.2);font-size:1rem;">
+                <span style="font-size:1.5rem;">⭐</span>
+                <div>
+                    <div style="font-size:0.9rem;color:#3b82f6;">{{ number_format(Auth::user()->getTotalPoints()) }}</div>
+                    <div style="font-size:0.8rem;color:#3b82f6;opacity:0.8;">Poin</div>
+                </div>
+            </div>
+            
+            <!-- Experience Display with Professional Progress Bar -->
+            <div style="display:flex;align-items:center;gap:0.7rem;background:rgba(255,255,255,0.95);padding:0.7rem 1.3rem;border-radius:1.2rem;font-weight:700;color:#10b981;box-shadow:0 4px 15px rgba(16,185,129,0.3);font-size:1rem;min-width:280px;backdrop-filter:blur(10px);border:1px solid rgba(16,185,129,0.2);">
+                <span style="font-size:1.5rem;">📈</span>
+                <div style="flex:1;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+                        <span style="font-size:0.9rem;color:#10b981;font-weight:600;">{{ number_format(Auth::user()->userPoint?->experience ?? 0) }} XP</span>
+                        <span style="font-size:0.8rem;color:#10b981;opacity:0.8;background:rgba(16,185,129,0.1);padding:0.2rem 0.5rem;border-radius:0.5rem;">Level {{ Auth::user()->getLevel() + 1 }}</span>
+                    </div>
+                    
+                    <!-- Professional Progress Bar -->
+                    <div style="position:relative;width:100%;height:0.8rem;background:#fff;border-radius:0.4rem;overflow:hidden;border:1px solid rgba(16,185,129,0.2);">
+                        <!-- Background Pattern -->
+                        <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(16,185,129,0.05) 2px,rgba(16,185,129,0.05) 4px);"></div>
+                        
+                        <!-- Main Progress Fill - Gradasi Hijau -->
+                        <div style="height:100%;background:linear-gradient(90deg,#10b981,#34d399,#10b981);background-size:200% 100%;border-radius:0.4rem;transition:width 1.5s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,0.1);" 
+                             style="width:{{ Auth::user()->getProgressToNextLevel() }}%">
+                            
+                            <!-- Animated Shimmer Effect -->
+                            <div style="position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);animation:shimmer 2.5s infinite;transform:skewX(-20deg);"></div>
+                            
+                            <!-- Glowing Edge Effect -->
+                            <div style="position:absolute;right:0;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,0.8),transparent);box-shadow:0 0 10px rgba(255,255,255,0.5);"></div>
+                            
+                            <!-- Progress Particles -->
+                            <div style="position:absolute;inset:0;">
+                                <div style="position:absolute;top:1/2;left:1/4;width:2px;height:2px;background:rgba(255,255,255,0.8);border-radius:50%;animation:particleFloat 3s infinite;box-shadow:0 0 4px rgba(255,255,255,0.6);"></div>
+                                <div style="position:absolute;top:1/2;left:1/2;width:1.5px;height:1.5px;background:rgba(255,255,255,0.6);border-radius:50%;animation:particleFloat 3s infinite;animation-delay:1s;box-shadow:0 0 3px rgba(255,255,255,0.4);"></div>
+                                <div style="position:absolute;top:1/2;left:3/4;width:1px;height:1px;background:rgba(255,255,255,0.4);border-radius:50%;animation:particleFloat 3s infinite;animation-delay:2s;box-shadow:0 0 2px rgba(255,255,255,0.3);"></div>
+                            </div>
+                            
+                            <!-- Level Up Indicator -->
+                            @if(Auth::user()->getProgressToNextLevel() > 90)
+                            <div style="position:absolute;right:2px;top:50%;transform:translateY(-50%);width:6px;height:6px;background:#fbbf24;border-radius:50%;animation:pulse 1s infinite;box-shadow:0 0 8px rgba(251,191,36,0.6);"></div>
+                            @endif
+                        </div>
+                        
+                        <!-- Progress Text Overlay - Dihilangkan -->
+                    </div>
+                    
+                    <!-- Progress Details -->
+                    <div style="display:flex;justify-content:space-between;margin-top:0.3rem;">
+                        <span style="font-size:0.7rem;color:#10b981;opacity:0.8;">{{ number_format(Auth::user()->userPoint?->experience ?? 0) }}/{{ number_format(Auth::user()->userPoint?->experience_to_next_level ?? 100) }}</span>
+                        <span style="font-size:0.7rem;color:#10b981;opacity:0.8;font-weight:600;">
+                            {{ number_format(100 - Auth::user()->getProgressToNextLevel(), 1) }}% tersisa
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div
             style="display:flex;align-items:center;gap:0.7rem;background:rgba(255,255,255,0.7);padding:0.7rem 1.3rem;border-radius:1.2rem;font-weight:700;color:#6366f1;box-shadow:0 2px 8px rgba(99,102,241,0.08);font-size:1.1rem;">
             <i class="fa-solid fa-user-circle"></i> {{ Auth::user()->name ?? 'User' }}
@@ -490,6 +586,20 @@
                                     <div style="font-size:0.93rem;color:#ef4444;margin-top:0.2rem;">🎯 Target Skor:
                                         <b>{{ $quiz->passing_score }}</b>
                                     </div>
+                                    
+                                    <!-- Reward Info -->
+                                    <div style="margin-top:0.4rem;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:0.8rem;padding:0.5rem;border:1px solid #f59e0b;">
+                                        <div style="display:flex;align-items:center;gap:0.3rem;margin-bottom:0.2rem;">
+                                            <span style="font-size:0.9rem;">⭐</span>
+                                            <span style="font-size:0.8rem;color:#92400e;font-weight:600;">Reward Poin:</span>
+                                        </div>
+                                        <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:#92400e;">
+                                            <span>Base: 60 poin</span>
+                                            <span>Perfect: 120 poin</span>
+                                            <span>XP: 80-240</span>
+                                        </div>
+                                    </div>
+                                    
                                     <div style="margin-top:0.4rem;">
                                         <div
                                             style="background:#f1f5f9;color:#64748b;font-weight:700;padding:0.3rem 0.8rem;border-radius:0.8rem;display:inline-block;margin-bottom:0.2rem;">
@@ -546,6 +656,20 @@
                                     <div style="font-size:0.93rem;color:#ef4444;margin-top:0.2rem;">🎯 Target Skor:
                                         <b>{{ $tekaTeki->passing_score ?? '-' }}</b>
                                     </div>
+                                    
+                                    <!-- Reward Info -->
+                                    <div style="margin-top:0.4rem;background:linear-gradient(135deg,#e0e7ff,#c7d2fe);border-radius:0.8rem;padding:0.5rem;border:1px solid #6366f1;">
+                                        <div style="display:flex;align-items:center;gap:0.3rem;margin-bottom:0.2rem;">
+                                            <span style="font-size:0.9rem;">⭐</span>
+                                            <span style="font-size:0.8rem;color:#3730a3;font-weight:600;">Reward Poin:</span>
+                                        </div>
+                                        <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:#3730a3;">
+                                            <span>Base: 80 poin</span>
+                                            <span>Perfect: 160 poin</span>
+                                            <span>XP: 120-360</span>
+                                        </div>
+                                    </div>
+                                    
                                     <div style="margin-top:0.4rem;">
                                         <div
                                             style="background:#f1f5f9;color:#64748b;font-weight:700;padding:0.3rem 0.8rem;border-radius:0.8rem;display:inline-block;margin-bottom:0.2rem;">
@@ -603,6 +727,20 @@
                                     <div style="font-size:0.93rem;color:#ef4444;margin-top:0.2rem;">🎯 Target Skor:
                                         <b>{{ $bossQuiz->passing_score ?? '-' }}</b>
                                     </div>
+                                    
+                                    <!-- Reward Info -->
+                                    <div style="margin-top:0.4rem;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:0.8rem;padding:0.5rem;border:1px solid #f59e0b;">
+                                        <div style="display:flex;align-items:center;gap:0.3rem;margin-bottom:0.2rem;">
+                                            <span style="font-size:0.9rem;">⭐</span>
+                                            <span style="font-size:0.8rem;color:#92400e;font-weight:600;">Reward Poin:</span>
+                                        </div>
+                                        <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:#92400e;">
+                                            <span>Base: 150 poin</span>
+                                            <span>Perfect: 300 poin</span>
+                                            <span>XP: 200-600</span>
+                                        </div>
+                                    </div>
+                                    
                                     <div style="margin-top:0.4rem;">
                                         <div
                                             style="background:#f1f5f9;color:#64748b;font-weight:700;padding:0.3rem 0.8rem;border-radius:0.8rem;display:inline-block;margin-bottom:0.2rem;">
@@ -622,11 +760,35 @@
                                         @endif
                                     </div>
                                 </div>
+                            @else
+                                <!-- Completed Boss Quiz -->
+                                <div
+                                    style="background:rgba(255,255,255,0.97);border-radius:1rem;padding:1rem;margin-bottom:0.7rem;box-shadow:0 2px 8px rgba(34,197,94,0.08);width:100%;font-size:0.98rem;position:relative;z-index:2;border:2px solid #22c55e;">
+                                    <div class="quiz-title"
+                                        style="display:flex;align-items:center;gap:0.5rem;color:#16a34a;">
+                                        <span role="img" aria-label="completed">✅</span>
+                                        <span style="flex:1;">{{ $bossQuiz->title }}</span>
+                                        <span style="background:#22c55e;color:white;padding:0.2rem 0.5rem;border-radius:0.5rem;font-size:0.8rem;font-weight:bold;">SELESAI</span>
+                                    </div>
+                                    <div style="font-size:0.93rem;color:#16a34a;margin-top:0.2rem;">🎯 Skor Anda:
+                                        <b>{{ $bossQuizResults[$bossQuiz->id]->score ?? '-' }}</b>
+                                    </div>
+                                    
+                                    <div style="margin-top:0.4rem;background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-radius:0.8rem;padding:0.5rem;border:1px solid #22c55e;">
+                                        <div style="display:flex;align-items:center;gap:0.3rem;margin-bottom:0.2rem;">
+                                            <span style="font-size:0.9rem;">🏆</span>
+                                            <span style="font-size:0.8rem;color:#15803d;font-weight:600;">Boss Quiz Selesai!</span>
+                                        </div>
+                                        <div style="font-size:0.75rem;color:#15803d;">
+                                            Selamat! Anda telah berhasil menyelesaikan boss quiz ini.
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
                         @endforeach
-                        @if ($bossQuizzes->filter(fn($bossQuiz) => !isset($bossQuizResults[$bossQuiz->id]))->count() == 0)
-                            <div style="color:#64748b;font-size:0.98rem;margin-top:1.2rem;position:relative;z-index:2;">
-                                Tidak ada boss quiz yang perlu dikerjakan.</div>
+                        <!-- Boss Quiz section hanya muncul jika ada yang belum dikerjakan -->
+                        @if ($bossQuizzes->filter(fn($bossQuiz) => !isset($bossQuizResults[$bossQuiz->id]))->count() > 0)
+                            <!-- Boss quiz yang belum dikerjakan akan ditampilkan di atas -->
                         @endif
                     </div>
                     <!-- Tantang Teman -->

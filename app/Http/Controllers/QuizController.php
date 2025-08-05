@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 use App\Models\QuizResult;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Question;
+use App\Services\GamificationService;
 
 class QuizController extends Controller
 {
+    protected $gamificationService;
+
+    public function __construct(GamificationService $gamificationService)
+    {
+        $this->gamificationService = $gamificationService;
+    }
+
     public function index()
     {
         $user = Auth::user();
@@ -169,7 +177,59 @@ class QuizController extends Controller
             );
         }
 
+        // Award gamification points
+        $this->awardQuizPoints($user, $score, $passed, $quiz, $result);
+
         return view('quizzes.result', compact('score', 'quiz', 'result'));
+    }
+
+    /**
+     * Award gamification points for quiz completion
+     */
+    private function awardQuizPoints($user, $score, $passed, $quiz, $result)
+    {
+        try {
+            $isPerfectScore = $score == 100;
+            $isFirstAttempt = !$result || $result->attempts == 1;
+            
+            // Use new scoring system based on score
+            $quizType = $quiz->type ?? 'regular';
+            $awardedActivities = $this->gamificationService->awardQuizPointsByScore($user, $score, $quizType);
+            
+            // Additional bonuses for first attempt and perfect score
+            if ($isFirstAttempt && $passed) {
+                $this->gamificationService->awardPoints($user, 'quiz_first_attempt', 'Lulus kuis pada percobaan pertama');
+            }
+            
+            // Award additional points for specific quiz types
+            if ($quiz->type === 'boss' && $passed) {
+                $this->gamificationService->awardPoints($user, 'boss_quiz_completed', 'Menyelesaikan Boss Quiz');
+            }
+            
+            if ($quiz->type === 'teka-teki' && $passed) {
+                $this->gamificationService->awardPoints($user, 'teka_teki_completed', 'Menyelesaikan Teka-teki');
+            }
+            
+            if ($quiz->type === 'daily' && $passed) {
+                $this->gamificationService->awardPoints($user, 'daily_quiz_completed', 'Menyelesaikan Daily Quiz');
+            }
+            
+            // Check for badges after awarding points
+            $awardedBadges = $this->gamificationService->checkAndAwardBadges($user);
+            
+            // Store notification for new badges
+            if (count($awardedBadges) > 0) {
+                session()->flash('new_badges', $awardedBadges);
+            }
+            
+            // Store reward info in session for display
+            $rewardInfo = $this->gamificationService->getQuizRewardInfo($score, $quizType);
+            session()->flash('quiz_reward_info', $rewardInfo);
+            
+        } catch (\Exception $e) {
+            // Log error but don't break the quiz submission
+            \Log::error('Error awarding gamification points: ' . $e->getMessage());
+        }
     }
 
     public function create()

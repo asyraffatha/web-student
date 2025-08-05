@@ -102,6 +102,7 @@ class SettingController extends Controller
     }
 
     public function edit($id)
+<<<<<<< Updated upstream
 {
     $setting = Setting::findOrFail($id);
     return view('information.edit', compact('setting'));
@@ -151,4 +152,44 @@ public function update(Request $request, $id)
     return redirect()->route('setting.information')->with('success', 'Data berhasil diperbarui.');
 }
 
+=======
+    {
+        $setting = Setting::findOrFail($id);
+        return view('information.setting', compact('setting'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $setting = Setting::findOrFail($id);
+        $request->validate([
+            'nama' => 'required',
+            'nisn' => 'required|unique:settings,nisn,' . $id,
+            'kelas' => 'required',
+            'tgl_lahir' => 'required|date',
+            'alamat' => 'required',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $path = $setting->foto;
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/foto-profile', $filename);
+            $path = 'foto-profile/' . $filename;
+        }
+
+        $setting->update([
+            'nama' => $request->nama,
+            'nisn' => $request->nisn,
+            'kelas' => $request->kelas,
+            'tgl_lahir' => $request->tgl_lahir,
+            'alamat' => $request->alamat,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'foto' => $path,
+        ]);
+
+        return redirect('/setting/information')->with('success', 'Data berhasil diupdate.');
+    }
+>>>>>>> Stashed changes
 }

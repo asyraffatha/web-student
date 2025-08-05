@@ -18,11 +18,104 @@
                     <x-nav-link :href="route('home')" :active="request()->routeIs('dashboard')">
                         {{ __('home') }}
                     </x-nav-link>
+                    
+                    @if(Auth::user()->isSiswa())
+                    <x-nav-link :href="route('gamification.dashboard')" :active="request()->routeIs('gamification.*')">
+                        🏆 {{ __('Gamifikasi') }}
+                    </x-nav-link>
+                    @endif
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                <!-- Gamification Stats (for students) -->
+                @if(Auth::user()->isSiswa())
+                <div class="flex items-center space-x-4 mr-4">
+                    <!-- User Badge Display -->
+                    <div class="relative group">
+                        <div class="flex items-center space-x-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
+                            <div class="relative">
+                                <span class="text-2xl">🏅</span>
+                                @if(Auth::user()->getEarnedBadges()->count() > 0)
+                                <div class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                    {{ Auth::user()->getEarnedBadges()->count() }}
+                                </div>
+                                @endif
+                            </div>
+                            <div class="text-sm">
+                                <div class="font-bold">{{ Auth::user()->getLevelTitle() }}</div>
+                                <div class="text-xs opacity-90">Level {{ Auth::user()->getLevel() }}</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Badge Tooltip -->
+                        <div class="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                            <div class="p-3">
+                                <div class="text-sm font-semibold text-gray-800 mb-2">🏆 Badge Collection</div>
+                                @if(Auth::user()->getEarnedBadges()->count() > 0)
+                                    <div class="space-y-2 max-h-32 overflow-y-auto">
+                                        @foreach(Auth::user()->getEarnedBadges()->take(3) as $userBadge)
+                                        <div class="flex items-center space-x-2 p-2 bg-yellow-50 rounded">
+                                            <span class="text-lg">{{ $userBadge->badge->icon ?? '🏅' }}</span>
+                                            <div class="flex-1">
+                                                <div class="text-xs font-medium text-gray-800">{{ $userBadge->badge->name }}</div>
+                                                <div class="text-xs text-gray-500">{{ $userBadge->days_since_earned }} hari lalu</div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                        @if(Auth::user()->getEarnedBadges()->count() > 3)
+                                        <div class="text-xs text-gray-500 text-center">+{{ Auth::user()->getEarnedBadges()->count() - 3 }} badge lainnya</div>
+                                        @endif
+                                    </div>
+                                @else
+                                    <div class="text-xs text-gray-500 text-center py-2">Belum ada badge 😢</div>
+                                @endif
+                                <div class="mt-2 pt-2 border-t border-gray-200">
+                                    <a href="{{ route('gamification.badges') }}" class="text-xs text-blue-600 hover:text-blue-800">Lihat semua badge →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Points & Experience Display -->
+                    <div class="flex items-center space-x-3">
+                        <!-- Points -->
+                        <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-3 py-2 rounded-lg shadow-lg">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xl">⭐</span>
+                                <div>
+                                    <div class="text-sm font-bold">{{ number_format(Auth::user()->getTotalPoints()) }}</div>
+                                    <div class="text-xs opacity-90">Poin</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Experience -->
+                        <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white px-3 py-2 rounded-lg shadow-lg">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xl">📈</span>
+                                <div>
+                                    <div class="text-sm font-bold">{{ number_format(Auth::user()->userPoint?->experience ?? 0) }}</div>
+                                    <div class="text-xs opacity-90">XP</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress to Next Level -->
+                        <div class="bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-2 rounded-lg shadow-lg">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xl">📈</span>
+                                <div>
+                                    <div class="text-sm font-bold">{{ number_format(Auth::user()->getProgressToNextLevel(), 1) }}%</div>
+                                    <div class="text-xs opacity-90">Progress</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
@@ -41,6 +134,19 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        @if(Auth::user()->isSiswa())
+                        <x-dropdown-link :href="route('gamification.dashboard')">
+                            🏆 {{ __('Dashboard Gamifikasi') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('gamification.badges')">
+                            🏅 {{ __('Lencana & Pencapaian') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('gamification.leaderboard')">
+                            📊 {{ __('Papan Peringkat') }}
+                        </x-dropdown-link>
+                        <div class="border-t border-gray-200 my-1"></div>
+                        @endif
+                        
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
@@ -81,6 +187,12 @@
             <x-responsive-nav-link :href="route('siswa.dashboard')" :active="request()->routeIs('siswa.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            
+            @if(Auth::user()->isSiswa())
+            <x-responsive-nav-link :href="route('gamification.dashboard')" :active="request()->routeIs('gamification.*')">
+                🏆 {{ __('Gamifikasi') }}
+            </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
@@ -88,9 +200,26 @@
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                @if(Auth::user()->isSiswa())
+                <div class="font-medium text-sm text-blue-600 mt-1">
+                    ⭐ {{ Auth::user()->getTotalPoints() }} poin • Level {{ Auth::user()->getLevel() }}
+                </div>
+                @endif
             </div>
 
             <div class="mt-3 space-y-1">
+                @if(Auth::user()->isSiswa())
+                <x-responsive-nav-link :href="route('gamification.dashboard')">
+                    🏆 {{ __('Dashboard Gamifikasi') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('gamification.badges')">
+                    🏅 {{ __('Lencana & Pencapaian') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('gamification.leaderboard')">
+                    📊 {{ __('Papan Peringkat') }}
+                </x-responsive-nav-link>
+                @endif
+                
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>

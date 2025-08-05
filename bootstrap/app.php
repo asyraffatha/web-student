@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     $middleware->alias([
         'role' => \App\Http\Middleware\RoleMiddleware::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'award-daily-login' => \App\Http\Middleware\AwardDailyLoginPoints::class,
     ]);
 })
     ->withExceptions(function (Exceptions $exceptions) {

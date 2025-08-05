@@ -79,6 +79,7 @@ Route::middleware(['auth', 'role:guru'])->group(function () {
 // SISWA ROUTE
 Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::get('/materi/siswa', [MateriController::class, 'listSiswa'])->name('materi.siswa');
+    Route::post('/materi/{id}/complete', [MateriController::class, 'markAsCompleted'])->name('materi.complete');
 });
 
 
@@ -208,6 +209,27 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/user/create', [UserController::class, 'create'])->name('admin.user.create');
     Route::post('/user', [UserController::class, 'store'])->name('admin.user.store');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
+<<<<<<< Updated upstream
     Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('admin.user.edit');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('admin.user.update');
+=======
+});
+
+// ===== GAMIFICATION ROUTES ===== //
+Route::middleware(['auth', 'role:siswa', 'award-daily-login'])->group(function () {
+    // Dashboard gamifikasi
+    Route::get('/gamification', [App\Http\Controllers\GamificationController::class, 'dashboard'])->name('gamification.dashboard');
+    Route::get('/gamification/badges', [App\Http\Controllers\GamificationController::class, 'badges'])->name('gamification.badges');
+    Route::get('/gamification/leaderboard', [App\Http\Controllers\GamificationController::class, 'leaderboard'])->name('gamification.leaderboard');
+    Route::get('/gamification/point-history', [App\Http\Controllers\GamificationController::class, 'pointHistory'])->name('gamification.point-history');
+    
+    // AJAX routes
+    Route::get('/gamification/stats', [App\Http\Controllers\GamificationController::class, 'getUserStats'])->name('gamification.stats');
+    Route::post('/gamification/award-points', [App\Http\Controllers\GamificationController::class, 'awardPoints'])->name('gamification.award-points');
+    Route::post('/gamification/award-quiz-points', [App\Http\Controllers\GamificationController::class, 'awardQuizPoints'])->name('gamification.award-quiz-points');
+    Route::post('/gamification/award-login-points', [App\Http\Controllers\GamificationController::class, 'awardDailyLoginPoints'])->name('gamification.award-login-points');
+    Route::post('/gamification/check-badges', [App\Http\Controllers\GamificationController::class, 'checkBadges'])->name('gamification.check-badges');
+    Route::get('/gamification/leaderboard-data', [App\Http\Controllers\GamificationController::class, 'getLeaderboardData'])->name('gamification.leaderboard-data');
+    Route::get('/gamification/point-activities', [App\Http\Controllers\GamificationController::class, 'getPointActivities'])->name('gamification.point-activities');
+>>>>>>> Stashed changes
 });

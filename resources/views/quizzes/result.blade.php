@@ -98,14 +98,114 @@
             font-weight: 600;
             margin-top: 2rem;
             text-align: center;
-            transition: all 0.3s ease;
             text-decoration: none;
-            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 16px rgba(79, 172, 254, 0.3);
         }
 
         .back-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(79, 172, 254, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(79, 172, 254, 0.4);
+        }
+
+        /* Gamification Reward Styles */
+        .reward-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+            text-align: center;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .reward-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .reward-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .reward-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .reward-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .reward-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        .achievement-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #2d3748;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-weight: 600;
+            margin: 0.5rem;
+            box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .level-up-notification {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: 600;
+            animation: bounce 1s;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
         }
 
         .floating-elements {
@@ -230,6 +330,73 @@
             <div class="score animate__animated animate__bounceIn">{{ number_format($score, 2) }}%</div>
             <p class="text-lg text-gray-500">Passing Score: {{ $quiz->passing_score }}%</p>
         </div>
+
+        <!-- Gamification Reward Section -->
+        @if(session('quiz_reward_info'))
+            @php $rewardInfo = session('quiz_reward_info'); @endphp
+            <div class="reward-section animate__animated animate__fadeInUp animate__delay-1s">
+                <div class="reward-title">
+                    🎁 Reward & Experience Earned!
+                </div>
+                
+                <div class="achievement-badge">
+                    {{ $rewardInfo['achievement'] }}
+                </div>
+                
+                <div class="reward-grid">
+                    <div class="reward-item">
+                        <div class="reward-label">Base Points</div>
+                        <div class="reward-value">+{{ $rewardInfo['base_points'] }}</div>
+                    </div>
+                    
+                    @if($rewardInfo['bonus_points'] > 0)
+                    <div class="reward-item">
+                        <div class="reward-label">Bonus Points</div>
+                        <div class="reward-value">+{{ $rewardInfo['bonus_points'] }}</div>
+                    </div>
+                    @endif
+                    
+                    <div class="reward-item">
+                        <div class="reward-label">Base Experience</div>
+                        <div class="reward-value">+{{ $rewardInfo['base_experience'] }} XP</div>
+                    </div>
+                    
+                    @if($rewardInfo['bonus_experience'] > 0)
+                    <div class="reward-item">
+                        <div class="reward-label">Bonus Experience</div>
+                        <div class="reward-value">+{{ $rewardInfo['bonus_experience'] }} XP</div>
+                    </div>
+                    @endif
+                    
+                    <div class="reward-item">
+                        <div class="reward-label">Total Points</div>
+                        <div class="reward-value">+{{ $rewardInfo['total_points'] }}</div>
+                    </div>
+                    
+                    <div class="reward-item">
+                        <div class="reward-label">Total Experience</div>
+                        <div class="reward-value">+{{ $rewardInfo['total_experience'] }} XP</div>
+                    </div>
+                </div>
+                
+                @if($score >= 100)
+                <div class="level-up-notification">
+                    🏆 Perfect Score! Double points and experience earned!
+                </div>
+                @elseif($score >= 80)
+                <div class="level-up-notification">
+                    🌟 High Score! Bonus points and experience earned!
+                </div>
+                @endif
+                
+                <div class="mt-4">
+                    <a href="{{ route('gamification.dashboard') }}" 
+                       class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                        🏆 Lihat Progress Gamifikasi
+                    </a>
+                </div>
+            </div>
+        @endif
 
         @if ($score >= $quiz->passing_score)
             <div class="message success-message animate__animated animate__bounceIn">
